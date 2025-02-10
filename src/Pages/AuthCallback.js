@@ -6,17 +6,17 @@ const AuthCallback = () => {
 
   useEffect(() => {
     const parsedHash = new URLSearchParams(window.location.hash.substring(1));
-    const accessToken = parsedHash.get("id_token");
+    const idToken = parsedHash.get("id_token");
 
-    if (accessToken) {
+    if (idToken) {
       // 백엔드로 토큰 전송
-      // fetch("http://localhost:5000/oauth/google", {
-      fetch("https://janghong.asia//oauth/google", {
-      method: "POST",
+      // fetch("http://localhost:8080/api/auth/google", {  // 이 부분에서 백엔드는 /api/auth/google로 했는데, /api/oauth/google로 되어 있었음.
+      fetch("https://janghong.asia/api/auth/google", {
+        method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: JSON.stringify({ accessToken }),
+        body: new URLSearchParams({ credential: idToken }).toString(),   // 이 부분에서 받아오는 형식이 잘못되었었음.
       })
         .then((res) => res.json())
         .then((data) => {
@@ -33,7 +33,7 @@ const AuthCallback = () => {
 
   return (
     <div className="flex justify-center items-center h-screen">
-      <p>로그인 중입니다...</p>
+      <p>로그인 완료</p>
     </div>
   );
 };

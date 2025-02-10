@@ -1,12 +1,13 @@
 import React from "react";
 
-const CLIENT_ID = "10952883782-tfnggg0q9gns90bihel2caaioshjunq6.apps.googleusercontent.com";
-const REDIRECT_URI = "http://localhost:3000/auth/callback";  // 개발 환경용
+// 이 부분에서 client_id가 FE분 걸로 되어 있던 것 같음. (네(세혁) 걸로 안들어가져 있었음)
+const CLIENT_ID = "237004448876-sdep7ch71mmde2pilvlq5g4k08sq6dt7.apps.googleusercontent.com";
+const REDIRECT_URI = "http://localhost:3000/api/auth/callback";  // 개발 환경용
 
 const Login = () => {
   const handleLogin = () => {
     const googleAuthUrl = 
-      "https://accounts.google.com/o/oauth2/auth?" +
+      "https://accounts.google.com/o/oauth2/auth" +
       `client_id=${CLIENT_ID}&` +
       `redirect_uri=${REDIRECT_URI}&` +
       "response_type=id_token&" +
