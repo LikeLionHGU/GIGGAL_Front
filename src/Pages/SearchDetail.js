@@ -12,7 +12,7 @@ const SearchDetail = () => {
   return (
     <div className="p-6">
       <button className="mb-4 bg-gray-500 text-white px-4 py-2 rounded" onClick={() => navigate(-1)}>
-        🔙 뒤로가기
+         뒤로가기
       </button>
       <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
         {book.volumeInfo.imageLinks && (
