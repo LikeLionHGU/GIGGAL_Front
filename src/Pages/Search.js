@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Button from "../components/ui/button";
 import styles from "../styles/search.module.css";
+import HomeHeader from '../components/header/HomeHeader.js';
 
 const API_URL = "https://www.googleapis.com/books/v1/volumes";
 
@@ -64,13 +65,13 @@ const Search = () => {
     navigate(`/detail/${book.id}`, { state: { book } });
   };
 
-  const goToHome = () => {
-    navigate("/", { state: { bookMark } });  // 수정된 경로: "/"
-  };
+ 
   
 
   return (
     <div>
+         <HomeHeader/>
+      
       <form onSubmit={handleSearch}>
         <input
           type="text"
@@ -80,7 +81,6 @@ const Search = () => {
         />
         <Button type="submit">검색</Button>
       </form>
-      <Button onClick={goToHome}>북마크 보기</Button>
       <div className={styles.books}>
         {books.map((book) => (
           <div className={styles.bookcard} key={book.id}>

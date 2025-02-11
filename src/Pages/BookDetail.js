@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Card, CardContent } from "../components/ui/card";
 import Button from "../components/ui/button";
+import HomeHeader from '../components/header/HomeHeader.js';
 
 const BookDetail = () => {
   const navigate = useNavigate();
@@ -34,12 +35,15 @@ const BookDetail = () => {
     const minutes = Math.floor((seconds % 3600) / 60);
     return `${hours}:${String(minutes).padStart(2, "0")}`;
   };
+  const goToHome = () => {
+    navigate("/Home");  // 수정된 경로: "/"
+  };
 
   return (
+
     <div className="p-4">
-      <Button className="mb-4 bg-gray-500 text-white px-4 py-2 rounded" onClick={() => navigate("/")}>
-        뒤로가기
-      </Button>
+      <HomeHeader/>
+      <Button onClick={goToHome}>뒤로가기</Button>
 
       {book && (
         <Card className="p-6 border border-gray-300 rounded-lg shadow-lg">
@@ -77,12 +81,6 @@ const BookDetail = () => {
 
             
             <div className="mt-6 text-center">
-              <Button
-                className="bg-green-500 text-white px-4 py-2 rounded"
-                onClick={() => navigate(`/community?bookId=${bookId}`)}
-              >
-                이 책의 커뮤니티로 이동
-              </Button>
             </div>
           </CardContent>
         </Card>

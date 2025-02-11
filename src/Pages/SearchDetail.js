@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "../styles/searchdetail.module.css";
 import Button from "../components/ui/button";
+import HomeHeader from '../components/header/HomeHeader.js';
 
 const SearchDetail = () => {
   const location = useLocation();
@@ -24,6 +25,7 @@ const SearchDetail = () => {
 
   return (
     <div>
+      <HomeHeader/>
       <button onClick={() => navigate(-1)}>← Back</button>
       <div>
         {book.volumeInfo.imageLinks && (
@@ -35,6 +37,7 @@ const SearchDetail = () => {
         )}
         <h1 className="text-2xl font-bold mt-4">{book.volumeInfo.title}</h1>
         <p className="text-gray-600 mt-2">저자: {book.volumeInfo.authors?.join(", ") || "정보 없음"}</p>
+        <p>출간일: {book.volumeInfo.publishedDate}</p>
         <p className="text-gray-600">출판사: {book.volumeInfo.publisher || "정보 없음"}</p>
         <p className="text-gray-600">쪽수: {book.volumeInfo.pageCount || "정보 없음"}</p>
         <p className="mt-4">{book.volumeInfo.description || "설명 없음"}</p>
