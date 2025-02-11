@@ -1,0 +1,19 @@
+.books{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 3fr));
+    gap: 60px;
+    width: 100%;
+    max-width: 1200px;
+    padding-top: 120px;
+    margin-bottom: 100px;
+  }
+
+  .bookCard {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px;
+    cursor: pointer;
+    text-align: center;
+    display: block; /* 카드 전체가 블록처럼 동작하도록 설정 */
+  }
+  
