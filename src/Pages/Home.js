@@ -12,7 +12,7 @@ const Home = () => {
     setBookmarks(savedBookmarks);
   }, []);
 
-  // 📌 누적 독서 시간 가져오기
+  
   const getReadingTime = (bookId) => {
     return JSON.parse(localStorage.getItem(`readingTime_${bookId}`)) || 0;
   };
