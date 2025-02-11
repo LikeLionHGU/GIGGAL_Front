@@ -28,9 +28,10 @@ function Timer() {
 
     if (bookIdFromURL) {
       setSelectedBook(bookIdFromURL);
-    } else if (savedBookmarks.length > 0) {
-      setSelectedBook(savedBookmarks[0].id);
+    } else {
+      setSelectedBook(""); // 🔹 책이 없을 경우 선택되지 않도록 빈 값 유지
     }
+    
   }, [location]);
 
   useEffect(() => {
@@ -38,32 +39,33 @@ function Timer() {
     setSelectedBookImage(selectedBookData?.volumeInfo.imageLinks?.thumbnail || "https://via.placeholder.com/150");
   }, [selectedBook, bookmarks]);
 
-useEffect(() => {
-  if (time > 0 && !isPaused) {
-    intervalRef.current = setInterval(() => {
-      setTime((prevTime) => {
-        if (prevTime > 0) {
-          const progressValue = ((3000 - prevTime) / 3000) * 100;
-          setPercent(progressValue); 
-          return prevTime - 1;
-        } else {
-          clearInterval(intervalRef.current);
-          intervalRef.current = null;
-          if (mode === "reading") {
-            setMode("break");
-            setTime(600);
+  useEffect(() => {
+    if (selectedBook && time > 0 && !isPaused) { // 🔹 selectedBook이 있을 때만 실행
+      intervalRef.current = setInterval(() => {
+        setTime((prevTime) => {
+          if (prevTime > 0) {
+            const progressValue = ((3000 - prevTime) / 3000) * 100;
+            setPercent(progressValue);
+            return prevTime - 1;
           } else {
-            setMode("reading");
-            setTime(3000);
+            clearInterval(intervalRef.current);
+            intervalRef.current = null;
+            if (mode === "reading") {
+              setMode("break");
+              setTime(600);
+            } else {
+              setMode("reading");
+              setTime(3000);
+            }
+            return 0;
           }
-          return 0;
-        }
-      });
-    }, 1000);
-  }
-
-  return () => clearInterval(intervalRef.current);
-}, [time, isPaused,mode]);
+        });
+      }, 1000);
+    }
+  
+    return () => clearInterval(intervalRef.current);
+  }, [selectedBook, time, isPaused, mode]); // 🔹 selectedBook이 변경될 때마다 실행
+  
 
 
 
@@ -76,16 +78,17 @@ useEffect(() => {
 
   const saveRecordAndComplete = () => {
     if (!selectedBook || record.trim() === "") return;
-
+  
     const existingRecords = JSON.parse(localStorage.getItem(`records_${selectedBook}`)) || [];
     const newRecords = [...existingRecords, record];
     localStorage.setItem(`records_${selectedBook}`, JSON.stringify(newRecords));
-
-    saveReadingTime(selectedBook, 3000); // 현재 타이머 시간 저장
-    alert("독서 기록이 저장");
-    navigate("/");
+  
+    saveReadingTime(selectedBook, 3000); 
+    alert("독서 기록이 저장되었습니다!"); 
+  
+    setRecord(""); 
   };
-
+  
   const startTimer = () => {
     setIsPaused(false);
   };
@@ -122,7 +125,7 @@ useEffect(() => {
     <Header/>
     <div className="timer-container">
       <div className="reading-count">
-      <span style={{ color: "#ADCA6C" }}>●</span> 현재 <span className="reading-count-number">{userCount}</span>명이 함께 독서하고 있어요!
+      <span style={{ color: "#ADCA6C" }}>●</span> 현재 <span className="reading-count-number">{userCount}</span>명이 이 책을 같이 읽고 있어요 !
       </div>
 
       <div className="timer-layout">
@@ -144,37 +147,53 @@ useEffect(() => {
         </div>
 
         <div className="book-selection">
-          <select className="book-dropdown" value={selectedBook} onChange={(e) => setSelectedBook(e.target.value)}>
-          <option value="">Choose the Book Title</option>
-            {bookmarks.map((book) => (
-              <option key={book.id} value={book.id}>{book.volumeInfo.title}</option>
-            ))}
-          </select>
+        <select className="book-dropdown" value={selectedBook || ""} onChange={(e) => setSelectedBook(e.target.value)}>
+  <option value="" disabled hidden>Choose the Book Title</option>
+  {bookmarks.map((book) => (
+    <option key={book.id} value={book.id}>{book.volumeInfo.title}</option>
+  ))}
+</select>
+
           {selectedBook && <img src={selectedBookImage} alt="책 표지" className="book-image" />}
         </div>
       </div>
 
-      <div className="timer-buttons">
-        <button className="start-button" onClick={startTimer}>
-          START
-        </button>
-        <button className="stop-button" onClick={stopTimer}>
-          STOP
-        </button>
-      </div>
+      <div className="timer-buttons-container">
+  <div className="top-buttons">
+    <button className="reset-button" onClick={() => setTime(3000)}>
+      초기화
+    </button>
+    
+    <button className="pause-button" onClick={stopTimer}>
+      일시정지
+    </button>
+  </div>
 
-      <div className="record-section">
-      ✏️책을 읽으면서 든 생각들을 기록으로 남겨 보세요 !
-        <textarea
-          className="record-input"
-          value={record}
-          onChange={(e) => setRecord(e.target.value)}
-          placeholder="기억에 남는 문장이 있나요 ?"
-        />
-        <button className="save-record-button" onClick={saveRecordAndComplete}>
-          save
-        </button>
-      </div>
+  <button className="start-button" onClick={startTimer}>
+    시작하기
+  </button>
+</div>
+
+
+
+
+<div className="record-section">
+  <div className="recording">✏️ 책을 읽으면서 든 생각들을 기록으로 남겨 보세요!</div>
+
+  <div className="record-container">
+    <textarea
+      className="record-input"
+      value={record}
+      onChange={(e) => setRecord(e.target.value)}
+      placeholder="기억에 남는 문장이 있나요?"
+    />
+    <button className="save-record-button" onClick={saveRecordAndComplete}>
+      등록하기
+    </button>
+  </div>
+</div>
+
+
     </div>
     <Footer/>
     </div>
