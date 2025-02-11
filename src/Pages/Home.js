@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, CardContent } from "../components/ui/card";
 import Button from "../components/ui/button";
 import styles from "../styles/Home.module.css";
+import HomeHeader from '../components/header/HomeHeader.js';
 
 const Home = () => {
   const [bookmarks, setBookmarks] = useState([]);
@@ -48,6 +48,7 @@ const Home = () => {
 
   return (
     <div>
+      <HomeHeader/>
       <h1>My book</h1>
       <Button onClick={goToSearch}>+</Button>
 
@@ -56,7 +57,8 @@ const Home = () => {
           const readingTime = getReadingTime(book.id);
 
           return (
-            <Card key={index} className="p-4 border border-gray-300 rounded-lg shadow-lg relative">
+       
+            <div key={index} className="p-4 border border-gray-300 rounded-lg shadow-lg relative">
               <div className="absolute top-2 right-2 bg-gray-800 text-white text-sm px-3 py-1 rounded-md">
                 누적 시간: {Math.floor(readingTime / 60)}분
               </div>
@@ -67,7 +69,7 @@ const Home = () => {
                 className="w-full h-60 object-cover rounded-lg"
               />
 
-              <CardContent>
+              <div>
               <button
                 className={styles.complete}
                 onClick={() => handleButtonClick(book)}
@@ -91,12 +93,12 @@ const Home = () => {
                     내 기록
                   </Button>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           );
         })}
       </div>
-
+     
       {/* 모달 */}
       {Alertopen && (
         <div className={styles.modalbg}>
