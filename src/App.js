@@ -15,7 +15,7 @@ const App = () => {
         <Routes>
           <Route path="/search" element={<Search />} />
           <Route path="/detail/:bookId" element={<SearchDetail />} />
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home />} /> {/* Home은 "/"로 이동 */}
           <Route path="/timer" element={<Timer />} />
           <Route path="/bookdetail" element={<BookDetail />} />
           <Route path="/login" element={<Login />} />
