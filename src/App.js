@@ -9,7 +9,6 @@ import Login from "./Pages/Login";
 import AuthCallback from "./Pages/AuthCallback";
 import Main from "./Pages/Main";
 
-
 const App = () => {
   return (
     <Router>
@@ -21,7 +20,7 @@ const App = () => {
           <Route path="/home" element={<Home />} />
           <Route path="/timer" element={<Timer />}/>
           <Route path="/bookdetail" element={<BookDetail />} />
-          <Route path="/login" element={<Login/>}/>
+          <Route path="/login" element={<Login />} />
           <Route path="/auth/callback" element={<AuthCallback />} />
         </Routes>
       </div>

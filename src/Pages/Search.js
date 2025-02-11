@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardContent } from "../components/ui/card";
-import Button from "../components/ui/button";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import Button from "../components/ui/button";
+import styles from "../styles/search.module.css";
 
 const API_URL = "https://www.googleapis.com/books/v1/volumes";
 
@@ -10,127 +11,93 @@ const Search = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedPageFilter, setSelectedPageFilter] = useState("");
-  const [appliedPageFilter, setAppliedPageFilter] = useState("");
-  const [hasSearched, setHasSearched] = useState(false);
-  const [bookmarks, setBookmarks] = useState(() => {
-    return JSON.parse(localStorage.getItem("bookmarks")) || [];
-  });
-
+  const [query, setQuery] = useState(() => sessionStorage.getItem("lastQuery") || "");
   const navigate = useNavigate();
+  const [bookMark, setBookMark] = useState(() => JSON.parse(localStorage.getItem("bookmarks")) || []);
 
-  useEffect(() => {
-    localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
-  }, [bookmarks]);
+  const addToMark = (book) => {
+    // 기존 북마크 목록 가져오기
+    const storedBookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
+  
+    // 이미 추가된 책인지 확인
+    if (!storedBookmarks.find((b) => b.id === book.id)) {
+      const updatedBookmarks = [...storedBookmarks, book];
+  
+      // 로컬 스토리지에 저장
+      localStorage.setItem("bookmarks", JSON.stringify(updatedBookmarks));
+  
+      // 상태 업데이트
+      setBookMark(updatedBookmarks);
+    }
+  };
+  
 
-  const fetchBooks = (searchQuery) => {
+  const fetchBooks = async (searchQuery) => {
     if (!searchQuery) return;
     setLoading(true);
+    setError(null);
 
-    fetch(`${API_URL}?q=${searchQuery}&maxResults=40`)
-      .then((response) => response.json())
-      .then((data) => {
-        setBooks(data.items || []);
-        setLoading(false);
-        setHasSearched(true);
-      })
-      .catch((err) => {
-        setError(err);
-        setLoading(false);
-      });
+    try {
+      const response = await axios.get(`${API_URL}?q=${searchQuery}&maxResults=40`);
+      setBooks(response.data.items || []);
+      sessionStorage.setItem("lastBooks", JSON.stringify(response.data.items || []));
+    } catch (err) {
+      setError(err);
+    }
+
+    setLoading(false);
   };
+
+  useEffect(() => {
+    const savedBooks = JSON.parse(sessionStorage.getItem("lastBooks") || "[]");
+    setBooks(savedBooks);
+    fetchBooks(query);
+  }, [query]);
 
   const handleSearch = (e) => {
     e.preventDefault();
-    fetchBooks(searchTerm.trim());
-    setAppliedPageFilter(selectedPageFilter);
+    setQuery(searchTerm.trim());
+    sessionStorage.setItem("lastQuery", searchTerm.trim());
   };
 
-  const addBookmark = (book) => {
-    if (!bookmarks.find((b) => b.id === book.id)) {
-      setBookmarks([...bookmarks, book]);
-    }
+  const handleBookClick = (book) => {
+    navigate(`/detail/${book.id}`, { state: { book } });
   };
 
-  const filteredBooks = books.filter((book) => {
-    const pageCount = book.volumeInfo.pageCount || 0;
-    if (appliedPageFilter === "50") return pageCount <= 50;
-    if (appliedPageFilter === "100") return pageCount <= 100;
-    if (appliedPageFilter === "200") return pageCount <= 200;
-    if (appliedPageFilter === "300") return pageCount <= 300;
-    return true;
-  });
+  const goToHome = () => {
+    navigate("/", { state: { bookMark } });  // 수정된 경로: "/"
+  };
+  
 
   return (
-    <div className="p-4">
-      <form onSubmit={handleSearch} className="mb-4 flex justify-center gap-2">
+    <div>
+      <form onSubmit={handleSearch}>
         <input
           type="text"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="책 검색..."
-          className="border p-2 rounded-lg"
         />
-        <select
-          value={selectedPageFilter}
-          onChange={(e) => setSelectedPageFilter(e.target.value)}
-          className="border p-2 rounded-lg"
-        >
-          <option value="">전체 보기</option>
-          <option value="50">50쪽 이하</option>
-          <option value="100">100쪽 이하</option>
-          <option value="200">200쪽 이하</option>
-          <option value="300">300쪽 이하</option>
-        </select>
         <Button type="submit">검색</Button>
       </form>
-
-      {hasSearched && (
-        <>
-          {loading && <p>Loading...</p>}
-          {error && <p>Error loading books: {error.message}</p>}
-
-          {/* 📌 한 줄에 4개씩 배치 (반응형 지원) */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {filteredBooks.length > 0 ? (
-              filteredBooks.map((book, index) => (
-                <Card key={index} className="p-4 border border-gray-300 rounded-lg shadow-lg">
-                  {book.volumeInfo.imageLinks ? (
-                    <img
-                      src={book.volumeInfo.imageLinks.thumbnail}
-                      alt={book.volumeInfo.title}
-                      className="w-full h-60 object-cover rounded-lg cursor-pointer"
-                      onClick={() => navigate(`/detail/${book.id}`, { state: { book } })}
-                    />
-                  ) : (
-                    <div className="w-full h-60 bg-gray-300 rounded-lg" />
-                  )}
-                  <CardContent>
-                    <h2 className="text-xl font-semibold mt-2">{book.volumeInfo.title}</h2>
-                    <p className="text-gray-600">저자: {book.volumeInfo.authors?.join(", ") || "정보 없음"}</p>
-                    <p className="text-gray-600">출판사: {book.volumeInfo.publisher || "정보 없음"}</p>
-                    <p className="text-gray-600">쪽수: {book.volumeInfo.pageCount || "정보 없음"}</p>
-                    <button
-                      className="mt-2 bg-blue-500 text-white px-4 py-2 rounded"
-                      onClick={() => navigate(`/detail/${book.id}`, { state: { book } })}
-                    >
-                      자세히 보기
-                    </button>
-                    <button
-                      className="mt-2 ml-2 bg-yellow-400 text-white px-4 py-2 rounded"
-                      onClick={() => addBookmark(book)}
-                    >
-                      북마크 추가 ⭐
-                    </button>
-                  </CardContent>
-                </Card>
-              ))
-            ) : (
-              <p className="text-center text-gray-600">검색 결과가 없습니다.</p>
-            )}
+      <Button onClick={goToHome}>북마크 보기</Button>
+      <div className={styles.books}>
+        {books.map((book) => (
+          <div className={styles.bookcard} key={book.id}>
+            <button onClick={() => addToMark(book)} className={styles.button}>
+              북마크 추가
+            </button>
+            <div onClick={() => handleBookClick(book)}>
+              {book.volumeInfo.imageLinks?.thumbnail ? (
+                <img src={book.volumeInfo.imageLinks.thumbnail} alt={book.volumeInfo.title} />
+              ) : (
+                <div className={styles.placeholder}>No Image</div>
+              )}
+              <h1>{book.volumeInfo.title}</h1>
+            </div>
           </div>
-        </>
-      )}
+        ))}
+      </div>
     </div>
   );
 };
