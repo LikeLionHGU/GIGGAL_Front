@@ -10,6 +10,46 @@
   padding: 20px;
 }
 
+.timer-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.reset-button,
+.pause-button {
+  padding: 8px 16px;
+  border: 2px solid #6b8e23;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: transparent;
+  color: #6b8e23;
+  font-weight: bold;
+}
+
+.reset-button:hover,
+.pause-button:hover {
+  background-color: #eff7da;
+}
+
+.start-button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #5b6f50;
+  color: white;
+}
+
+.start-button:hover {
+  background-color: #4a5a3d;
+}
+
+
 .reading-count {
   font-size: 18px;
   font-weight: bold;
@@ -82,14 +122,14 @@
   color: #333;
 }
 
-.timer-buttons {
+/* .timer-buttons {
   display: flex;
   justify-content:  flex-start;
   gap: 15px;
   margin-top: 20px;
-}
+} */
 
-.start-button, .stop-button {
+/* .start-button, .stop-button {
   padding: 10px 20px;
   border: none;
   border-radius: 20px;
@@ -117,7 +157,7 @@
   background-color: #f7fad9;
   color: #6b8e23;
   border-color:color;
-}
+} */
 
 .book-selection {
   display: flex;
@@ -132,40 +172,61 @@
   border: 1px solid #ccc;
 }
 
-.book-image {
-  width: 150px;
-  height: 220px;
-  margin-left:200px;
-  object-fit: cover;
-  border-radius: 10px;
-  margin-top: 15px;
+.record-container {
+  position: relative; /* 내부 요소의 절대 위치 기준 */
+  width: 100%;
+  max-width: 400px; /* 최대 너비 설정 */
 }
 
-/* 기록 입력 박스가 책 표지 아래로 이동 */
+.book-image {
+  width: 150px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-left:-120px;
+  margin-top:30px;
+}
+
 .record-section {
-  margin-top: 15px;
-  width: 220px;
+ 
+  flex-direction: column;
+  width: 30%; /* 입력창이 적절한 크기를 가지도록 설정 */
+  margin-left:360px;
+  margin-top:-30px;
+}
+
+.recording {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px; /* 입력창과 간격 */
 }
 
 .record-input {
   width: 100%;
-  height: 80px;
-  padding: 10px;
+  height: 120px;
+  padding: 15px;
+  padding-right: 60px; /* 버튼이 들어갈 공간 확보 */
   border: 1px solid #ccc;
   border-radius: 8px;
   resize: none;
+  font-size: 14px;
+  background-color: #f7fad9; /* 배경색 동일하게 */
 }
 
 .save-record-button {
-  margin-top: 10px;
-  margin-left:200px;
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 8px;
-  background-color: #4a90e2;
+  position: absolute;
+  bottom: 10px; /* textarea 내부 아래쪽 정렬 */
+  right: 10px; /* textarea 내부 오른쪽 정렬 */
+  background-color: #a3b18a;
   color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 /* 드롭다운 & 인풋 박스 배경을 전체 배경색과 동일하게 */
@@ -175,14 +236,31 @@
   padding: 10px;
   border-radius: 8px;
   font-size: 16px;
-  width: 100%;
+  width: 120%;
   box-shadow: none;
+  display:flex;
 }
 
-.record-input{
-  margin-top:-20px;
-  margin-left:200px;
+.recording {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: left;  /* 좌측 정렬 */
+  display: block;  /* 블록 요소로 지정 */
+  margin-bottom: 10px;  /* textarea와 간격 추가 */
+  white-space: nowrap;  /* 텍스트 줄바꿈 방지 */
+  margin-left: 0;  /* 기존의 margin-left 제거 */
 }
+
+.record-input {
+  width: 100%;
+  height: 80px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  resize: none;
+  margin-top: 0; /* 🔹 음수 값을 없애고 자연스럽게 정렬 */
+}
+
 
 .book-dropdown:focus, .record-input:focus {
   outline: none;
@@ -190,3 +268,57 @@
   box-shadow: 0 0 5px rgba(107, 142, 35, 0.5);
 }
 
+.timer-buttons-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 버튼을 중앙 정렬 */
+  gap: 10px; /* 버튼들 사이 여백 */
+  margin-top: 20px; /* 타이머 아래 여백 */
+}
+
+.top-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* 초기화 버튼과 일시정지 버튼 간격 */
+}
+
+.reset-button,
+.pause-button {
+  width: 100px; /* 동일한 너비 설정 */
+  height: 40px; /* 동일한 높이 설정 */
+  padding: 8px 16px;
+  border: 2px solid #6b8e23;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: transparent;
+  color: #6b8e23;
+  font-weight: bold;
+}
+
+.reset-button{
+  margin-left:-300px;
+}
+
+.reset-button:hover,
+.pause-button:hover {
+  background-color: #eff7da;
+}
+
+.start-button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #5b6f50;
+  color: white;
+  margin-top: 5px; /* 초기화, 일시정지 버튼 아래에 위치 */
+  margin-left:-300px;
+  width:200px;
+}
+
+.start-button:hover {
+  background-color: #4a5a3d;
+}
