@@ -1,18 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
+import logo from "../../img/transparent_text.png";
 
 const Header = () => {
   return (
     <div>
     <header className="header">
       <h1 className="header-title">
-        <Link to="/">Chill</Link>
+          <Link to="/home">
+            <img src={logo} alt="부기 로고" style={{ cursor: "pointer", height: "50px" }} />
+          </Link>
         </h1>
       <nav className="header-nav">
-        <Link to="/timer">Pomodoro</Link>
-        <Link to="/search">Search</Link>
-        <Link to="/">My Books</Link>
+        <Link to="/home">My북</Link>
+        <Link to="/search">책 탐색하기</Link>
+        <Link to="/timer">Focus Mode</Link>
         <Link to="/login">Login</Link>
       </nav>
     </header>

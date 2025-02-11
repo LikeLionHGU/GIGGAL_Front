@@ -122,7 +122,7 @@ useEffect(() => {
     <Header/>
     <div className="timer-container">
       <div className="reading-count">
-        ● 현재 <span className="reading-count-number">{userCount}</span>명이 함께 독서하고 있어요!
+      <span style={{ color: "#ADCA6C" }}>●</span> 현재 <span className="reading-count-number">{userCount}</span>명이 함께 독서하고 있어요!
       </div>
 
       <div className="timer-layout">
@@ -145,13 +145,12 @@ useEffect(() => {
 
         <div className="book-selection">
           <select className="book-dropdown" value={selectedBook} onChange={(e) => setSelectedBook(e.target.value)}>
+          <option value="">Choose the Book Title</option>
             {bookmarks.map((book) => (
-              <option key={book.id} value={book.id}>
-                {book.volumeInfo.title}
-              </option>
+              <option key={book.id} value={book.id}>{book.volumeInfo.title}</option>
             ))}
           </select>
-          <img src={selectedBookImage} alt="책 표지" className="book-image" />
+          {selectedBook && <img src={selectedBookImage} alt="책 표지" className="book-image" />}
         </div>
       </div>
 
@@ -165,11 +164,12 @@ useEffect(() => {
       </div>
 
       <div className="record-section">
+      ✏️책을 읽으면서 든 생각들을 기록으로 남겨 보세요 !
         <textarea
           className="record-input"
           value={record}
           onChange={(e) => setRecord(e.target.value)}
-          placeholder="Enter Your Tagline"
+          placeholder="기억에 남는 문장이 있나요 ?"
         />
         <button className="save-record-button" onClick={saveRecordAndComplete}>
           save
