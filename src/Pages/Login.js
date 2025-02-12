@@ -1,7 +1,12 @@
 import React from "react";
 
-const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
-const REDIRECT_URI = process.env.REACT_APP_GOOGLE_REDIRECT_URI;
+
+// 이 부분에서 client_id가 FE분 걸로 되어 있던 것 같음. (네(세혁) 걸로 안들어가져 있었음)
+
+const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
+const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
+ // 개발 환경용
+
 
 const Login = () => {
   const handleLogin = () => {
