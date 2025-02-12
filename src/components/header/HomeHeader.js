@@ -1,25 +1,31 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './HomeHeader.css';
-import logo from "../../img/Logo.png";
+import Bookgie from "../../img/Bookgie.png";
+import Logout from "../../img/Logout.png";
+import mypage from "../../img/mypage.png";
 
 const HomeHeader = () => {
   return (
     <div>
     <header className="Homeheader">
       <h1 className="Home-header-title">
-          <Link to="/home">
-            <img src={logo} alt="부기 로고" style={{ cursor: "pointer", height: "50px" }} />
-          </Link>
+          <NavLink to="/search">
+            <img src={Bookgie} alt="부기 로고" style={{ cursor: "pointer", height: "50px" }} />
+          </NavLink>
         </h1>
       <nav className="nav">
-        <Link to="/home">My북</Link>
-        <Link to="/search">책 탐색하기</Link>
-        <Link to="/timer">Focus Mode</Link>
-        <Link to="/login">Login</Link>
+        <NavLink to="/search">책 탐색하기</NavLink>
+        <NavLink to="/timer">뽀커스 모드</NavLink>
+        <NavLink to="/home">나의 책</NavLink>
       </nav>
+      <div className="my">
+      <img src={Logout} alt="logoutbtn" style={{ cursor: "pointer", height: "2.5rem" }} />
+      <img src={mypage} alt="mypagebtn" style={{ cursor: "pointer", height: "2.5rem" }} />
+      </div>
+      
     </header>
-    <hr className="gnb-line" />
+ 
     </div>
   );
 };

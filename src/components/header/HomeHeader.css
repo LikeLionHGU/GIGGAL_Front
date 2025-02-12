@@ -1,47 +1,45 @@
 .Homeheader {
-    background-color: white;
-    color: red;
-    padding: 1rem 2rem;
+    background-color: #F8FFEA;
+    font-family: 'Pretendard-Regular';
+    padding: 0.5rem 3.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
+}
   
-  .Home-header-title a {
+.Home-header-title a {
     color: black !important;
     text-decoration: none;
-    font-weight: bold;
-  }
-  
-  .header h1 {
-    font-size: 1.8rem;
-  }
-  
-  hr {
-    background-color: #f7fad9;
-  }
-  
-  .nav {
+    font-weight: 100;
+}
+
+.nav {
     display: flex;
-    gap: 20px; /* 글자 사이 여백 */
-  }
+    gap: 2rem; /* 글자 사이 여백 */
+    justify-content: center; /* 가운데 정렬 */
+    flex: 1; /* 남은 공간을 채우기 위해 */
+    font-size: 1.2rem;
+}
   
-  .nav a {
+.nav a {
     color: black;
-    text-decoration: none;
-    font-size: 1rem;
+    text-decoration:dashed;
+
+}
+.nav a:hover {
     font-weight: bold;
-  }
-  
-  
-  
-  .nav a:visited {
+}
+
+.nav a:visited {
     color: black; /* 클릭 후 색 변경 방지 */
-  }
-  
-  .gnb-line {
-    padding: 0;
-    margin: 0;
-  }
-  
+}
+
+.my{
+    display: flex;
+    gap: 1rem; /* 글자 사이 여백 */
+}
+
+.nav .active {
+    text-decoration: underline; /* 활성화된 링크에 밑줄 추가 */
+    font-weight: bold; /* 활성화된 링크에 볼드 적용 */
+}
