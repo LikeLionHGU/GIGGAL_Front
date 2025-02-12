@@ -9,44 +9,28 @@ const API_URL = "https://www.googleapis.com/books/v1/volumes";
 
 const Search = () => {
   const [books, setBooks] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [query, setQuery] = useState(() => sessionStorage.getItem("lastQuery") || "");
   const navigate = useNavigate();
-  const [bookMark, setBookMark] = useState(() => JSON.parse(localStorage.getItem("bookmarks")) || []);
 
   const addToMark = (book) => {
-    // 기존 북마크 목록 가져오기
     const storedBookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
-  
-    // 이미 추가된 책인지 확인
     if (!storedBookmarks.find((b) => b.id === book.id)) {
       const updatedBookmarks = [...storedBookmarks, book];
-  
-      // 로컬 스토리지에 저장
       localStorage.setItem("bookmarks", JSON.stringify(updatedBookmarks));
-  
-      // 상태 업데이트
-      setBookMark(updatedBookmarks);
     }
   };
-  
 
   const fetchBooks = async (searchQuery) => {
     if (!searchQuery) return;
-    setLoading(true);
-    setError(null);
 
     try {
       const response = await axios.get(`${API_URL}?q=${searchQuery}&maxResults=40`);
       setBooks(response.data.items || []);
       sessionStorage.setItem("lastBooks", JSON.stringify(response.data.items || []));
     } catch (err) {
-      setError(err);
+      console.error(err); // 오류 처리
     }
-
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -65,13 +49,9 @@ const Search = () => {
     navigate(`/detail/${book.id}`, { state: { book } });
   };
 
- 
-  
-
   return (
     <div>
-         <HomeHeader/>
-      
+      <HomeHeader />
       <form onSubmit={handleSearch}>
         <input
           type="text"
