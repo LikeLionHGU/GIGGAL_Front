@@ -22,7 +22,7 @@ const AuthCallback = () => {
         .then((data) => {
           if (data.success) {
             localStorage.setItem("token", data.token); // 토큰 저장
-            navigate("/"); // 홈 화면으로 이동
+            navigate("/home"); // 홈 화면으로 이동
           } else {
             console.error("Login failed:", data.message);
           }
