@@ -16,7 +16,7 @@ const Header = () => {
         <Link to="/home">My북</Link>
         <Link to="/search">책 탐색하기</Link>
         <Link to="/timer">Focus Mode</Link>
-        <Link to="/login">Login</Link>
+        <Link to="/login">Logout</Link>
       </nav>
     </header>
     <hr className="gnb-line" />
