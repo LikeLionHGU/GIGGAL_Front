@@ -21,7 +21,7 @@ const App = () => {
           <Route path="/timer" element={<Timer />}/>
           <Route path="/bookdetail" element={<BookDetail />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/auth/callback" element={<AuthCallback />} />
+          <Route path="/api/auth/callback" element={<AuthCallback />} />
         </Routes>
       </div>
     </Router>
