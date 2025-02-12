@@ -1,5 +1,6 @@
 import React from "react";
 
+
 // 이 부분에서 client_id가 FE분 걸로 되어 있던 것 같음. (네(세혁) 걸로 안들어가져 있었음)
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
