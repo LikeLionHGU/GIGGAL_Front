@@ -4,7 +4,6 @@ import Button from "../components/ui/button";
 import styles from "../styles/Home.module.css";
 import HomeHeader from '../components/header/HomeHeader.js';
 
-
 const Home = () => {
   const [bookmarks, setBookmarks] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
@@ -18,6 +17,33 @@ const Home = () => {
   const goToSearch = () => {
     navigate("/Search");  // 수정된 경로: "/"
   };
+
+    useEffect(() => {
+      const parsedHash = new URLSearchParams(window.location.hash.substring(1));
+      const idToken = parsedHash.get("id_token");
+  
+      if (idToken) {
+        // 백엔드로 토큰 전송
+        // fetch("http://localhost:8080/api/auth/google", {  // 이 부분에서 백엔드는 /api/auth/google로 했는데, /api/oauth/google로 되어 있었음.
+        fetch("https://janghong.asia/api/auth/google", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: new URLSearchParams({ credential: idToken }).toString(),   // 이 부분에서 받아오는 형식이 잘못되었었음.
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.success) {
+              localStorage.setItem("token", data.token); // 토큰 저장
+              navigate("/home"); // 홈 화면으로 이동
+            } else {
+              console.error("Login failed:", data.message);
+            }
+          })
+          .catch((error) => console.error("Error:", error));
+      }
+    }, [navigate]);
 
   const handleButtonClick = (book) => {
     // 책을 이미 읽은 상태일 때만 모달을 띄우도록 설정
@@ -46,6 +72,8 @@ const Home = () => {
   const getReadingTime = (bookId) => {
     return JSON.parse(localStorage.getItem(`readingTime_${bookId}`)) || 0;
   };
+
+
 
   return (
     <div>
