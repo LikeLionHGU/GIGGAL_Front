@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
-import logo from "../../img/Logo.png";
+import Bookgie from "../../img/Bookgie.png";
 
 const Header = () => {
   return (
@@ -9,7 +9,7 @@ const Header = () => {
     <header className="header">
       <h1 className="header-title">
           <Link to="/home">
-            <img src={logo} alt="부기 로고" style={{ cursor: "pointer", height: "50px" }} />
+            <img src={Bookgie} alt="부기 로고" style={{ cursor: "pointer", height: "50px" }} />
           </Link>
         </h1>
       <nav className="header-nav">
