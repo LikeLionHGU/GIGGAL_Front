@@ -10,15 +10,12 @@ const BookDetail = () => {
   const queryParams = new URLSearchParams(location.search);
   const bookId = queryParams.get("bookId");
 
-  const [bookmarks, setBookmarks] = useState([]);
-  const [book, setBook] = useState(null);
-  const [records, setRecords] = useState([]);
-  const [totalReadingTime, setTotalReadingTime] = useState(0); 
+  const [book, setBook] = useState(null);  // 선택된 책 정보
+  const [records, setRecords] = useState([]);  // 독서 기록
+  const [totalReadingTime, setTotalReadingTime] = useState(0);  // 총 독서 시간
 
   useEffect(() => {
     const savedBookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
-    setBookmarks(savedBookmarks);
-
     const selectedBook = savedBookmarks.find((b) => b.id === bookId);
     if (selectedBook) {
       setBook(selectedBook);
@@ -29,20 +26,19 @@ const BookDetail = () => {
     }
   }, [bookId]);
 
-  
   const formatTime = (seconds) => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     return `${hours}:${String(minutes).padStart(2, "0")}`;
   };
+
   const goToHome = () => {
     navigate("/Home");  // 수정된 경로: "/"
   };
 
   return (
-
     <div className="p-4">
-      <HomeHeader/>
+      <HomeHeader />
       <Button onClick={goToHome}>뒤로가기</Button>
 
       {book && (
@@ -77,10 +73,6 @@ const BookDetail = () => {
               ) : (
                 <p className="text-gray-500">저장된 기록이 없습니다.</p>
               )}
-            </div>
-
-            
-            <div className="mt-6 text-center">
             </div>
           </CardContent>
         </Card>
