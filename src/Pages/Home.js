@@ -4,6 +4,7 @@ import Button from "../components/ui/button";
 import styles from "../styles/Home.module.css";
 import HomeHeader from '../components/header/HomeHeader.js';
 
+
 const Home = () => {
   const [bookmarks, setBookmarks] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
@@ -97,6 +98,8 @@ const Home = () => {
             </div>
           );
         })}
+     
+
       </div>
      
       {/* 모달 */}
