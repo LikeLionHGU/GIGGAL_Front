@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "../styles/searchdetail.module.css";
 import Button from "../components/ui/button";
@@ -8,15 +7,15 @@ const SearchDetail = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const book = location.state?.book;
-  const [bookMark, setbookMark] = useState([]); // 북마크 목록
-     // 📌 북마크 추가 함수
+
+  // 📌 북마크 추가 함수
   const addToMark = (book) => {
-    setbookMark((prevMarks) => {
-      if (prevMarks.find((mark) => mark.id === book.id)) {
-        return prevMarks; // 이미 북마크에 있으면 추가하지 않음
-      }
-      return [...prevMarks, book]; // 새 책 추가
-    });
+    const storedBookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
+
+    if (!storedBookmarks.find((mark) => mark.id === book.id)) {
+      storedBookmarks.push(book);
+      localStorage.setItem("bookmarks", JSON.stringify(storedBookmarks));
+    }
   };
 
   if (!book) {
@@ -25,7 +24,7 @@ const SearchDetail = () => {
 
   return (
     <div>
-      <HomeHeader/>
+      <HomeHeader />
       <button onClick={() => navigate(-1)}>← Back</button>
       <div>
         {book.volumeInfo.imageLinks && (
@@ -42,15 +41,14 @@ const SearchDetail = () => {
         <p className="text-gray-600">쪽수: {book.volumeInfo.pageCount || "정보 없음"}</p>
         <p className="mt-4">{book.volumeInfo.description || "설명 없음"}</p>
         <button onClick={() => addToMark(book)} className={styles.button}>
-                        북마크 추가
-                      </button>
-                      <Button
-                      className="bg-blue-500 text-white px-4 py-2 rounded"
-                      onClick={() => navigate(`/timer?bookId=${book.id}`)}
-                    >
-                      책 읽기
-                    </Button>
-                      
+          북마크 추가
+        </button>
+        <Button
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+          onClick={() => navigate(`/timer?bookId=${book.id}`)}
+        >
+          책 읽기
+        </Button>
       </div>
     </div>
   );

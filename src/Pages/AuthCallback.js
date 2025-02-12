@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"; 
+import axios from "axios";
 
 const AuthCallback = () => {
   const navigate = useNavigate();
@@ -25,8 +25,23 @@ const AuthCallback = () => {
           if (data.success) {
             localStorage.setItem("token", data.token); //  토큰 저장
             navigate("/home"); //  홈 화면으로 이동
+            
+    const processLogin = async () => {
+      try {
+        const parsedHash = new URLSearchParams(window.location.hash.substring(1));
+        const idToken = parsedHash.get("id_token");
+
+        if (idToken) {
+          const response = await axios.post("https://janghong.asia/api/auth/google", 
+            new URLSearchParams({ credential: idToken }).toString(), 
+            { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+          );
+
+          if (response.data.success) {
+            localStorage.setItem("token", response.data.token); // 토큰 저장
+            navigate("/home"); // 홈 화면으로 이동
           } else {
-            console.error("Login failed:", data.message);
+            console.error("Login failed:", response.data.message);
           }
         } catch (error) {
           console.error("Error:", error);
