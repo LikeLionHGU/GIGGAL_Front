@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import "../styles/Timer.css";
-import Header from "../components/header/Header.js";
+import HomeHeader from "../components/header/HomeHeader.js";
 import Footer from "../components/footer/Footer.js";
 import TimerBackground from "../img/timer.png"; 
 
@@ -25,6 +25,9 @@ function Timer() {
  
   const [record, setRecord] = useState("");
   const [userCount, setUserCount] = useState(0);
+
+  const [showModal, setShowModal] = useState(false);
+
 
   const setReadingTime = (readingTime, breakTime) => {
     clearInterval(intervalRef.current); // 기존 인터벌 삭제
@@ -105,9 +108,12 @@ function Timer() {
     const existingRecords = JSON.parse(localStorage.getItem(`records_${selectedBook}`)) || [];
     localStorage.setItem(`records_${selectedBook}`, JSON.stringify([...existingRecords, record]));
     saveReadingTime(selectedBook, 3000);
-    alert("독서 기록이 저장되었습니다!");
+    
+    setShowModal(true);
+    
     setRecord("");
   };
+  
 
   const startTimer = () => {
     if (!selectedBook) return; // 책이 선택되지 않으면 실행하지 않음
@@ -136,7 +142,7 @@ function Timer() {
 
   return (
     <div>
-      <Header />
+       <HomeHeader/>
       <div className="timer-container">
   <div className="reading-count">
     <span style={{ color: "#ADCA6C" }}>●</span> 현재 {userCount}명이 이 책을 같이 읽고 있어요 !
@@ -199,6 +205,23 @@ function Timer() {
     <button className="complete-reading-btn" onClick={saveRecordAndComplete}>독서 완료하기</button>
   </div>
 </div>
+{showModal && (
+  <div className="modal-overlay" onClick={() => setShowModal(false)}>
+    <div className="modal-content" onClick={(event) => event.stopPropagation()}>
+      <h2>독서를 완료하셨습니다!</h2>
+      <p>방금 읽은 책에 대해서 어떻게 생각하시나요?</p>
+
+      <button onClick={() => alert("📖 술술 읽혀요 선택!")}>📖 술술 읽혀요</button>
+      <button onClick={() => alert("🧐 읽을만해요 선택!")}>🧐 읽을만해요</button>
+      <button onClick={() => alert("🔍 관련 지식이 필요해요 선택!")}>🔍 관련 지식이 필요해요</button>
+
+      <button className="modal-close-btn" onClick={() => setShowModal(false)}>보내기</button>
+    </div>
+  </div>
+)}
+
+
+
 
 
 

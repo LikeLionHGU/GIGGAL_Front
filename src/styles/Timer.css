@@ -104,7 +104,7 @@ body {
 .time-selection-buttons button {
   padding: 6px 12px;
   border: none;
-  background: #a4b97f;
+  background: #7E9D7E;
   color: black;
   border-radius: 10px;
   cursor: pointer;
@@ -221,7 +221,7 @@ body {
   background-color: #92AD57;
   color: white;
   border: none;
-  padding: 8px 12px; /* 크기 줄이기 */
+  padding: 8px 8px;
   border-radius: 30px;
   font-size: 12px; /* 글씨 크기 줄이기 */
   cursor: pointer;
@@ -229,11 +229,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 8px; /* 여백 조정 */
+  margin-top: 8px;
   margin-bottom:280px;
   width: 80%; /* 크기 조정 */
-  max-width: 220px; /* 버튼 크기 제한 */
+  max-width: 120px;
   font-family: 'Pretendard-Regular', sans-serif; 
+  margin-left:500px;
 }
 
 .complete-reading-btn:hover {
@@ -262,4 +263,52 @@ body {
   color:black;
 }
 
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  width: 350px;
+}
+
+.modal-content h2 {
+  margin-bottom: 10px;
+}
+
+.modal-content p {
+  margin-bottom: 20px;
+}
+
+.modal-content button {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal-close-btn {
+  background: #4CAF50;
+  color: white;
+}
+
+.modal-close-btn:hover {
+  background: #45a049;
+}
 
