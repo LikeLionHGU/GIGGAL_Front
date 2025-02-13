@@ -58,15 +58,17 @@ body {
 .timer-background {
   position: absolute;
   top: -30px; /* 타이머 뒤쪽으로 약간 올라가도록 */
-  left: 20px; /* 중앙 정렬 조정 */
-  width: 360px; /* 타이머보다 살짝 크게 */
-  height: 413px;
+  left: -180px; /* 중앙 정렬 조정 */
+  width: 550px; /* 타이머보다 살짝 크게 */
+  height: auto;
   z-index: 0; /* 🔹 타이머 뒤쪽으로 이동 */
 }
 
 .timer-svg {
-  width: 400px; /* 기존보다 크게 */
-  height: 400px; /* 기존보다 크게 */
+  width: 600px; /* 기존보다 크게 */
+  height: 600px; /* 기존보다 크게 */
+  top: 10px; /* 타이머 뒤쪽으로 약간 올라가도록 */
+  left: -205px; /* 중앙 정렬 조정 */
   position: absolute;
   transform: rotate(-90deg);
 }
@@ -87,25 +89,34 @@ body {
   transition: stroke-dashoffset 0.5s linear;
 }
 
+/* 타이머 내부 중앙 정렬 */
 .centerCircle {
   position: absolute;
-  font-size: 32px;
+  top: 80%; /* 상단에서 50% */
+  left: 25%; /* 왼쪽에서 50% */
+  transform: translate(-50%, -50%); /* 정확한 중앙 정렬 */
+  display: flex;
+  flex-direction: column; /* 버튼과 시간을 세로 정렬 */
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
   font-weight: bold;
   color: #333;
   text-align: center;
+  width: 100%;
 }
 
 /* 시간 선택 버튼 스타일 */
 .time-selection-buttons {
   display: flex;
-  gap: 8px;
-  margin-top: 15px;
-  color:black;
-  font-family: 'Pretendard-Regular', sans-serif; 
+  gap: 10px;
+  justify-content: center; /* 버튼들을 중앙 정렬 */
+  margin-top: 30px; /* 남은 시간과의 간격 */
+  color:#6A866A;
 }
 
 .time-selection-buttons button {
-  padding: 6px 12px;
+  padding: 8px 14px;
   border: none;
   background: #7E9D7E;
   color: black;
@@ -114,7 +125,6 @@ body {
   font-size: 14px;
   font-weight: bold;
   transition: background 0.2s;
-  font-family: 'Pretendard-Regular', sans-serif; 
 }
 
 .time-selection-buttons button:hover {
@@ -137,7 +147,7 @@ body {
   background-color: #F8FFEA;
   font-size: 14px;
   margin-left:20px;
-  margin-top:-150px;
+  margin-top:-120px;
   font-family: 'Pretendard-Regular', sans-serif; 
 }
 
@@ -154,9 +164,11 @@ body {
 }
 
 .recording {
+  padding-bottom: 30px;
+  margin-top:20px;
   font-size: 2px;
   font-weight: bold;
-  margin-bottom: 5px;
+  margin-bottom: -285px;
   margin-left:100px;
   font-family: 'Pretendard-Regular', sans-serif; 
 }
@@ -166,7 +178,8 @@ body {
   position: relative;
   font-family: 'Pretendard-Regular', sans-serif; 
   width: 350px;
-  height:1500px;
+  height:1800px;
+  top:-50px;
 }
 
 /* 기록하기 입력창 및 버튼을 오른쪽으로 이동 */
@@ -184,7 +197,7 @@ body {
 /* 기록하기 입력창 */
 .record-input {
   width: 100%;
-  height: 100px; /* 높이 줄이기 */
+  height: 200px; /* 높이 줄이기 */
   padding: 10px;
   border: 1px solid #6b8e23;
   border-radius: 8px;
@@ -198,7 +211,7 @@ body {
 /* 기록 버튼 아이콘 (더 작게 & 오른쪽 정렬) */
 .record-icon {
   position: absolute;
-  bottom: 60px;
+  bottom: 200px;
   right: -30px;
   width: 20px; /* 크기 축소 */
   height: 20px;
@@ -213,6 +226,7 @@ body {
   height: auto;
   right:630px;
   bottom:220px;
+  margin-top:-20px;
 }
 
 .record-icon:hover {
@@ -232,13 +246,15 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 8px;
+  margin-top: 15px;
   margin-bottom:280px;
   width: 80%; /* 크기 조정 */
   max-width: 120px;
   font-family: 'Pretendard-Regular', sans-serif; 
   margin-left:500px;
 }
+
+
 
 .complete-reading-btn:hover {
   background-color: #8a9f6b;
@@ -254,8 +270,8 @@ body {
   justify-content: center; /* 중앙 정렬 */
   align-items: center;
   gap: 15px; /* 버튼 간격 */
-  margin-top: 20px;
-  margin-left: -450px; /* 🔹 왼쪽으로 이동 */
+  margin-top: 250px;
+  margin-left: -680px; /* 🔹 왼쪽으로 이동 */
   color:black;
 }
 
