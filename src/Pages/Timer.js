@@ -11,12 +11,36 @@ function Timer() {
   const [isPaused, setIsPaused] = useState(false);
   const intervalRef = useRef(null);
   const location = useLocation();
+  const resetIcon = require("../img/reset.png");
+  const startIcon = require("../img/start.png");
+  const stopIcon = require("../img/stop.png");
+ 
+
 
   const [bookmarks, setBookmarks] = useState([]);
   const [selectedBook, setSelectedBook] = useState("");
-  const [selectedBookImage, setSelectedBookImage] = useState("");
+ 
   const [record, setRecord] = useState("");
   const [userCount, setUserCount] = useState(0);
+
+  const setReadingTime = (readingTime, breakTime) => {
+    setTime(readingTime);
+    setMode("reading");
+    setIsPaused(false);
+    intervalRef.current = setInterval(() => {
+      setTime((prevTime) => {
+        if (prevTime > 0) {
+          setPercent(((readingTime - prevTime) / readingTime) * 100);
+          return prevTime - 1;
+        } else {
+          clearInterval(intervalRef.current);
+          setMode("break");
+          setTime(breakTime);
+          return breakTime;
+        }
+      });
+    }, 1000);
+  };
 
   useEffect(() => {
     const savedBookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
@@ -33,10 +57,8 @@ function Timer() {
   }, [location]);
 
   useEffect(() => {
-    const selectedBookData = bookmarks.find((book) => book.id === selectedBook);
-    setSelectedBookImage(
-      selectedBookData?.volumeInfo.imageLinks?.thumbnail || "https://via.placeholder.com/150"
-    );
+   
+   
   }, [selectedBook, bookmarks]);
 
   useEffect(() => {
@@ -123,7 +145,13 @@ function Timer() {
                 style={{ strokeDashoffset: 565 - (565 * percent) / 100 }}
               />
             </svg>
-            <div className="centerCircle">{Math.floor(time / 60)}:{String(time % 60).padStart(2, "0")}</div>
+            <div className="centerCircle">{Math.floor(time / 60)}:{String(time % 60).padStart(2, "0")}
+            <div className="time-selection-buttons">
+            <button onClick={() => setReadingTime(900, 180)}>15분</button>
+              <button onClick={() => setReadingTime(1800, 600)}>30분</button>
+              <button onClick={() => setReadingTime(3000, 900)}>50분</button>
+            </div>
+            </div>
           </div>
           <div className="book-selection">
             <select className="book-dropdown" value={selectedBook || ""} onChange={(e) => setSelectedBook(e.target.value)}>
@@ -132,28 +160,34 @@ function Timer() {
                 <option key={book.id} value={book.id}>{book.volumeInfo.title}</option>
               ))}
             </select>
-            {selectedBook && <img src={selectedBookImage} alt="책 표지" className="book-image" />}
+           
           </div>
         </div>
 
         <div className="timer-buttons-container">
-          <button className="reset-button" onClick={() => setTime(3000)}>초기화</button>
-          <button className="pause-button" onClick={stopTimer}>일시정지</button>
-          <button className="start-button" onClick={startTimer}>시작하기</button>
+          <img src={resetIcon} alt="Reset"  onClick={() => setTime(3000)}></img>
+          <img src={startIcon} alt="Start" onClick={startTimer} ></img>
+          <img src={stopIcon} alt="Stop" onClick={stopTimer}></img>
         </div>
 
         <div className="record-section">
-          <div className="recording">✏️ 책을 읽으면서 든 생각들을 기록으로 남겨 보세요!</div>
-          <div className="record-container">
-            <textarea
-              className="record-input"
-              value={record}
-              onChange={(e) => setRecord(e.target.value)}
-              placeholder="기억에 남는 문장이 있나요?"
-            />
-            <button className="save-record-button" onClick={saveRecordAndComplete}>등록하기</button>
-          </div>
-        </div>
+  <div className="record-container">
+    <textarea
+      className="record-input"
+      value={record}
+      onChange={(e) => setRecord(e.target.value)}
+      placeholder="책을 읽으면서 든 생각들을 기록으로 남겨 보세요 !"
+    />
+    <img
+      
+      alt="Start"
+      className="record-icon"
+      onClick={saveRecordAndComplete} 
+    />
+  </div>
+</div>
+
+
       </div>
       <Footer />
     </div>
