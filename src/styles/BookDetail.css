@@ -54,7 +54,7 @@
     left: 29%;
     height: 18rem;
     font-family: 'Pretendard-Regular';
-    max-width: 27%;  /* 최대 너비 */
+    max-width: 24%;  /* 최대 너비 */
     overflow: hidden;
     text-overflow: ellipsis;  /* 넘칠 경우 '...'으로 처리 */
   }
@@ -84,7 +84,7 @@
     width: 80rem;  /* 너비 고정 */
     position: relative;
   }
-  
+
   .mylist {
     width: 100%;  /* 부모 요소의 너비에 맞게 조정 */
     height: 50%;  /* 비율을 유지하면서 자동으로 높이 조정 */
