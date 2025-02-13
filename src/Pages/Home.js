@@ -3,6 +3,13 @@ import { useNavigate } from "react-router-dom";
 import Button from "../components/ui/button";
 import styles from "../styles/Home.module.css";
 import HomeHeader from '../components/header/HomeHeader.js';
+import hr from '../img/hr.png';  // '../img/'로 경로를 수정
+import bookadd from '../img/bookadd.png';  // '../img/'로 경로를 수정
+import clock from '../img/clock.png';  // '../img/'로 경로를 수정
+import readingbtn from '../img/readingbtn.png';  // '../img/'로 경로를 수정
+import recordbtn from '../img/recordbtn.png';  // '../img/'로 경로를 수정
+
+
 
 const Home = () => {
   const [bookmarks, setBookmarks] = useState([]);
@@ -78,52 +85,54 @@ const Home = () => {
   return (
     <div>
       <HomeHeader/>
-      <h1>My book</h1>
-      <Button onClick={goToSearch}>+</Button>
-
+      <div className={styles.Mybook}>나의 책</div>
+      <div className={styles.text}>오늘은 어떤 책을 읽을지 골라보세요 !</div>
+      <img src={hr} alt="hr" className={styles.hr}/>
+      <img src={bookadd} alt="hr" className={styles.bookadd} onClick={goToSearch}/>
       <div className={styles.books}>
-        {bookmarks.map((book, index) => {
-          const readingTime = getReadingTime(book.id);
+        {bookmarks.map((book) => {
+          const readingTime = getReadingTime(book.id); // 책의 읽은 시간
+
 
           return (
        
-            <div key={index} className="p-4 border border-gray-300 rounded-lg shadow-lg relative">
-              <div className="absolute top-2 right-2 bg-gray-800 text-white text-sm px-3 py-1 rounded-md">
-                누적 시간: {Math.floor(readingTime / 60)}분
-              </div>
-
+            <div>
+              <div className={styles.bookcard}>
               <img
                 src={book.volumeInfo.imageLinks?.thumbnail}
                 alt={book.volumeInfo.title}
-                className="w-full h-60 object-cover rounded-lg"
               />
-
-              <div>
-              <button
-                className={styles.complete}
-                onClick={() => handleButtonClick(book)}
-                style={{ backgroundColor: isBookRead[book.id] ? "red" : "grey" }}
-              >
-                완독 버튼
-              </button>
-                <h2 className="text-lg font-semibold mt-2">{book.volumeInfo.title}</h2>
-                <div className="mt-3 flex justify-between">
-                  <Button
-                    className="bg-blue-500 text-white px-4 py-2 rounded"
-                    onClick={() => navigate(`/timer?bookId=${book.id}`)}
-                  >
-                    책 읽기
-                  </Button>
-
-                  <Button
-                    className="bg-green-500 text-white px-4 py-2 rounded"
-                    onClick={() => navigate(`/bookdetail?bookId=${book.id}`)}
-                  >
-                    내 기록
-                  </Button>
-                </div>
-              </div>
+                <div className={styles.title}>
+              {book.volumeInfo.title}
             </div>
+
+              
+              <div className={styles.complete}>
+                 <button
+                className={styles.checkbox}
+                onClick={() => handleButtonClick(book)}
+                style={{ backgroundColor: isBookRead[book.id] ? "red" : "white" }}
+              />
+              <div className={styles.completet}>완독</div>
+              </div>
+
+              <div className={styles.time}>
+              <img src={clock} alt="time" className={styles.clock}/>
+                <div className={styles.sigan}>{Math.floor(readingTime / 60)}시간</div>
+               </div>
+
+              <div className={styles.btns}>
+              <img src={readingbtn} alt="readingbtn"  onClick={() => navigate(`/timer?bookId=${book.id}`)}/>
+              <img src={recordbtn} alt="recordbtn"   onClick={() => navigate(`/bookdetail?bookId=${book.id}`)}/>
+              </div>
+               
+              </div>
+
+              
+              </div>
+
+              
+       
           );
         })}
      
