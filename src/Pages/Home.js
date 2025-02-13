@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Button from "../components/ui/button";
 import styles from "../styles/Home.module.css";
 import HomeHeader from '../components/header/HomeHeader.js';
+import Footer from '../components/footer/Footer.js';
 import hr from '../img/hr.png';  // '../img/'로 경로를 수정
 import bookadd from '../img/bookadd.png';  // '../img/'로 경로를 수정
 import clock from '../img/clock.png';  // '../img/'로 경로를 수정
@@ -150,6 +151,7 @@ const Home = () => {
           </div>
         </div>
       )}
+       <Footer/>
     </div>
   );
 };
