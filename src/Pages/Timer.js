@@ -4,6 +4,8 @@ import "../styles/Timer.css";
 import HomeHeader from "../components/header/HomeHeader.js";
 import Footer from "../components/footer/Footer.js";
 import TimerBackground from "../img/timer.png"; 
+import hr from '../img/hr.png';  
+import styles from "../styles/Home.module.css";
 
 function Timer() {
   const [time, setTime] = useState(3000);
@@ -141,8 +143,9 @@ function Timer() {
   }, [selectedBook, getBookmarkedUserCount]);
 
   return (
-    <div>
+    <div className="whole">
        <HomeHeader/>
+       <img src={hr} alt="hr" className={styles.hr}/>
       <div className="timer-container">
   <div className="reading-count">
     <span style={{ color: "#ADCA6C" }}>●</span> 현재 {userCount}명이 이 책을 같이 읽고 있어요 !

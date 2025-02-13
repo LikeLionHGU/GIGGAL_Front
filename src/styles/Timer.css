@@ -7,8 +7,11 @@
 
 /* 전체 페이지 배경 */
 body {
-  background-color: #F8FFEA;
   font-family: 'Pretendard-Regular', sans-serif; 
+}
+
+.whole{
+  background-color: #F8FFEA;
 }
 
 /* 타이머 전체 컨테이너 */
@@ -58,7 +61,7 @@ body {
   left: 20px; /* 중앙 정렬 조정 */
   width: 360px; /* 타이머보다 살짝 크게 */
   height: 413px;
-  z-index: -1; /* 🔹 타이머 뒤쪽으로 이동 */
+  z-index: 0; /* 🔹 타이머 뒤쪽으로 이동 */
 }
 
 .timer-svg {
@@ -311,4 +314,3 @@ body {
 .modal-close-btn:hover {
   background: #45a049;
 }
-
