@@ -11,6 +11,8 @@ import readingbtn from '../img/readingbtn.png';  // '../img/'로 경로를 수�
 import recordbtn from '../img/recordbtn.png';  // '../img/'로 경로를 수정
 import checkImg from "../img/check.png"; 
 import whiteImg from "../img/white.png";
+import cancel from "../img/cancel.png"; 
+import retry from "../img/retry.png";
 
 
 
@@ -153,10 +155,12 @@ const Home = () => {
       {Alertopen && (
         <div className={styles.modalbg}>
           <div className={styles.modal}>
-            <h2>완독 확인</h2>
-            <p>{selectedBook?.volumeInfo.title}을(를) 다시 읽을겁니까?</p>
-            <Button onClick={goToTimer}>재독서</Button>
-            <button onClick={closeAlert}>취소</button>
+            <div className={styles.modalt}>이미 완독한 도서 입니다.</div>
+            <div className={styles.modalp}>{selectedBook?.volumeInfo.title}을(를) 다시 읽을까요?</div>
+            <div className={styles.mbtns}>
+            <img src={cancel} alt="cancel" onClick={closeAlert}/>
+            <img src={retry} alt="retry" onClick={goToTimer}/>
+            </div>
           </div>
         </div>
       )}

@@ -98,6 +98,12 @@
   height: 1rem;
   border: 1px solid #000000;
   border-radius: 3px;
+  cursor: pointer;
+}
+
+.checkbox:hover {
+  transform: scale(1.1); /* 크기 확대 */
+  opacity: 0.8; /* 약간 투명하게 */
 }
 
 .completet {
@@ -132,7 +138,9 @@
   left: 165px; /* 왼쪽 정렬 */
   display: flex;
   gap: 6px;
+  cursor: pointer;
 }
+
 
 .btns img {
   max-width: 100px;
@@ -155,13 +163,48 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  font-family: 'Pretendard-Regular';
+  font-size: 10px;
 }
 
 .modal {
   background-color: white;
   border-radius: 15px;
-  width: 80%;
+  width: 100%;
+  height: 20%;
   max-width: 300px;
   padding: 20px;
   text-align: center;
+  font-family: 'Pretendard-Regular';
+}
+
+.modalt{
+  font-family: 'Pretendard-Regular';
+  padding-top: 40px;
+  font-size: 17px;
+  font-weight: bold;
+
+}
+
+.modalp{
+  font-family: 'Pretendard-Regular';
+  padding-top: 10px;
+  font-size: 17px;
+  font-weight: bold;
+
+}
+
+.mbtns{
+  display: flex;
+  gap: 6px;
+  padding-left: 21%;
+  padding-top: 6%;
+}
+
+.mbtns img {
+  max-width: 100px;
+  max-height: 2rem;
+  width: auto;
+  height: auto;
+  cursor: pointer;
 }
