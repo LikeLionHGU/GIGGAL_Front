@@ -82,23 +82,15 @@ const BookDetail = () => {
               <p className="time">{formatTime(totalReadingTime)}</p>
        
   
-            <div className="mt-6">
-              {records.length > 0 ? (
-                <div className="space-y-4">
-                  {records.map((entry, index) => (
-                    <div key={index} className="flex items-center space-x-2">
-                      <textarea
-                        className="border p-2 rounded-lg w-full h-20"
-                        value={entry}
-                        readOnly
-                      />
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-gray-500"></p>
-              )}
-            </div>
+              <div className="memo-container">
+      {records.length > 0 ? (
+        records.map((entry, index) => (
+          <textarea key={index} className="memocon" value={entry} readOnly />
+        ))
+      ) : (
+        <p>메모가 없습니다.</p>
+      )}
+    </div>
       </div>
            
   

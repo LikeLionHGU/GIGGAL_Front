@@ -81,8 +81,10 @@
   .mylist-container {
     padding-top: 3rem;
     padding-left: 5rem;
+    padding-bottom: 5rem;
     width: 80rem;  /* 너비 고정 */
     position: relative;
+    display: flex;
   }
 
   .mylist {
@@ -90,6 +92,39 @@
     height: 50%;  /* 비율을 유지하면서 자동으로 높이 조정 */
     object-fit: cover;  /* 비율을 유지하면서 필요시 잘림 */
   }
+  .memo-container {
+    position: absolute; /* mylist 위에 배치 */
+    top: 98%; /* mylist 위로 이동 (조절 가능) */
+    left: 8%;
+    display: flex;
+    overflow-x: auto; /* 가로 스크롤 */
+    scroll-snap-type: x mandatory; /* 캐러셀 */
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 10px;
+    scrollbar-width: none;
+    max-width: 82%;
+  }
+  
+  .memo-container::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .memocon {
+    min-width: 300px;
+    max-width: 100px;
+    height: 370px;
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    font-size: 16px;
+    resize: none;
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+  
+ 
   
   
   
