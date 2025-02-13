@@ -155,16 +155,21 @@ function Timer() {
     {/* 타이머 영역 */}
     <div className="timer-wrapper">
     <img src={TimerBackground} alt="Timer Background" className="timer-background" />
-      <svg className="timer-svg" width="300" height="300" viewBox="0 0 200 200">
-        <circle cx="100" cy="100" r="90" className="timer-circle-bg" />
-        <circle
-          cx="100"
-          cy="100"
-          r="90"
-          className="timer-circle-progress"
-          style={{ strokeDashoffset: 785 - (785 * percent) / 100 }}
-        />
-      </svg>
+    <svg className="timer-svg" width="300" height="300" viewBox="0 0 200 200">
+  <circle cx="100" cy="100" r="90" className="timer-circle-bg" />
+  <circle
+    cx="100"
+    cy="100"
+    r="90"
+    className="timer-circle-progress"
+    style={{
+      strokeDasharray: 565.48, // 🔹 원 둘레 (2 * π * r)
+      strokeDashoffset: 565.48 * (1 - percent / 100), // 🔹 percent 값 반영
+    }}
+  />
+</svg>
+
+
       <div className="centerCircle">
         {Math.floor(time / 60)}:{String(time % 60).padStart(2, "0")}
         <div className="time-selection-buttons">
@@ -205,7 +210,11 @@ function Timer() {
       />
       <img src={recordIcon} alt="Save" className="record-icon" onClick={saveRecordAndComplete} />
     </div>
-    <button className="complete-reading-btn" onClick={saveRecordAndComplete}>독서 완료하기</button>
+    <button className="complete-reading-btn" onClick={saveRecordAndComplete}>
+      <div className="resultbtn">
+      독서 완료하기
+      </div>
+      </button>
   </div>
 </div>
 {showModal && (
