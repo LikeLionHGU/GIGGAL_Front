@@ -88,8 +88,8 @@ const Home = () => {
       <div className={styles.Mybook}>나의 책</div>
       <div className={styles.text}>오늘은 어떤 책을 읽을지 골라보세요 !</div>
       <img src={hr} alt="hr" className={styles.hr}/>
-      <img src={bookadd} alt="hr" className={styles.bookadd} onClick={goToSearch}/>
       <div className={styles.books}>
+      <img src={bookadd} alt="hr" className={styles.bookadd} onClick={goToSearch}/>
         {bookmarks.map((book) => {
           const readingTime = getReadingTime(book.id); // 책의 읽은 시간
 
