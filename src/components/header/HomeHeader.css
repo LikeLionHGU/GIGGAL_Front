@@ -18,7 +18,7 @@
     gap: 2rem; /* 글자 사이 여백 */
     justify-content: center; /* 가운데 정렬 */
     flex: 1; /* 남은 공간을 채우기 위해 */
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
   
 .nav a {
