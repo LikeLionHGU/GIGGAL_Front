@@ -139,7 +139,9 @@
   max-height: 2rem;
   width: auto;
   height: auto;
+  cursor: pointer;
 }
+
 
 /* 모달 스타일 */
 .modalbg {

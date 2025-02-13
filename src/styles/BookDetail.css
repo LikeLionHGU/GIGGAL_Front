@@ -1,0 +1,97 @@
+.back-container {
+    display: flex;
+    justify-content: flex-start; /* 왼쪽 정렬 */
+    padding: 2rem;
+}
+
+.backbtn {
+    height: 1rem;
+    cursor: pointer;
+}
+
+.dash {
+    padding-top: 0rem;
+    padding-left: 5rem;
+    height: 25rem;
+    position: relative;
+}
+
+.goto {
+    height: 1.3rem;
+    padding-top: 1.5rem;
+    padding-left: 5.3rem;
+    cursor: pointer;
+}
+
+.book-thumbnail{
+    position: absolute; /* `dash` 위에 배치 */
+    top:38%;
+    height: 18rem;
+    border-radius: 10%;
+    left:10%;
+}
+
+.book-title{
+    position: absolute; /* `dash` 위에 배치 */
+    top:35%;
+    left:29%;
+    height: 18rem;
+    font-family: 'Pretendard-Regular';
+}
+
+.text{
+    position: absolute; /* `dash` 위에 배치 */
+    color:#9092A3;
+    top:40%;
+    left:29%;
+    height: 18rem;
+    font-family: 'Pretendard-Regular';
+
+}
+.description {
+    position: absolute;
+    top: 48%;
+    left: 29%;
+    height: 18rem;
+    font-family: 'Pretendard-Regular';
+    max-width: 27%;  /* 최대 너비 */
+    overflow: hidden;
+    text-overflow: ellipsis;  /* 넘칠 경우 '...'으로 처리 */
+  }
+
+  .rbtn {
+    position: absolute;
+    top: 69%;
+    left: 28.5%;
+    height: 2.5rem;
+    font-family: 'Pretendard-Regular';
+    cursor: pointer;
+  }
+
+  .time {
+    position: absolute;
+    top: 40%;
+    left: 70%;
+    font-size: 80px;
+    font-family: 'Pretendard-Regular';
+    color: #455622;
+    font-weight: bold;
+  }
+
+  .mylist-container {
+    padding-top: 3rem;
+    padding-left: 5rem;
+    width: 80rem;  /* 너비 고정 */
+    position: relative;
+  }
+  
+  .mylist {
+    width: 100%;  /* 부모 요소의 너비에 맞게 조정 */
+    height: 50%;  /* 비율을 유지하면서 자동으로 높이 조정 */
+    object-fit: cover;  /* 비율을 유지하면서 필요시 잘림 */
+  }
+  
+  
+  
+  
+  

@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Card, CardContent } from "../components/ui/card";
-import Button from "../components/ui/button";
+import '../styles/BookDetail.css';
 import HomeHeader from '../components/header/HomeHeader.js';
+import back from "../img/back.png";
+import dash from "../img/dash.png";
+import goto from "../img/edong.png";
+import mylist from "../img/mylist.png";
+import readingbtn from '../img/readingbtn.png';  // '../img/'로 경로를 수정
+import Footer from '../components/footer/Footer.js';
 
 const BookDetail = () => {
   const navigate = useNavigate();
@@ -26,6 +31,13 @@ const BookDetail = () => {
     }
   }, [bookId]);
 
+  const getDescription = (description) => {
+    if (description && description.length > 200) {
+      return description.slice(0, 200) + "...";
+    }
+    return description || "설명 정보 없음";
+  };
+
   const formatTime = (seconds) => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
@@ -37,27 +49,40 @@ const BookDetail = () => {
   };
 
   return (
-    <div className="p-4">
+    <div>
       <HomeHeader />
-      <Button onClick={goToHome}>뒤로가기</Button>
+      <div className="back-container">
+        <img className="backbtn" src={back} alt="back" onClick={goToHome} />
+      </div>
+      <img className="goto" src={goto} alt="dash" onClick={goToHome} />
 
-      {book && (
-        <Card className="p-6 border border-gray-300 rounded-lg shadow-lg">
-          <img src={book.volumeInfo.imageLinks?.thumbnail} alt={book.volumeInfo.title} className="w-48 h-72 object-cover mx-auto" />
-
-          <CardContent>
-            <h2 className="text-2xl font-bold mt-4">{book.volumeInfo.title}</h2>
-            <p className="text-gray-600">저자: {book.volumeInfo.authors?.join(", ") || "정보 없음"}</p>
-            <p className="text-gray-600">출판사: {book.volumeInfo.publisher || "정보 없음"}</p>
-            <p className="text-gray-600">쪽수: {book.volumeInfo.pageCount || "정보 없음"}</p>
-
-            <div className="mt-4 bg-gray-200 p-3 rounded-lg text-center">
-              <h3 className="text-lg font-semibold">총 독서 시간</h3>
-              <p className="text-2xl font-bold">{formatTime(totalReadingTime)}</p>
+      <div className="dash-container">
+        <img className="dash" src={dash} alt="dash" />
+        {book && (
+          <div>
+            <img
+              src={book.volumeInfo.imageLinks?.thumbnail}
+              alt={book.volumeInfo.title}
+              className="book-thumbnail"
+            />
+            <h2 className="book-title">{book.volumeInfo.title}</h2>
+            <p className="text">{book.volumeInfo.authors?.join(", ") || "정보 없음"}{"   "}{book.volumeInfo.pageCount || "정보 없음"}{"p "}{book.volumeInfo.publishedDate|| "정보 없음"}</p>
+            <p className="description">{getDescription(book.volumeInfo.description)}</p>  
+            <img className="rbtn" src={readingbtn} alt="readingbtn"  onClick={() => navigate(`/timer?bookId=${book.id}`)}/>
             </div>
+        )}
+      </div>
 
+      <div className="mylist-container">
+  <img className="mylist" src={mylist} alt="dash" />
+</div>
+  
+      {book && (
+      <div>
+              <p className="time">{formatTime(totalReadingTime)}</p>
+       
+  
             <div className="mt-6">
-              <h3 className="text-lg font-semibold">내 독서 기록</h3>
               {records.length > 0 ? (
                 <div className="space-y-4">
                   {records.map((entry, index) => (
@@ -71,14 +96,19 @@ const BookDetail = () => {
                   ))}
                 </div>
               ) : (
-                <p className="text-gray-500">저장된 기록이 없습니다.</p>
+                <p className="text-gray-500"></p>
               )}
             </div>
-          </CardContent>
-        </Card>
+      </div>
+           
+  
+           
+       
       )}
+           <Footer/>
     </div>
   );
+  
 };
 
 export default BookDetail;
