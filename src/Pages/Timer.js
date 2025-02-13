@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import "../styles/Timer.css";
 import Header from "../components/header/Header.js";
 import Footer from "../components/footer/Footer.js";
+import TimerBackground from "../img/timer.png"; 
 
 function Timer() {
   const [time, setTime] = useState(3000);
@@ -14,6 +15,8 @@ function Timer() {
   const resetIcon = require("../img/reset.png");
   const startIcon = require("../img/start.png");
   const stopIcon = require("../img/stop.png");
+  const recordIcon = require("../img/record.png");
+  const recordingIcon = require("../img/recording.png");
  
 
 
@@ -24,9 +27,12 @@ function Timer() {
   const [userCount, setUserCount] = useState(0);
 
   const setReadingTime = (readingTime, breakTime) => {
+    clearInterval(intervalRef.current); // 기존 인터벌 삭제
+
     setTime(readingTime);
     setMode("reading");
     setIsPaused(false);
+
     intervalRef.current = setInterval(() => {
       setTime((prevTime) => {
         if (prevTime > 0) {
@@ -41,6 +47,7 @@ function Timer() {
       });
     }, 1000);
   };
+
 
   useEffect(() => {
     const savedBookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
@@ -57,9 +64,9 @@ function Timer() {
   }, [location]);
 
   useEffect(() => {
+    return () => clearInterval(intervalRef.current);
    
-   
-  }, [selectedBook, bookmarks]);
+  }, []);
 
   useEffect(() => {
     if (selectedBook && time > 0 && !isPaused) {
@@ -102,14 +109,17 @@ function Timer() {
     setRecord("");
   };
 
-  const startTimer = () => setIsPaused(false);
+  const startTimer = () => {
+    if (!selectedBook) return; // 책이 선택되지 않으면 실행하지 않음
+    setIsPaused(false);
+  };
   const stopTimer = () => setIsPaused(true);
 
   useEffect(() => {
     if (selectedBook) {
       setTime(3000);
       setPercent(0);
-      setIsPaused(false);
+      setIsPaused(true);
     }
   }, [selectedBook]);
 
@@ -128,67 +138,71 @@ function Timer() {
     <div>
       <Header />
       <div className="timer-container">
-        <div className="reading-count">
-          <span style={{ color: "#ADCA6C" }}>●</span> 현재 <span className="reading-count-number">{userCount}</span>
-          명이 이 책을 같이 읽고 있어요 !
-        </div>
+  <div className="reading-count">
+    <span style={{ color: "#ADCA6C" }}>●</span> 현재 {userCount}명이 이 책을 같이 읽고 있어요 !
+  </div>
 
-        <div className="timer-layout">
-          <div className="timer-wrapper">
-            <svg className="timer-svg" width="300" height="300" viewBox="0 0 200 200">
-              <circle cx="100" cy="100" r="90" className="timer-circle-bg" />
-              <circle
-                cx="100"
-                cy="100"
-                r="90"
-                className="timer-circle-progress"
-                style={{ strokeDashoffset: 565 - (565 * percent) / 100 }}
-              />
-            </svg>
-            <div className="centerCircle">{Math.floor(time / 60)}:{String(time % 60).padStart(2, "0")}
-            <div className="time-selection-buttons">
-            <button onClick={() => setReadingTime(900, 180)}>15분</button>
-              <button onClick={() => setReadingTime(1800, 600)}>30분</button>
-              <button onClick={() => setReadingTime(3000, 900)}>50분</button>
-            </div>
-            </div>
-          </div>
-          <div className="book-selection">
-            <select className="book-dropdown" value={selectedBook || ""} onChange={(e) => setSelectedBook(e.target.value)}>
-              <option value="" disabled hidden>Choose the Book Title</option>
-              {bookmarks.map((book) => (
-                <option key={book.id} value={book.id}>{book.volumeInfo.title}</option>
-              ))}
-            </select>
-           
-          </div>
+  <div className="timer-layout">
+    {/* 타이머 영역 */}
+    <div className="timer-wrapper">
+    <img src={TimerBackground} alt="Timer Background" className="timer-background" />
+      <svg className="timer-svg" width="300" height="300" viewBox="0 0 200 200">
+        <circle cx="100" cy="100" r="90" className="timer-circle-bg" />
+        <circle
+          cx="100"
+          cy="100"
+          r="90"
+          className="timer-circle-progress"
+          style={{ strokeDashoffset: 785 - (785 * percent) / 100 }}
+        />
+      </svg>
+      <div className="centerCircle">
+        {Math.floor(time / 60)}:{String(time % 60).padStart(2, "0")}
+        <div className="time-selection-buttons">
+          <button onClick={() => setReadingTime(900, 180)}>15분</button>
+          <button onClick={() => setReadingTime(1800, 600)}>30분</button>
+          <button onClick={() => setReadingTime(3000, 900)}>50분</button>
         </div>
+      </div>
+    </div>
 
-        <div className="timer-buttons-container">
-          <img src={resetIcon} alt="Reset"  onClick={() => setTime(3000)}></img>
-          <img src={startIcon} alt="Start" onClick={startTimer} ></img>
-          <img src={stopIcon} alt="Stop" onClick={stopTimer}></img>
-        </div>
+    {/* 책 선택 */}
+    <div className="book-selection">
+      <select className="book-dropdown" value={selectedBook || ""} onChange={(e) => setSelectedBook(e.target.value)}>
+        <option value="" disabled hidden>Choose the Book Title</option>
+        {bookmarks.map((book) => (
+          <option key={book.id} value={book.id}>{book.volumeInfo.title}</option>
+        ))}
+      </select>
+    </div>
+  </div>
 
-        <div className="record-section">
-  <div className="record-container">
-    <textarea
-      className="record-input"
-      value={record}
-      onChange={(e) => setRecord(e.target.value)}
-      placeholder="책을 읽으면서 든 생각들을 기록으로 남겨 보세요 !"
-    />
-    <img
-      
-      alt="Start"
-      className="record-icon"
-      onClick={saveRecordAndComplete} 
-    />
+  {/* 타이머 컨트롤 버튼 */}
+  <div className="timer-buttons-container">
+    <img src={resetIcon} alt="Reset" onClick={() => setTime(3000)} />
+    <img src={startIcon} alt="Start" onClick={startTimer} />
+    <img src={stopIcon} alt="Stop" onClick={stopTimer} />
+  </div>
+
+  {/* 기록하기 섹션 */}
+  <div className="record-section">
+    <div className="recording"><img src={recordingIcon} alt="Recording" className="recording-text" ></img></div>
+    <div className="record-container">
+      <textarea
+        className="record-input"
+        value={record}
+        onChange={(e) => setRecord(e.target.value)}
+        placeholder="책을 읽으면서 든 생각들을 기록으로 남겨 보세요!"
+      />
+      <img src={recordIcon} alt="Save" className="record-icon" onClick={saveRecordAndComplete} />
+    </div>
+    <button className="complete-reading-btn" onClick={saveRecordAndComplete}>독서 완료하기</button>
   </div>
 </div>
 
 
-      </div>
+
+      
       <Footer />
     </div>
   );
