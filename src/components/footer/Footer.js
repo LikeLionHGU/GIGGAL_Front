@@ -1,6 +1,6 @@
 import React from 'react';
 import Bookgie from "../../img/Bookgie.png";
-import SNS from "../../img/sns.png";
+import SNS from "../../img/sns.png";  
 import './Footer.css';
 
 

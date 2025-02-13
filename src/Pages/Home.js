@@ -9,6 +9,8 @@ import bookadd from '../img/bookadd.png';  // '../img/'로 경로를 수정
 import clock from '../img/clock.png';  // '../img/'로 경로를 수정
 import readingbtn from '../img/readingbtn.png';  // '../img/'로 경로를 수정
 import recordbtn from '../img/recordbtn.png';  // '../img/'로 경로를 수정
+import checkImg from "../img/check.png"; 
+import whiteImg from "../img/white.png";
 
 
 
@@ -109,11 +111,18 @@ const Home = () => {
 
               
               <div className={styles.complete}>
-                 <button
-                className={styles.checkbox}
-                onClick={() => handleButtonClick(book)}
-                style={{ backgroundColor: isBookRead[book.id] ? "red" : "white" }}
-              />
+              <button
+  className={styles.checkbox}
+  onClick={() => handleButtonClick(book)}
+  style={{
+    backgroundImage: `url(${isBookRead[book.id] ? checkImg : whiteImg})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    width: "24px",
+    height: "24px",
+    border: "none",
+  }}
+/>
               <div className={styles.completet}>완독</div>
               </div>
 
