@@ -29,10 +29,14 @@ function Timer() {
   const [userCount, setUserCount] = useState(0);
 
   const [showModal, setShowModal] = useState(false);
+  const [selectedTime, setSelectedTime] = useState(""); // 선택한 시간을 저장하는 상태 추가
+
 
 
   const setReadingTime = (readingTime, breakTime) => {
     clearInterval(intervalRef.current); // 기존 인터벌 삭제
+
+    setSelectedTime(`${readingTime / 60}분 / ${breakTime / 60}분`);
 
     setTime(readingTime);
     setMode("reading");
@@ -171,6 +175,7 @@ function Timer() {
 
 
       <div className="centerCircle">
+      <div style={{ fontSize: "18px", color: "gray" }}><br/>{selectedTime}</div>
         {Math.floor(time / 60)}:{String(time % 60).padStart(2, "0")}
         <div className="time-selection-buttons">
           <button onClick={() => setReadingTime(900, 180)}>15분</button>
@@ -232,12 +237,6 @@ function Timer() {
   </div>
 )}
 
-
-
-
-
-
-      
       <Footer />
     </div>
   );
