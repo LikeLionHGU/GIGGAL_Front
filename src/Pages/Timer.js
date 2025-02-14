@@ -11,7 +11,7 @@ function Timer() {
   const [time, setTime] = useState(3000);
   const [percent, setPercent] = useState(0);
   const [mode, setMode] = useState("reading");
-  const [isPaused, setIsPaused] = useState(false);
+  const [isPaused, setIsPaused] = useState(true);
   const intervalRef = useRef(null);
   const location = useLocation();
   const resetIcon = require("../img/reset.png");
@@ -40,7 +40,7 @@ function Timer() {
 
     setTime(readingTime);
     setMode("reading");
-    setIsPaused(false);
+    setIsPaused(true);
 
     intervalRef.current = setInterval(() => {
       setTime((prevTime) => {
@@ -122,7 +122,7 @@ function Timer() {
   
 
   const startTimer = () => {
-    if (!selectedBook) return; // 책이 선택되지 않으면 실행하지 않음
+    if (!selectedBook || time <= 0 || !isPaused) return;  // 책이 선택되지 않으면 실행하지 않음
     setIsPaused(false);
   };
   const stopTimer = () => setIsPaused(true);
