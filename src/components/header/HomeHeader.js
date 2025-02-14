@@ -7,7 +7,9 @@ import mypage from "../../img/mypage.png";
 
 const HomeHeader = () => {
   const location = useLocation();
-
+  const handleLogOut =()=> {
+  console.log("logout!!!!");
+  }
   return (
     <div>
       <header className="Homeheader">
@@ -24,7 +26,7 @@ const HomeHeader = () => {
           </NavLink>
         </nav>
         <div className="my">
-          <img src={Logout} alt="logoutbtn" style={{ cursor: "pointer", height: "2.5rem" }} />
+          <img src={Logout} alt="logoutbtn" style={{ cursor: "pointer", height: "2.5rem" }} onClick={handleLogOut} />
           <img src={mypage} alt="mypagebtn" style={{ cursor: "pointer", height: "2.5rem" }} />
         </div>
       </header>

@@ -11,7 +11,7 @@ function Timer() {
   const [time, setTime] = useState(3000);
   const [percent, setPercent] = useState(0);
   const [mode, setMode] = useState("reading");
-  const [isPaused, setIsPaused] = useState(false);
+  const [isPaused, setIsPaused] = useState(true);
   const intervalRef = useRef(null);
   const location = useLocation();
   const resetIcon = require("../img/reset.png");
@@ -31,6 +31,8 @@ function Timer() {
   const [showModal, setShowModal] = useState(false);
   const [selectedTime, setSelectedTime] = useState(""); // 선택한 시간을 저장하는 상태 추가
 
+  const [showAlertModal, setShowAlertModal] = useState(false); // 책 선택 유도 모달 상태 추가
+
 
 
   const setReadingTime = (readingTime, breakTime) => {
@@ -40,7 +42,7 @@ function Timer() {
 
     setTime(readingTime);
     setMode("reading");
-    setIsPaused(false);
+    setIsPaused(true);
 
     intervalRef.current = setInterval(() => {
       setTime((prevTime) => {
@@ -110,19 +112,28 @@ function Timer() {
   };
 
   const saveRecordAndComplete = () => {
-    if (!selectedBook || record.trim() === "") return;
+    if (!selectedBook) return; // 책이 선택되지 않으면 종료
+    
+  
     const existingRecords = JSON.parse(localStorage.getItem(`records_${selectedBook}`)) || [];
     localStorage.setItem(`records_${selectedBook}`, JSON.stringify([...existingRecords, record]));
     saveReadingTime(selectedBook, 3000);
     
     setShowModal(true);
-    
     setRecord("");
+    
   };
+  
+  
+  
   
 
   const startTimer = () => {
-    if (!selectedBook) return; // 책이 선택되지 않으면 실행하지 않음
+    if (!selectedBook) {
+      setShowAlertModal(true); // 🔹 책이 선택되지 않으면 모달 표시
+      return;
+    }
+    if (time <= 0 || !isPaused) return;
     setIsPaused(false);
   };
   const stopTimer = () => setIsPaused(true);
@@ -205,7 +216,7 @@ function Timer() {
 
   {/* 기록하기 섹션 */}
   <div className="record-section">
-    <div className="recording"><img src={recordingIcon} alt="Recording" className="recording-text" ></img></div>
+    <div className="recording"><img src={recordingIcon} alt="Recording"  className="recording-text" ></img></div>
     <div className="record-container">
       <textarea
         className="record-input"
@@ -236,6 +247,17 @@ function Timer() {
     </div>
   </div>
 )}
+
+{showAlertModal && (
+  <div className="modal-alert-overlay" onClick={() => setShowAlertModal(false)}>
+    <div className="modal-alert-content" onClick={(event) => event.stopPropagation()}>
+      <h2>독서를 시작하기 전에 책을 선택해주세요!</h2>
+      <button className="modal-alert-button" onClick={() => setShowAlertModal(false)}>확인</button>
+    </div>
+  </div>
+)}
+
+
 
       <Footer />
     </div>
