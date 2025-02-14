@@ -58,7 +58,7 @@ body {
 .timer-background {
   position: absolute;
   top: -30px; /* 타이머 뒤쪽으로 약간 올라가도록 */
-  left: -180px; /* 중앙 정렬 조정 */
+  left: -80px; /* 중앙 정렬 조정 */
   width: 550px; /* 타이머보다 살짝 크게 */
   height: auto;
   z-index: 0; /* 🔹 타이머 뒤쪽으로 이동 */
@@ -68,7 +68,7 @@ body {
   width: 600px; /* 기존보다 크게 */
   height: 600px; /* 기존보다 크게 */
   top: 10px; /* 타이머 뒤쪽으로 약간 올라가도록 */
-  left: -205px; /* 중앙 정렬 조정 */
+  left: -105px; /* 중앙 정렬 조정 */
   position: absolute;
   transform: rotate(-90deg);
 }
@@ -93,7 +93,7 @@ body {
 .centerCircle {
   position: absolute;
   top: 80%; /* 상단에서 50% */
-  left: 25%; /* 왼쪽에서 50% */
+  left: 50%; /* 왼쪽에서 50% */
   transform: translate(-50%, -50%); /* 정확한 중앙 정렬 */
   display: flex;
   flex-direction: column; /* 버튼과 시간을 세로 정렬 */
@@ -146,7 +146,7 @@ body {
   border: 1px solid #6b8e23;
   background-color: #F8FFEA;
   font-size: 14px;
-  margin-left:20px;
+  margin-left:220px;
   margin-top:-120px;
   font-family: 'Pretendard-Regular', sans-serif; 
 }
@@ -158,7 +158,7 @@ body {
   align-items: flex-start;
   width: 450px;
   height:500px;
-  margin-left:100px;
+  margin-left:120px;
   margin-top:-120px;
   font-family: 'Pretendard-Regular', sans-serif; 
 }
@@ -169,7 +169,7 @@ body {
   font-size: 2px;
   font-weight: bold;
   margin-bottom: -285px;
-  margin-left:100px;
+  margin-left:160px;
   font-family: 'Pretendard-Regular', sans-serif; 
 }
 
@@ -188,8 +188,8 @@ body {
   flex-direction: column;
   align-items: flex-end; /* 오른쪽 정렬 */
   width: 80%; /* 전체 너비를 줄여서 오른쪽 정렬 효과 */
-  max-width: 300px; /* 크기 줄이기 */
-  margin-left: 500px; /* 오른쪽으로 이동 */
+  max-width: 350px; /* 크기 줄이기 */
+  margin-left: 650px; /* 오른쪽으로 이동 */
   margin-right: 20px; /* 오른쪽 여백 추가 */
   font-family: 'Pretendard-Regular', sans-serif; 
 }
@@ -224,7 +224,7 @@ body {
   position: absolute;
   width: 80px; /* 크기 축소 */
   height: auto;
-  right:630px;
+  right:530px;
   bottom:220px;
   margin-top:-20px;
 }
@@ -238,7 +238,7 @@ body {
   background-color: #92AD57;
   color: white;
   border: none;
-  padding: 8px 8px;
+  padding: 12px 12px;
   border-radius: 30px;
   font-size: 12px; /* 글씨 크기 줄이기 */
   cursor: pointer;
@@ -252,6 +252,9 @@ body {
   max-width: 120px;
   font-family: 'Pretendard-Regular', sans-serif; 
   margin-left:500px;
+  position: relative;
+  top: -220px;
+  left:50px;
 }
 
 
