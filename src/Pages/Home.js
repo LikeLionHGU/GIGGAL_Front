@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../components/ui/button";
+
 import styles from "../styles/Home.module.css";
 import HomeHeader from '../components/header/HomeHeader.js';
 import Footer from '../components/footer/Footer.js';
