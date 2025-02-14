@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";  // useNavigate 훅을 추가
+import {useLocation} from "react-router-dom";
 import fbtn from '../../img/floatingbtn.png';  // 경로 수정: components/floating -> img
 import "./FloatingButton.css";  // CSS 파일
 
@@ -9,6 +10,12 @@ const FloatingButton = () => {
   const goToSearch = () => {
     navigate("/Timer");  // "/Timer" 경로로 이동
   };
+
+  const location = useLocation();
+
+  if (location.pathname === "/") {
+    return null; 
+  }
 
   return (
     <img
