@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Button from "../components/ui/button";
 import styles from "../styles/search.module.css";
 import HomeHeader from '../components/header/Headers.js';
 import hr from '../img/line.png';  // '../img/'로 경로를 수정
 import boogies from '../img/boogies.png';  // '../img/'로 경로를 수정
 import searchbtn from '../img/searchbtn.png';  // '../img/'로 경로를 수정
+import text from '../img/text.png';  // '../img/'로 경로를 수정
+import bestbox from '../img/bestbox.png';  // '../img/'로 경로를 수정
+import Footer from '../components/footer/Footer.js';
 
 const API_URL = "https://www.googleapis.com/books/v1/volumes";
 
@@ -85,13 +87,13 @@ const Search = () => {
       <div className={styles.sbtn} onClick={handleSearch}>
   </div>
   <img src={searchbtn} alt="hr" className={styles.searchbtn} onClick={handleSearch}/>
+  
 
 
 </div>
         </div>
-   
-
-       
+        <img src={text} alt="hr" className={styles.text}/>
+        <img src={bestbox} alt="hr" className={styles.bestbox}/>
       </form>
       <div className={styles.books}>
         {books.map((book) => (
@@ -111,6 +113,7 @@ const Search = () => {
         ))}
       </div>
     </div>
+    <Footer/>
     </div>
     
   );
