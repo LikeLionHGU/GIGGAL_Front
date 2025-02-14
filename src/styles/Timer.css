@@ -58,7 +58,7 @@ body {
 .timer-background {
   position: absolute;
   top: -30px; /* 타이머 뒤쪽으로 약간 올라가도록 */
-  left: -80px; /* 중앙 정렬 조정 */
+  left: -20px; /* 중앙 정렬 조정 */
   width: 550px; /* 타이머보다 살짝 크게 */
   height: auto;
   z-index: 0; /* 🔹 타이머 뒤쪽으로 이동 */
@@ -68,7 +68,7 @@ body {
   width: 600px; /* 기존보다 크게 */
   height: 600px; /* 기존보다 크게 */
   top: 10px; /* 타이머 뒤쪽으로 약간 올라가도록 */
-  left: -105px; /* 중앙 정렬 조정 */
+  left: -45px; /* 중앙 정렬 조정 */
   position: absolute;
   transform: rotate(-90deg);
 }
@@ -93,7 +93,7 @@ body {
 .centerCircle {
   position: absolute;
   top: 80%; /* 상단에서 50% */
-  left: 50%; /* 왼쪽에서 50% */
+  left: 65%; /* 왼쪽에서 50% */
   transform: translate(-50%, -50%); /* 정확한 중앙 정렬 */
   display: flex;
   flex-direction: column; /* 버튼과 시간을 세로 정렬 */
@@ -140,13 +140,13 @@ body {
 }
 
 .book-dropdown {
-  width: 380px;
+  width: 530px;
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #6b8e23;
   background-color: #F8FFEA;
   font-size: 14px;
-  margin-left:220px;
+  margin-left:260px;
   margin-top:-120px;
   font-family: 'Pretendard-Regular', sans-serif; 
 }
@@ -177,9 +177,10 @@ body {
 .record-container {
   position: relative;
   font-family: 'Pretendard-Regular', sans-serif; 
-  width: 350px;
+  width: 480px;
   height:1800px;
   top:-50px;
+  left:85px;
 }
 
 /* 기록하기 입력창 및 버튼을 오른쪽으로 이동 */
@@ -197,7 +198,7 @@ body {
 /* 기록하기 입력창 */
 .record-input {
   width: 100%;
-  height: 200px; /* 높이 줄이기 */
+  height: 210px; /* 높이 줄이기 */
   padding: 10px;
   border: 1px solid #6b8e23;
   border-radius: 8px;
@@ -221,12 +222,13 @@ body {
 }
 
 .recording-text{
-  position: absolute;
   width: 80px; /* 크기 축소 */
   height: auto;
   right:530px;
   bottom:220px;
   margin-top:-20px;
+  margin-right:320px;
+  transform: translateY(-310px);
 }
 
 .record-icon:hover {
@@ -254,7 +256,7 @@ body {
   margin-left:500px;
   position: relative;
   top: -220px;
-  left:50px;
+  left:130px;
 }
 
 
