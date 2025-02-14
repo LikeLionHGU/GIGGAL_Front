@@ -10,6 +10,7 @@ import Login from "./Pages/Login";
 import AuthCallback from "./Pages/AuthCallback";
 import Main from "./Pages/Main";
 import BookList from "./Pages/BookList";  // Import the BookList page
+import FocusLanding from "./Pages/FocusLanding";
 
 const AppContent = () => {
   const location = useLocation(); // 현재 경로 가져오기
@@ -31,6 +32,7 @@ const AppContent = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/api/auth/callback" element={<AuthCallback />} />
         <Route path="/booklist" element={<BookList />} />  {/* Add the route for /booklist */}
+        <Route path="/timerlanding" element={<FocusLanding/>}/>
       </Routes>
 
       {/* 특정 페이지에서는 플로팅 버튼을 렌더링하지 않음 */}
