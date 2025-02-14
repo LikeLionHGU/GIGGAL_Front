@@ -38,7 +38,9 @@ const Search = () => {
 }, [query]);
 
   
-
+const goToList = () => {
+  navigate("/BookList");  // 수정된 경로: "/"
+};
   const handleSearch = (e) => {
     e.preventDefault();
     setQuery(searchTerm.trim());
@@ -73,7 +75,7 @@ const Search = () => {
                 placeholder="Search"
                 className={styles.bari}
               />
-              <button type="submit" className={styles.sbtn}>
+              <button type="submit" className={styles.sbtn} onClick={goToList} >
                 <img src={searchbtn} alt="검색" className={styles.searchbtn} />
               </button>
             </div>
