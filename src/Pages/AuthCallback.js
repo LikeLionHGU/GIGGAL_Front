@@ -16,11 +16,12 @@ const AuthCallback = () => {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
+        credentials: "include",
         body: new URLSearchParams({ credential: idToken }).toString(),   // 이 부분에서 받아오는 형식이 잘못되었었음.
       })
         .then((res) => res.json())
         .then((data) => {
-          if (data.success) {
+          if (data.status === "success") {
             localStorage.setItem("token", data.token); //  토큰 저장
             navigate("/home"); //  홈 화면으로 이동
           } else {
@@ -33,7 +34,7 @@ const AuthCallback = () => {
 
   return (
     <div className="flex justify-center items-center h-screen">
-      <p>로그인 완료</p>
+      <p>로그인 중...</p>
     </div>
   );
 };
