@@ -3,7 +3,10 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Button from "../components/ui/button";
 import styles from "../styles/search.module.css";
-import HomeHeader from '../components/header/HomeHeader.js';
+import HomeHeader from '../components/header/Headers.js';
+import hr from '../img/line.png';  // '../img/'로 경로를 수정
+import boogies from '../img/boogies.png';  // '../img/'로 경로를 수정
+import searchbtn from '../img/searchbtn.png';  // '../img/'로 경로를 수정
 
 const API_URL = "https://www.googleapis.com/books/v1/volumes";
 
@@ -51,15 +54,44 @@ const Search = () => {
 
   return (
     <div>
-      <HomeHeader />
-      <form onSubmit={handleSearch}>
-        <input
-          type="text"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="책 검색..."
-        />
-        <Button type="submit">검색</Button>
+
+    <div className={styles['search-container']}>  {/* 이곳에 search-container 클래스 추가 */}
+    <HomeHeader />
+    <div className={styles.line}/>
+    <img src={hr} alt="hr" className={styles.line}/>
+    <div className={styles.center}> 
+      <img src={boogies} alt="hr" className={styles.boogies}/>
+      <div className={styles.main}>나에게 딱 맞는 책을<br/>검색해보세요.</div>
+      <div className={styles.mtext}>
+  원하는 <span className={styles.highlight}>책의 키워드</span>를 검색해보세요 !
+</div>
+
+
+      </div>
+   
+      <form onSubmit={handleSearch} >
+        <div className={styles.con}>
+             <div className={styles.bar}>
+  <input
+    type="text"
+    value={searchTerm}
+    onChange={(e) => setSearchTerm(e.target.value)}
+    placeholder="Search"
+    className={styles.bari}
+  />
+      <div>
+        
+      </div>
+      <div className={styles.sbtn} onClick={handleSearch}>
+  </div>
+  <img src={searchbtn} alt="hr" className={styles.searchbtn} onClick={handleSearch}/>
+
+
+</div>
+        </div>
+   
+
+       
       </form>
       <div className={styles.books}>
         {books.map((book) => (
@@ -79,6 +111,8 @@ const Search = () => {
         ))}
       </div>
     </div>
+    </div>
+    
   );
 };
 
