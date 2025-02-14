@@ -228,9 +228,9 @@ function Timer() {
       <h2>독서를 완료하셨습니다!</h2>
       <p>방금 읽은 책에 대해서 어떻게 생각하시나요?</p>
 
-      <button onClick={() => alert("📖 술술 읽혀요 선택!")}>📖 술술 읽혀요</button>
-      <button onClick={() => alert("🧐 읽을만해요 선택!")}>🧐 읽을만해요</button>
-      <button onClick={() => alert("🔍 관련 지식이 필요해요 선택!")}>🔍 관련 지식이 필요해요</button>
+      <button>📖 술술 읽혀요</button>
+      <button>🧐 읽을만해요</button>
+      <button>🔍 관련 지식이 필요해요</button>
 
       <button className="modal-close-btn" onClick={() => setShowModal(false)}>보내기</button>
     </div>
