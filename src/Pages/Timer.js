@@ -29,10 +29,14 @@ function Timer() {
   const [userCount, setUserCount] = useState(0);
 
   const [showModal, setShowModal] = useState(false);
+  const [selectedTime, setSelectedTime] = useState(""); // 선택한 시간을 저장하는 상태 추가
+
 
 
   const setReadingTime = (readingTime, breakTime) => {
     clearInterval(intervalRef.current); // 기존 인터벌 삭제
+
+    setSelectedTime(`${readingTime / 60}분 / ${breakTime / 60}분`);
 
     setTime(readingTime);
     setMode("reading");
@@ -155,17 +159,23 @@ function Timer() {
     {/* 타이머 영역 */}
     <div className="timer-wrapper">
     <img src={TimerBackground} alt="Timer Background" className="timer-background" />
-      <svg className="timer-svg" width="300" height="300" viewBox="0 0 200 200">
-        <circle cx="100" cy="100" r="90" className="timer-circle-bg" />
-        <circle
-          cx="100"
-          cy="100"
-          r="90"
-          className="timer-circle-progress"
-          style={{ strokeDashoffset: 785 - (785 * percent) / 100 }}
-        />
-      </svg>
+    <svg className="timer-svg" width="300" height="300" viewBox="0 0 200 200">
+  <circle cx="100" cy="100" r="90" className="timer-circle-bg" />
+  <circle
+    cx="100"
+    cy="100"
+    r="90"
+    className="timer-circle-progress"
+    style={{
+      strokeDasharray: 565.48, // 🔹 원 둘레 (2 * π * r)
+      strokeDashoffset: 565.48 * (1 - percent / 100), // 🔹 percent 값 반영
+    }}
+  />
+</svg>
+
+
       <div className="centerCircle">
+      <div style={{ fontSize: "18px", color: "gray" }}><br/>{selectedTime}</div>
         {Math.floor(time / 60)}:{String(time % 60).padStart(2, "0")}
         <div className="time-selection-buttons">
           <button onClick={() => setReadingTime(900, 180)}>15분</button>
@@ -205,7 +215,11 @@ function Timer() {
       />
       <img src={recordIcon} alt="Save" className="record-icon" onClick={saveRecordAndComplete} />
     </div>
-    <button className="complete-reading-btn" onClick={saveRecordAndComplete}>독서 완료하기</button>
+    <button className="complete-reading-btn" onClick={saveRecordAndComplete}>
+      <div className="resultbtn">
+      독서 완료하기
+      </div>
+      </button>
   </div>
 </div>
 {showModal && (
@@ -214,21 +228,15 @@ function Timer() {
       <h2>독서를 완료하셨습니다!</h2>
       <p>방금 읽은 책에 대해서 어떻게 생각하시나요?</p>
 
-      <button onClick={() => alert("📖 술술 읽혀요 선택!")}>📖 술술 읽혀요</button>
-      <button onClick={() => alert("🧐 읽을만해요 선택!")}>🧐 읽을만해요</button>
-      <button onClick={() => alert("🔍 관련 지식이 필요해요 선택!")}>🔍 관련 지식이 필요해요</button>
+      <button>📖 술술 읽혀요</button>
+      <button>🧐 읽을만해요</button>
+      <button>🔍 관련 지식이 필요해요</button>
 
       <button className="modal-close-btn" onClick={() => setShowModal(false)}>보내기</button>
     </div>
   </div>
 )}
 
-
-
-
-
-
-      
       <Footer />
     </div>
   );
