@@ -8,6 +8,7 @@ import nonbookmark from "../img/nonbookmark.png";
 import bookmark from "../img/bookmark.png";  
 import community from "../img2/community.png";
 import path from "../img2/path.png";
+import communityexample from "../img2/communityexample.png";
 
 
 const SearchDetail = () => {
@@ -16,6 +17,7 @@ const SearchDetail = () => {
   const book = location.state?.book;
 
   const [BookRead, setBookRead] = useState({});
+  const [activeTab, setActiveTab] = useState("bookInfo");
 
   useEffect(() => {
     // 기존 북마크 확인 (localStorage)
@@ -182,15 +184,24 @@ const SearchDetail = () => {
 
         {/* 탭 UI */}
         <div className={styles.tabs}>
-          <div className={`${styles.tab} ${styles.active}`}>책 정보</div>
-          <div className={styles.tab}>커뮤니티</div>
+        <div className={`${styles.tab} ${activeTab === "bookInfo" ? styles.active : ""}`} onClick={() => setActiveTab("bookInfo")}>
+            책 정보
+          </div>
+          <div className={`${styles.tab} ${activeTab === "community" ? styles.active : ""}`} onClick={() => setActiveTab("community")}>
+            커뮤니티
+            </div>
         </div>
 
         {/* 책 설명 */}
         <div className={styles.bookContent}>
-          <p className={styles.bookDescription}>
-            {book.volumeInfo.description || "설명 없음"}
-          </p>
+        {activeTab === "bookInfo" ? (
+            <p className={styles.bookDescription}>{book.volumeInfo.description || "설명 없음"}</p>
+          ) : (
+            <div className={styles.communityContent}>
+              <img src={communityexample} alt="커뮤니티 예제" className={styles.communityImage} style={{ maxWidth: "70%", height: "auto", marginLeft: "18%"}} />
+            </div>
+          )}
+          
         </div>
       </div>
     </div>
