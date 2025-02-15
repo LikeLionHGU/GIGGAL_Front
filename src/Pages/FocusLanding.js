@@ -10,7 +10,7 @@ function FocusLanding() {
         <div>
             <HomeHeader />
             <div style={{ position: "relative", width: "1520px", height: "auto" }}>
-                <img src={mainn} alt="Main" style={{ width: "100%", height: "auto" }} />
+                <img src={mainn} alt="Main" style={{ width: "100vw", height: "auto" }} />
                 
                 <img 
                     src={goreading} 

@@ -22,7 +22,7 @@ function Main() {
 
     return (
         <div style={{ position: "relative", width: "1520px", height: "auto" }}>  
-            <img src={main} alt="Main" style={{ width: "100%", height: "auto" }} />
+            <img src={main} alt="Main" style={{ width: "100vw", height: "auto" }} />
 
             {/* 🔹 login.png 클릭 시 Google 로그인 실행 */}
             <img 
