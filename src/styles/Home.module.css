@@ -141,6 +141,24 @@
   cursor: pointer;
 }
 
+.readingbtn {
+  transition: opacity 0.3s ease-in-out;
+}
+
+.readingbtn:hover {
+  content: url("../img/image.png"); /* 호버 시 이미지 변경 */
+}
+
+.recordbtn {
+  transition: opacity 0.3s ease-in-out;
+}
+
+.recordbtn:hover {
+  content: url("../img/myhover.png"); /* 호버 시 이미지 변경 */
+}
+
+
+
 
 .btns img {
   max-width: 100px;
