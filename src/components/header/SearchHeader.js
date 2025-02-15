@@ -5,14 +5,14 @@ import Bookgie from "../../img/Bookgie.png";
 import Logout from "../../img/Logout.png";
 import mypage from "../../img/mypage.png";
 
-const HomeHeader = () => {
+const SearchHeader = () => {
   const location = useLocation();
   const handleLogOut =()=> {
   console.log("logout!!!!");
   }
   return (
     <div>
-      <header className="Homeheader">
+      <header className="Searchheader">
         <h1 className="Home-header-title">
           <NavLink to="/search">
             <img src={Bookgie} alt="부기 로고" style={{ cursor: "pointer", height: "50px" }} />
@@ -34,4 +34,4 @@ const HomeHeader = () => {
   );
 };
 
-export default HomeHeader;
+export default SearchHeader;
