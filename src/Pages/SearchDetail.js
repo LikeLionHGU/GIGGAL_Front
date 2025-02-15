@@ -1,13 +1,14 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import styles from "../styles/searchdetail.module.css";
-import HomeHeader from '../components/header/SearchHeader.js';
+import SearchHeader from '../components/header/SearchHeader.js';
 import bookmarkIcon from "../img/bookmark.png";
 import readingbook from "../img/image.png";
 import nonbookmark from "../img/nonbookmark.png";  
 import bookmark from "../img/bookmark.png";  
 import community from "../img2/community.png";
 import path from "../img2/path.png";
+
 
 const SearchDetail = () => {
   const location = useLocation();
@@ -65,7 +66,7 @@ const SearchDetail = () => {
 
   return (
     <div>
-      <HomeHeader />
+      <SearchHeader />
       <div className={styles.container}>
         <div className={styles.innercontainer}>
           {/* 뒤로 가기 버튼 */}

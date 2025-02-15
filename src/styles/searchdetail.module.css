@@ -177,3 +177,17 @@ body {
   margin-top:20px;
   margin-left:0px;
 }
+
+.backButton {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #4d5d41;
+  margin-bottom: 20px; /* 기존보다 위로 이동 */
+  position: relative;
+  top: -5px; /* 살짝 위로 조정 */
+}
