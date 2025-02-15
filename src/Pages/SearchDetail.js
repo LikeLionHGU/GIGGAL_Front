@@ -46,16 +46,19 @@ const SearchDetail = () => {
               <span className={styles.readableText}>📖 읽을만해요</span>
             </div>
             <div className={styles.contain}>
-            <p className={styles.bookAuthor}>
-              글 [{book.volumeInfo.authors?.join(", ") || "정보 없음"}]
-            </p>
-            <p className={styles.bookPublisher}>
-               {book.volumeInfo.publisher || "정보 없음"}
-            </p>
-            <p className={styles.bookPages}>
-              쪽수: {book.volumeInfo.pageCount || "정보 없음"}
-            </p>
-            </div>
+  <span className={styles.bookAuthor}>
+    글 [{book.volumeInfo.authors?.join(", ") || "정보 없음"}]
+  </span>
+  <span className={styles.bookPublisher}>
+    {book.volumeInfo.publisher || "정보 없음"}
+  </span>
+  <span className={styles.bookPages}>
+    쪽수: {book.volumeInfo.pageCount || "정보 없음"}
+  </span>
+  
+</div>
+<div className={styles.divider}></div>
+
           </div>
         </div>
 
