@@ -38,6 +38,7 @@ body {
 
 /* 책 정보 카드 */
 .bookHeader {
+  justify-content: center;
   display: flex;
   align-items: flex-start;
   gap: 25px;
@@ -50,6 +51,7 @@ body {
 
 /* 책 표지 이미지 */
 .bookCover {
+  margin-left: 30px;
   width: 180px;
   height: auto;
   border-radius: 8px;
@@ -62,6 +64,7 @@ body {
   flex-direction: column;
   align-items: flex-start;
   flex: 1;
+  margin-left: 30px;
 }
 
 /* 제목 */
@@ -167,4 +170,5 @@ body {
 
 .innercontainer{
   margin-left:0px;
+  justify-content: center; 
 }
