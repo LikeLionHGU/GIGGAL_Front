@@ -6,6 +6,8 @@ import bookmarkIcon from "../img/bookmark.png";
 import readingbook from "../img/image.png";
 import nonbookmark from "../img/nonbookmark.png";  
 import bookmark from "../img/bookmark.png";  
+import community from "../img2/community.png";
+import path from "../img2/path.png";
 
 const SearchDetail = () => {
   const location = useLocation();
@@ -71,6 +73,21 @@ const SearchDetail = () => {
             ←
           </button>
 
+          <img
+              src={path}
+              alt="path"
+              style={{
+                position: "absolute", 
+                top: "56%", 
+                left: "35%", 
+                transform: "translate(-50%, -50%)", 
+                width: "40px", 
+                height: "auto",
+                cursor: "pointer" 
+              }} 
+            >
+            </img>
+
           {/* 책 정보 카드 */}
           <div className={styles.bookHeader}>
             {/* 책 이미지 */}
@@ -84,10 +101,11 @@ const SearchDetail = () => {
               )}
 
               {/* 북마크 버튼 (책 이미지 위) */}
-              <button className={styles.bookmarkButton} onClick={() => toggleBookmark(book)}>
+              <button onClick={() => toggleBookmark(book)} style={{ position: "absolute", top: "250px", left: "320px", background: "none", border: "none", cursor: "pointer" }}>
                 <img
                   src={BookRead[book.id] ? bookmark : nonbookmark}
                   alt="북마크"
+                  style={{height:"30px"}}
                   className={styles.bookmarkIcon}
                 />
               </button>
@@ -137,13 +155,27 @@ const SearchDetail = () => {
               style={{
                 position: "absolute", 
                 top: "66%", 
-                left: "27%", 
+                left: "30%", 
                 transform: "translate(-50%, -50%)", 
                 width: "100px", 
                 height: "auto",
                 cursor: "pointer" 
               }} 
             />
+            <img
+              src={community}
+              alt="community"
+              style={{
+                position: "absolute", 
+                top: "66%", 
+                left: "35%", 
+                transform: "translate(-50%, -50%)", 
+                width: "40px", 
+                height: "auto",
+                cursor: "pointer" 
+              }} 
+            >
+            </img>
           </div>
         </div>
 
