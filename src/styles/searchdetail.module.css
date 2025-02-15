@@ -15,27 +15,17 @@ body {
   max-width: 1500px;
   margin: 40px auto;
   background: white;
-  padding: 30px;
+
   border-radius: 12px;
   padding-top:10px;
 }
 
-/* 뒤로 가기 버튼 */
 .backButton {
-  display: flex;
-  align-items: center;
-  font-size: 18px;
-  font-weight: bold;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #4d5d41;
-  margin-bottom: 15px;
+  width: 40px;
+  height: auto;
 }
 
-.backButton:hover {
-  color: #334128;
-}
+
 
 /* 책 정보 카드 */
 .bookHeader {
