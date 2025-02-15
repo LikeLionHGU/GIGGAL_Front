@@ -50,7 +50,7 @@ function Main() {
                     top: "14%", 
                     left: "50%", 
                     transform: "translate(-50%, -50%)", 
-                    width: "280px", 
+                    width: "90px", 
                     height: "auto",
                     cursor: "pointer" 
                 }} 

@@ -15,11 +15,13 @@ import retry from "../img/retry.png";
 
 
 
+
 const Home = () => {
   const [bookmarks, setBookmarks] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
   const [Alertopen, setAlertopen] = useState(false);
   const [isBookRead, setIsBookRead] = useState({});
+
 
   const navigate = useNavigate();
   const goToTimer = () => {
@@ -133,8 +135,13 @@ const Home = () => {
                </div>
 
               <div className={styles.btns}>
-              <img src={readingbtn} alt="readingbtn"  onClick={() => navigate(`/timer?bookId=${book.id}`)}/>
-              <img src={recordbtn} alt="recordbtn"   onClick={() => navigate(`/bookdetail?bookId=${book.id}`)}/>
+              <img
+    src={readingbtn}
+    alt="readingbtn"
+    className={styles.readingbtn}
+    onClick={() => navigate(`/timer?bookId=${book.id}`)}
+  />
+              <img src={recordbtn} alt="recordbtn"      className={styles.recordbtn} onClick={() => navigate(`/bookdetail?bookId=${book.id}`)}/>
               </div>
                
               </div>

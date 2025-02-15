@@ -68,6 +68,10 @@
     cursor: pointer;
   }
 
+  .rbtn:hover{
+    content: url("../img/image.png");
+  }
+
   .time {
     position: absolute;
     top: 40%;
