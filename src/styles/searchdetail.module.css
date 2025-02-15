@@ -6,18 +6,17 @@
 }
 
 body {
-  font-family: 'Pretendard-Regular', sans-serif; 
+  font-family: 'Pretendard-Regular', sans-serif;
 }
+
 /* 전체 컨테이너 */
 .container {
   width: 85%;
   max-width: 1500px;
   margin: 40px auto;
-  background: white;  /* 연한 녹색 톤 */
+  background: white;
   padding: 30px;
   border-radius: 12px;
-  font-family: 'Noto Sans KR', sans-serif;
-  font-family: 'Pretendard-Regular', sans-serif; 
 }
 
 /* 뒤로 가기 버튼 */
@@ -31,81 +30,106 @@ body {
   cursor: pointer;
   color: #4d5d41;
   margin-bottom: 15px;
-  font-family: 'Pretendard-Regular', sans-serif; 
 }
 
 .backButton:hover {
   color: #334128;
 }
 
-/* 상단 책 정보 카드 */
+/* 책 정보 카드 */
 .bookHeader {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 25px;
-  background-color: rgba(146, 173, 87, 0.1);  /* 연한 배경 */
+  background-color: rgba(146, 173, 87, 0.1);
   padding: 25px;
   border-radius: 12px;
   box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
-  font-family: 'Pretendard-Regular', sans-serif; 
+  margin-left:0px;
 }
 
+/* 책 표지 이미지 */
 .bookCover {
-  margin-left:340px;
-  width: 170px;
+  width: 180px;
   height: auto;
   border-radius: 8px;
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
-  font-family: 'Pretendard-Regular', sans-serif; 
 }
 
+/* 책 정보 컨테이너 */
 .bookInfo {
-  display: flex; /* 가로 정렬 */
-  flex-wrap: wrap; /* 내용이 길 경우 줄 바꿈 */
-  gap: 15px; /* 요소 간 간격 조정 */
-  align-items: center; /* 세로 정렬 중앙 정렬 */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
 }
 
-
+/* 제목 */
 .bookTitle {
-  margin-top:-150px;
   font-size: 26px;
   font-weight: bold;
   color: #333;
-  font-family: 'Pretendard-Regular', sans-serif; 
+  margin-bottom: 8px;
 }
 
-.bookAuthor, .bookPublished, .bookPublisher, .bookPages {
+/* 북마크 컨테이너 */
+.bookmarkContainer {
+  background-color: rgba(146, 173, 87, 0.1);
+  padding: 12px 30px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  margin-bottom: 20px;
+}
+
+/* 작가, 출판사, 쪽수 */
+.contain {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+/* 구분선 */
+.divider {
+  width: 70%;
+  height: 1.5px;
+  background-color: #bbb;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/* 짧막한 책 소개 */
+.shortDescription {
   font-size: 16px;
-  color: gray;
-  margin: 5px 0;
-  margin-left:15px;
-  font-family: 'Pretendard-Regular', sans-serif; 
+  color: #444;
+  line-height: 1.5;
+  margin-top: -5px;
 }
 
-/* 탭 컨테이너 */
+/* 탭 스타일 */
 .tabs {
   display: flex;
-  justify-content: flex-start; /* 왼쪽 정렬 */
+  justify-content: flex-start;
   margin-top: 20px;
-  gap: 5px; /* 탭 간격 조정 */
+  gap: 5px;
 }
 
-/* 개별 탭 */
 .tab {
-  width: 120px; /* 탭 너비 줄이기 */
+  width: 120px;
   text-align: center;
   padding: 10px;
   font-weight: bold;
   font-size: 14px;
   cursor: pointer;
-  background-color: #eef0e4; /* 비활성화된 탭 색상 */
+  background-color: #eef0e4;
   border-radius: 8px 8px 0 0;
   transition: background 0.3s ease-in-out;
   border-bottom: 2px solid transparent;
 }
-
-
 
 .tab.active {
   background-color: #7E9D7E;
@@ -113,133 +137,34 @@ body {
   border-bottom: 3px solid #7E9D7E;
 }
 
-
-
-/* 본문 컨테이너 (배경만 투명하게 설정) */
+/* 본문 */
 .bookContent {
   padding: 30px;
-  background: rgba(126, 157, 126, 0.15); /* 배경만 투명하게 */
+  padding-left:200px;
+  padding-right:200px;
+  background: rgba(126, 157, 126, 0.15);
   border-radius: 0 0 10px 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.08);
-  margin-top: -1px; /* 탭과의 경계 없애기 */
-  font-family: 'Pretendard-Regular', sans-serif;
 }
 
-/* 본문 제목 */
-.bookContent h2 {
-  text-align: center;
-  color: #333;
-  font-size: 22px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-/* 본문 내용 (불투명하게 설정) */
 .bookDescription {
   font-size: 18px;
   line-height: 1.8;
-  color: #444; /* 본문 텍스트는 불투명하게 */
+  color: #444;
   text-align: center;
-  margin-left: 200px;
-  margin-right: 200px;
   padding: 15px 20px;
-  opacity: 1; /* 본문 내용이 투명하지 않도록 */
 }
 
-
-/* 버튼 스타일 */
-.button {
-  background-color: #ffcc66;
-  color: #333;
-  padding: 12px 20px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  display: block;
-  margin: 25px auto;
-  text-align: center;
-  font-weight: bold;
-  transition: background 0.3s ease-in-out;
-}
-
-.button:hover {
-  background-color: #ffbb55;
-}
-
-/* 북마크 컨테이너 */
-.bookmarkContainer {
-  background-color: rgba(146, 173, 87, 0.1); /* 초록색을 10% 투명도로 설정 */
-  padding: 12px 30px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: fit-content;
-  margin-left:-365px;
-  margin-top:-70px;
-}
-
-/* 내부 요소는 원래 색상을 유지 */
-.bookmarkContainer span,
-.bookmarkIcon {
-  color: #4d5d41; /* 원래 진한 초록색 */
-  opacity: 1; /* 투명도 100% 유지 */
-}
-
-
-/* 북마크 아이콘 */
 .bookmarkIcon {
   width: 18px;
   height: 18px;
 }
 
-/* 북마크 텍스트 */
 .bookmarkText {
   display: flex;
   align-items: center;
   gap: 4px;
 }
 
-/* "읽을만해요" 스타일 */
-.readableText {
-  color: #4d5d41;
-  font-size: 14px;
-  font-weight: bold;
-  margin-left: 8px;
-  display: flex;
-  align-items: center;
+.innercontainer{
+  margin-left:0px;
 }
-
-/* 컨테이너 내부 요소 간격 조정 */
-.bookmarkContainer span {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-
-/* 개별 정보 스타일 */
-.bookAuthor, .bookPublished, .bookPublisher, .bookPages {
-  font-size: 16px;
-  color: gray;
-  font-family: 'Pretendard-Regular', sans-serif;
-  
-}
-
-.contain{
-  margin-left:-220px;
-  margin-top:20px;
-  padding-bottom:-35px;
-  padding-top:10px;
-}
-
-.divider {
-  width: 100%; /* 기본 길이 */
-  height: 1.5px; /* 두께 조절 */
-  background-color: #bbb; /* 연한 회색 */
-  margin: 15px -0 15px -5%; /* 왼쪽 여백 조정 (오른쪽으로 늘리기) */
-  padding-right: 65px; /* 오른쪽 여백 추가하여 확장 */
-  margin-left:-2px;
-}
-

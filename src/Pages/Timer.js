@@ -198,13 +198,19 @@ function Timer() {
 
     {/* 책 선택 */}
     <div className="book-selection">
-      <select className="book-dropdown" value={selectedBook || ""} onChange={(e) => setSelectedBook(e.target.value)}>
-        <option value="" disabled hidden>Choose the Book Title</option>
-        {bookmarks.map((book) => (
-          <option key={book.id} value={book.id}>{book.volumeInfo.title}</option>
-        ))}
-      </select>
-    </div>
+        <select 
+          className="book-dropdown" 
+          value={selectedBook}
+          onChange={(e) => setSelectedBook(e.target.value)}
+        >
+          <option value="" disabled hidden>Choose the Book Title</option>
+          {bookmarks.map((book) => (
+            <option key={book.id} value={book.id}>
+              {book.volumeInfo.title}
+            </option>
+          ))}
+        </select>
+      </div>
   </div>
 
   {/* 타이머 컨트롤 버튼 */}
