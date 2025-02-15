@@ -7,8 +7,10 @@ import readingbook from "../img/image.png";
 import nonbookmark from "../img/nonbookmark.png";  
 import bookmark from "../img/bookmark.png";  
 import community from "../img2/community.png";
-import path from "../img2/path.png";
 import communityexample from "../img2/communityexample.png";
+import back from "../img/back.png";
+import path from "../img2/path.png";
+import '../styles/BookDetail.css';
 
 
 const SearchDetail = () => {
@@ -66,30 +68,22 @@ const SearchDetail = () => {
     return <p className={styles.loading}>📚 책 정보를 찾을 수 없습니다.</p>;
   }
 
+  const goToHome = () => {
+    navigate("/home");  // 수정된 경로: "/"
+  };
+
   return (
     <div>
       <SearchHeader />
       <div className={styles.container}>
         <div className={styles.innercontainer}>
           {/* 뒤로 가기 버튼 */}
-          <button className={styles.backButton} onClick={() => navigate(-1)}>
-            ←
-          </button>
+          <div className="back-container">
+        <img className="backbtn" src={back} alt="back" onClick={goToHome} />
+      </div>
+      <img className="goto" src={path} alt="path" />
 
-          <img
-              src={path}
-              alt="path"
-              style={{
-                position: "absolute", 
-                top: "56%", 
-                left: "35%", 
-                transform: "translate(-50%, -50%)", 
-                width: "40px", 
-                height: "auto",
-                cursor: "pointer" 
-              }} 
-            >
-            </img>
+         
 
           {/* 책 정보 카드 */}
           <div className={styles.bookHeader}>
@@ -104,7 +98,7 @@ const SearchDetail = () => {
               )}
 
               {/* 북마크 버튼 (책 이미지 위) */}
-              <button onClick={() => toggleBookmark(book)} style={{ position: "absolute", top: "250px", left: "320px", background: "none", border: "none", cursor: "pointer" }}>
+              <button onClick={() => toggleBookmark(book)} style={{ position: "absolute", top: "340px", left: "580px", background: "none", border: "none", cursor: "pointer" }}>
                 <img
                   src={BookRead[book.id] ? bookmark : nonbookmark}
                   alt="북마크"
@@ -157,8 +151,8 @@ const SearchDetail = () => {
               onClick={() => navigate(`/timer?bookId=${book.id}&bookTitle=${encodeURIComponent(book.volumeInfo.title)}`)}
               style={{
                 position: "absolute", 
-                top: "66%", 
-                left: "30%", 
+                top: "78%", 
+                left: "47.5%", 
                 transform: "translate(-50%, -50%)", 
                 width: "100px", 
                 height: "auto",
@@ -170,8 +164,8 @@ const SearchDetail = () => {
               alt="community"
               style={{
                 position: "absolute", 
-                top: "66%", 
-                left: "35%", 
+                top: "78%", 
+                left: "55%", 
                 transform: "translate(-50%, -50%)", 
                 width: "40px", 
                 height: "auto",
