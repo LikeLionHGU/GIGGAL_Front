@@ -50,6 +50,7 @@ function Timer() {
     setTime(readingTime);
     setMode("reading");
     setIsPaused(true);
+    setPercent(0); 
 
     intervalRef.current = setInterval(() => {
       setTime((prevTime) => {
@@ -66,6 +67,7 @@ function Timer() {
     }, 1000);
   };
 
+  
 
   useEffect(() => {
     const savedBookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
@@ -145,6 +147,7 @@ function Timer() {
     }
     if (time <= 0 || !isPaused) return;
     setIsPaused(false);
+    setPercent(0);
   };
   const stopTimer = () => setIsPaused(true);
 
@@ -225,7 +228,14 @@ function Timer() {
 
   {/* 타이머 컨트롤 버튼 */}
   <div className="timer-buttons-container">
-    <img src={resetIcon} alt="Reset" onClick={() => setTime(3000)} />
+  <img 
+  src={resetIcon} 
+  alt="Reset" 
+  onClick={() => {
+    setTime(3000); // 시간을 50분으로 초기화
+    setSelectedTime("50분 / 15분"); // 선택된 시간도 50분/15분으로 변경
+  }} 
+/>
     <img
         className="icon start"
         src={startSrc}
