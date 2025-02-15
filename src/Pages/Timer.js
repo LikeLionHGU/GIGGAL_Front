@@ -39,23 +39,28 @@ function Timer() {
 
   const [startSrc, setStartSrc] = useState(startIcon);
   const [stopSrc, setStopSrc] = useState(stopIcon);
+  const [totalReadingTime, setTotalReadingTime] = useState(3000); // 선택한 총 시간 저장
+
 
 
 
   const setReadingTime = (readingTime, breakTime) => {
     clearInterval(intervalRef.current); // 기존 인터벌 삭제
-
+  
     setSelectedTime(`${readingTime / 60}분 / ${breakTime / 60}분`);
-
     setTime(readingTime);
+    setTotalReadingTime(readingTime); // 🔹 선택한 시간 저장 후 percent 업데이트
     setMode("reading");
     setIsPaused(true);
-    setPercent(0); 
-
+  
+    setTimeout(() => {
+      setPercent(0); // 🔹 totalReadingTime 업데이트 이후 percent 초기화
+    }, 10); // 🔹 비동기 업데이트를 위한 약간의 지연 시간 추가
+  
     intervalRef.current = setInterval(() => {
       setTime((prevTime) => {
         if (prevTime > 0) {
-          setPercent(((readingTime - prevTime) / readingTime) * 100);
+          setPercent(((readingTime - prevTime) / readingTime) * 100); // 🔹 선택한 readingTime을 기준으로 진행률 계산
           return prevTime - 1;
         } else {
           clearInterval(intervalRef.current);
@@ -66,7 +71,7 @@ function Timer() {
       });
     }, 1000);
   };
-
+  
   
 
   useEffect(() => {
@@ -96,8 +101,7 @@ function Timer() {
       intervalRef.current = setInterval(() => {
         setTime((prevTime) => {
           if (prevTime > 0) {
-            const progressValue = ((3000 - prevTime) / 3000) * 100;
-            setPercent(progressValue);
+            setPercent(((totalReadingTime - prevTime) / totalReadingTime) * 100); // 🔹 저장된 totalReadingTime 기준 진행률 업데이트
             return prevTime - 1;
           } else {
             clearInterval(intervalRef.current);
@@ -108,6 +112,7 @@ function Timer() {
             } else {
               setMode("reading");
               setTime(3000);
+              setTotalReadingTime(3000);
             }
             return 0;
           }
@@ -115,7 +120,8 @@ function Timer() {
       }, 1000);
     }
     return () => clearInterval(intervalRef.current);
-  }, [selectedBook, time, isPaused, mode]);
+  }, [selectedBook, time, isPaused, mode, totalReadingTime]); // 🔹 totalReadingTime 추가
+  
 
   const saveReadingTime = (bookId, addedTime) => {
     if (!bookId) return;
@@ -147,7 +153,7 @@ function Timer() {
     }
     if (time <= 0 || !isPaused) return;
     setIsPaused(false);
-    setPercent(0);
+    
   };
   const stopTimer = () => setIsPaused(true);
 
