@@ -19,7 +19,15 @@ const HomeHeader = () => {
           </NavLink>
         </h1>
         <nav className="nav">
-          <NavLink to="/search">책 탐색하기</NavLink>
+      
+<NavLink
+    to="/search"
+    className={({ isActive }) =>
+      isActive || location.pathname.includes("/search") ? "active" : ""
+    }
+  >
+    책 탐색하기
+  </NavLink>
           <NavLink to="/timerlanding">뽀커스 모드</NavLink>
           <NavLink to="/home" className={location.pathname.includes("/bookdetail") ? "active" : ""}>
             나의 책
