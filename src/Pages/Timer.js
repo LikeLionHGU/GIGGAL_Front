@@ -6,6 +6,10 @@ import Footer from "../components/footer/Footer.js";
 import TimerBackground from "../img/timer.png"; 
 import hr from '../img/hr.png';  
 import styles from "../styles/Home.module.css";
+import startHover from '../img2/starthover.png';
+import startPress from '../img2/startpress.png';
+import stopHover from '../img2/stophover.png';
+import stopPress from '../img2/stoppress.png';
 
 function Timer() {
   const [time, setTime] = useState(3000);
@@ -32,6 +36,9 @@ function Timer() {
   const [selectedTime, setSelectedTime] = useState(""); // 선택한 시간을 저장하는 상태 추가
 
   const [showAlertModal, setShowAlertModal] = useState(false); // 책 선택 유도 모달 상태 추가
+
+  const [startSrc, setStartSrc] = useState(startIcon);
+  const [stopSrc, setStopSrc] = useState(stopIcon);
 
 
 
@@ -219,8 +226,26 @@ function Timer() {
   {/* 타이머 컨트롤 버튼 */}
   <div className="timer-buttons-container">
     <img src={resetIcon} alt="Reset" onClick={() => setTime(3000)} />
-    <img src={startIcon} alt="Start" onClick={startTimer} />
-    <img src={stopIcon} alt="Stop" onClick={stopTimer} />
+    <img
+        className="icon start"
+        src={startSrc}
+        alt="Start"
+        onClick={startTimer}
+        onMouseEnter={() => setStartSrc(startHover)} // Hover 시 변경
+        onMouseLeave={() => setStartSrc(startIcon)} // 원래 이미지로 복귀
+        onMouseDown={() => setStartSrc(startPress)} // Press(클릭) 시 변경
+        onMouseUp={() => setStartSrc(startHover)} // 마우스 떼면 Hover 상태 유지
+      />
+    <img
+        className="icon stop"
+        src={stopSrc}
+        alt="Stop"
+        onClick={stopTimer}
+        onMouseEnter={() => setStopSrc(stopHover)}
+        onMouseLeave={() => setStopSrc(stopIcon)}
+        onMouseDown={() => setStopSrc(stopPress)}
+        onMouseUp={() => setStopSrc(stopHover)}
+      />
   </div>
 
   {/* 기록하기 섹션 */}
