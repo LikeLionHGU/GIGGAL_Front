@@ -65,19 +65,22 @@ function Timer() {
     setBookmarks(savedBookmarks);
 
     const queryParams = new URLSearchParams(location.search);
-    const bookIdFromURL = queryParams.get("bookId");
+  const bookIdFromURL = queryParams.get("bookId");
+  const bookTitleFromURL = queryParams.get("bookTitle");
 
-    if (bookIdFromURL) {
-      setSelectedBook(bookIdFromURL);
-    } else {
-      setSelectedBook("");
-    }
-  }, [location]);
-
-  useEffect(() => {
-    return () => clearInterval(intervalRef.current);
+  if (bookIdFromURL) {
+    setSelectedBook(bookIdFromURL);
+    // 책이 북마크 목록에 없으면 추가
+    setBookmarks((prevBookmarks) => {
+      const isAlreadyBookmarked = prevBookmarks.some(book => book.id === bookIdFromURL);
+      if (!isAlreadyBookmarked) {
+        return [...prevBookmarks, { id: bookIdFromURL, volumeInfo: { title: bookTitleFromURL } }];
+      }
+      return prevBookmarks;
+    });
+  }
    
-  }, []);
+  }, [location]);
 
   useEffect(() => {
     if (selectedBook && time > 0 && !isPaused) {
