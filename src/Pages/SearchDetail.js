@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import styles from "../styles/searchdetail.module.css";
-import SearchHeader from '../components/header/Headers.js';
+import SearchHeader from '../components/header/HomeHeader.js';
 import bookmarkIcon from "../img/bookmark.png";
 import readingbook from "../img/image.png";
 import nonbookmark from "../img/nonbookmark.png";  
@@ -160,8 +160,8 @@ const SearchDetail = () => {
               onClick={() => navigate(`/timer?bookId=${book.id}&bookTitle=${encodeURIComponent(book.volumeInfo.title)}`)}
               style={{
                 position: "absolute", 
-                top: "78%", 
-                left: "47.5%", 
+                top: "72%", 
+                left: "50%", 
                 transform: "translate(-50%, -50%)", 
                 width: "100px", 
                 height: "auto",
@@ -173,8 +173,8 @@ const SearchDetail = () => {
               alt="community"
               style={{
                 position: "absolute", 
-                top: "78%", 
-                left: "55%", 
+                top: "72%", 
+                left: "56%", 
                 transform: "translate(-50%, -50%)", 
                 width: "40px", 
                 height: "auto",

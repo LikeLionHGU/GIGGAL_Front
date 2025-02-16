@@ -34,7 +34,7 @@ const HomeHeader = () => {
 
   return (
     <div>
-      <header className="Homeheaders">
+      <header className="Homeheader">
         <h1 className="Home-header-title">
           <NavLink to="/search">
             <img src={Bookgie} alt="부기 로고" style={{ cursor: "pointer", height: "50px" }} />
