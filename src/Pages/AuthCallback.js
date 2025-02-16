@@ -23,7 +23,7 @@ const AuthCallback = () => {
         .then((data) => {
           if (data.status === "success") {
             console.log(data)
-            navigate("/home"); //  홈 화면으로 이동
+            navigate("/search"); //  홈 화면으로 이동
           } else {
             console.error("Login failed:", data.message);
           }

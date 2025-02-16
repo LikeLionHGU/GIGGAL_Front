@@ -66,12 +66,14 @@ const SearchDetail = () => {
     ? book.searchInfo.textSnippet.slice(0, 30) + "..."
     : book?.volumeInfo?.subtitle || book?.searchInfo?.textSnippet || "설명 없음";
 
+
   if (!book) {
     return <p className={styles.loading}>📚 책 정보를 찾을 수 없습니다.</p>;
   }
 
-  const goToHome = () => {
-    navigate("/home");  // 수정된 경로: "/"
+  
+  const goBack = () => {
+    navigate(-1);  // 이전 페이지로 이동
   };
 
   return (
@@ -85,7 +87,7 @@ const SearchDetail = () => {
           
 
           <div className="back-container">
-        <img className="backbtn" src={back} alt="back" onClick={goToHome} />
+          <img className="backbtn" src={back} alt="back" onClick={goBack} />
       </div>
       <img className="goto" src={path} alt="path" />
 
