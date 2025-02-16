@@ -6,7 +6,7 @@ import Bookgie from "../../img/Bookgie.png";
 import Logout from "../../img/Logout.png";
 import mypage from "../../img/mypage.png";
 
-const HomeHeader = () => {
+const Headers = () => {
   const location = useLocation();
   const navigate = useNavigate(); 
 
@@ -57,4 +57,4 @@ const HomeHeader = () => {
   );
 };
 
-export default HomeHeader;
+export default Headers;
