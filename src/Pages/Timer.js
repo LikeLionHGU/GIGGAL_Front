@@ -162,9 +162,9 @@ function Timer() {
 
   const saveRecordAndComplete = (isCompletion = false) => {
     if (!selectedBook) return; // 책이 선택되지 않으면 종료
-  
-
-    if (isCompletion && !isRecordSaved) {
+    
+    // 🛠️ 메모를 입력했지만 저장하지 않은 경우에만 경고 모달을 띄움
+    if (isCompletion && record.trim() && !isRecordSaved) {
       setShowWarningModal(true);
       return;
     }
@@ -172,7 +172,7 @@ function Timer() {
     const existingRecords = JSON.parse(localStorage.getItem(`records_${selectedBook}`)) || [];
     localStorage.setItem(`records_${selectedBook}`, JSON.stringify([...existingRecords, record]));
     saveReadingTime(selectedBook, 3000);
-    
+  
     setRecord(""); // 기록 초기화
     setIsRecordSaved(false); // 독서 완료 후 다시 초기화
   
@@ -180,6 +180,7 @@ function Timer() {
       setShowModal(true); // '독서 완료하기' 버튼 클릭 시 모달 표시
     }
   };
+  
   
   const handleRecordSave = () => {
     if (!record.trim()) return; // 기록이 비어있으면 저장하지 않음
