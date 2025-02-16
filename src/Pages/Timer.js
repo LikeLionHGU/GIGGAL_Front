@@ -41,6 +41,9 @@ function Timer() {
   const [stopSrc, setStopSrc] = useState(stopIcon);
   const [totalReadingTime, setTotalReadingTime] = useState(3000); // 선택한 총 시간 저장
 
+  const [isRecordSaved, setIsRecordSaved] = useState(false); // 기록 저장 여부 상태 추가
+const [showWarningModal, setShowWarningModal] = useState(false); 
+
 
 
 
@@ -49,13 +52,13 @@ function Timer() {
   
     setSelectedTime(`${readingTime / 60}분 / ${breakTime / 60}분`);
     setTime(readingTime);
-    setTotalReadingTime(readingTime); // 🔹 선택한 시간 저장 후 percent 업데이트
+    setTotalReadingTime(readingTime); // 선택한 시간 저장 후 percent 업데이트
     setMode("reading");
     setIsPaused(true);
   
     setTimeout(() => {
-      setPercent(0); // 🔹 totalReadingTime 업데이트 이후 percent 초기화
-    }, 10); // 🔹 비동기 업데이트를 위한 약간의 지연 시간 추가
+      setPercent(0); // totalReadingTime 업데이트 이후 percent 초기화
+    }, 10); // 비동기 업데이트를 위한 약간의 지연 시간 추가
   
     intervalRef.current = setInterval(() => {
       setTime((prevTime) => {
@@ -120,7 +123,7 @@ function Timer() {
       }, 1000);
     }
     return () => clearInterval(intervalRef.current);
-  }, [selectedBook, time, isPaused, mode, totalReadingTime]); // 🔹 totalReadingTime 추가
+  }, [selectedBook, time, isPaused, mode, totalReadingTime]); //  totalReadingTime 추가
   
 
   const saveReadingTime = (bookId, addedTime) => {
@@ -132,25 +135,35 @@ function Timer() {
   const saveRecordAndComplete = (isCompletion = false) => {
     if (!selectedBook) return; // 책이 선택되지 않으면 종료
   
+
+    if (isCompletion && !isRecordSaved) {
+      setShowWarningModal(true);
+      return;
+    }
+  
     const existingRecords = JSON.parse(localStorage.getItem(`records_${selectedBook}`)) || [];
     localStorage.setItem(`records_${selectedBook}`, JSON.stringify([...existingRecords, record]));
     saveReadingTime(selectedBook, 3000);
     
     setRecord(""); // 기록 초기화
+    setIsRecordSaved(false); // 독서 완료 후 다시 초기화
   
     if (isCompletion) {
-      setShowModal(true); // ✅ '독서 완료하기' 버튼 클릭 시에만 모달 표시
+      setShowModal(true); // '독서 완료하기' 버튼 클릭 시 모달 표시
     }
   };
   
-  
-  
+  const handleRecordSave = () => {
+    if (!record.trim()) return; // 기록이 비어있으면 저장하지 않음
+    saveRecordAndComplete(false); // 기록 저장
+    setIsRecordSaved(true); // 기록이 저장되었음을 표시
+  };
   
   
 
   const startTimer = () => {
     if (!selectedBook) {
-      setShowAlertModal(true); // 🔹 책이 선택되지 않으면 모달 표시
+      setShowAlertModal(true); // 책이 선택되지 않으면 모달 표시
       return;
     }
     if (time <= 0 || !isPaused) return;
@@ -199,8 +212,8 @@ function Timer() {
     r="90"
     className="timer-circle-progress"
     style={{
-      strokeDasharray: 565.48, // 🔹 원 둘레 (2 * π * r)
-      strokeDashoffset: 565.48 * (1 - percent / 100), // 🔹 percent 값 반영
+      strokeDasharray: 565.48, 
+      strokeDashoffset: 565.48 * (1 - percent / 100), 
     }}
   />
 </svg>
@@ -217,7 +230,7 @@ function Timer() {
       </div>
     </div>
 
-    {/* 책 선택 */}
+   
     <div className="book-selection">
         <select 
           className="book-dropdown" 
@@ -234,14 +247,14 @@ function Timer() {
       </div>
   </div>
 
-  {/* 타이머 컨트롤 버튼 */}
+ 
   <div className="timer-buttons-container">
   <img 
   src={resetIcon} 
   alt="Reset" 
   onClick={() => {
     setTime(3000); // 시간을 50분으로 초기화
-    setSelectedTime("50분 / 15분"); // 선택된 시간도 50분/15분으로 변경
+    setSelectedTime("50분 / 15분"); 
   }} 
 />
     <img
@@ -266,7 +279,6 @@ function Timer() {
       />
   </div>
 
-  {/* 기록하기 섹션 */}
   <div className="record-section">
     <div className="recording"><img src={recordingIcon} alt="Recording"  className="recording-text" ></img></div>
     <div className="record-container">
@@ -276,12 +288,13 @@ function Timer() {
         onChange={(e) => setRecord(e.target.value)}
         placeholder="책을 읽으면서 든 생각들을 기록으로 남겨 보세요!"
       />
-     <img 
+   <img 
   src={recordIcon} 
   alt="Save" 
   className="record-icon" 
-  onClick={() => saveRecordAndComplete(false)} // ✅ 기록 저장 시 모달 X
+  onClick={handleRecordSave} 
 />
+
 
     </div>
     <button className="complete-reading-btn" onClick={() => saveRecordAndComplete(true)}>  
@@ -289,6 +302,7 @@ function Timer() {
     독서 완료하기  
   </div>  
 </button>
+
 
   </div>
 </div>
@@ -312,6 +326,15 @@ function Timer() {
     <div className="modal-alert-content" onClick={(event) => event.stopPropagation()}>
       <h2>독서를 시작하기 전에 책을 선택해주세요!</h2>
       <button className="modal-alert-button" onClick={() => setShowAlertModal(false)}>확인</button>
+    </div>
+  </div>
+)}
+
+{showWarningModal && (
+  <div className="modal-alert-overlay" onClick={() => setShowWarningModal(false)}>
+    <div className="modal-alert-content" onClick={(event) => event.stopPropagation()}>
+      <h2>작성하신 메모를 저장해주세요!</h2>
+      <button className="modal-alert-button" onClick={() => setShowWarningModal(false)}>확인</button>
     </div>
   </div>
 )}
