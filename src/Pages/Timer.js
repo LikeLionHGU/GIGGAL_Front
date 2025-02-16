@@ -129,18 +129,20 @@ function Timer() {
     localStorage.setItem(`readingTime_${bookId}`, JSON.stringify(currentReadingTime + addedTime));
   };
 
-  const saveRecordAndComplete = () => {
+  const saveRecordAndComplete = (isCompletion = false) => {
     if (!selectedBook) return; // 책이 선택되지 않으면 종료
-    
   
     const existingRecords = JSON.parse(localStorage.getItem(`records_${selectedBook}`)) || [];
     localStorage.setItem(`records_${selectedBook}`, JSON.stringify([...existingRecords, record]));
     saveReadingTime(selectedBook, 3000);
     
-    setShowModal(true);
-    setRecord("");
-    
+    setRecord(""); // 기록 초기화
+  
+    if (isCompletion) {
+      setShowModal(true); // ✅ '독서 완료하기' 버튼 클릭 시에만 모달 표시
+    }
   };
+  
   
   
   
@@ -274,13 +276,20 @@ function Timer() {
         onChange={(e) => setRecord(e.target.value)}
         placeholder="책을 읽으면서 든 생각들을 기록으로 남겨 보세요!"
       />
-      <img src={recordIcon} alt="Save" className="record-icon" onClick={saveRecordAndComplete} />
+     <img 
+  src={recordIcon} 
+  alt="Save" 
+  className="record-icon" 
+  onClick={() => saveRecordAndComplete(false)} // ✅ 기록 저장 시 모달 X
+/>
+
     </div>
-    <button className="complete-reading-btn" onClick={saveRecordAndComplete}>
-      <div className="resultbtn">
-      독서 완료하기
-      </div>
-      </button>
+    <button className="complete-reading-btn" onClick={() => saveRecordAndComplete(true)}>  
+  <div className="resultbtn">  
+    독서 완료하기  
+  </div>  
+</button>
+
   </div>
 </div>
 {showModal && (
