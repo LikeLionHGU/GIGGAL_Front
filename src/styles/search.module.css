@@ -91,11 +91,13 @@
   padding-top: 2rem;
   padding-bottom: 2rem;
   white-space: pre-wrap;
+  font-weight: bold;
 }
 
 .highlight {
   color: black;
   display: inline;
+  font-weight: bold;
 }
 
 .con {

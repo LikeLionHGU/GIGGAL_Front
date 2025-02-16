@@ -39,6 +39,10 @@
   cursor: pointer;
 }
 
+.bookadd:hover{
+  content: url("../img/Group 227.png"); /* 호버 시 이미지 변경 */
+}
+
 .books {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 100fr));
@@ -101,14 +105,11 @@
   cursor: pointer;
 }
 
-.checkbox:hover {
-  transform: scale(1.1); /* 크기 확대 */
-  opacity: 0.8; /* 약간 투명하게 */
-}
+
 
 .completet {
   margin-left: 5px;
-  font-size: 14px;
+  font-size: 17px;
 }
 
 /* 독서 시간 */
