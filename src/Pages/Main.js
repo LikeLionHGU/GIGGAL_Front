@@ -1,7 +1,9 @@
 import main from "../img/mainlanding.png";
 import login from "../img/Login.png"; 
 import login2 from "../img/Login2.png";
-import Footer from "../components/footer/Footer copy.js";
+
+import Footer from "../img/Footer copy.png";
+
 
 // 🔹 환경변수에서 Google OAuth 정보 가져오기
 const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
@@ -48,7 +50,7 @@ function Main() {
                 style={{
                     position: "absolute", 
                     top: "14%", 
-                    left: "50%", 
+                    left: "52%", 
                     transform: "translate(-50%, -50%)", 
                     width: "220px", 
                     height: "auto",
@@ -56,7 +58,7 @@ function Main() {
                 }} 
             />
 
-            <Footer />
+<img src={Footer} alt="Main" style={{ width: "100vw", height: "auto" }} />
         </div>
     );
 }
