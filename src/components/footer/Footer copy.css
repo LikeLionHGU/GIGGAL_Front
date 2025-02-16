@@ -1,0 +1,33 @@
+.footer{
+    background-color: #EFEFEF;
+    padding-top: 30px;
+    display: flex;
+}
+.footert{
+    font-family: 'Pretendard-Regular';
+    color:#9E9E9E;
+    font-weight: bold;
+    padding-top: 30px;
+
+    padding-bottom: 30px;
+}
+.container{
+    justify-content: left;
+    padding-left: 80px;
+    padding-bottom:30px;
+}
+
+.copy {
+    font-family: 'Pretendard-Regular';
+    font-weight: 900;
+    font-size: 17px;
+    padding-top:110px;
+    padding-left: 10rem;
+    color:#474957;
+}
+.sns{
+    height: 40px;
+    padding-top:70px;
+    padding-left: 13rem;
+}
+

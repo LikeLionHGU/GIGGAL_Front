@@ -1,7 +1,7 @@
 import main from "../img/mainlanding.png";
 import login from "../img/Login.png"; 
 import login2 from "../img/Login2.png";
-import Footer from "../components/footer/Footer.js";
+import Footer from "../components/footer/Footer copy.js";
 
 // 🔹 환경변수에서 Google OAuth 정보 가져오기
 const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
@@ -21,7 +21,7 @@ function Main() {
     };
 
     return (
-        <div style={{ position: "relative", width: "1520px", height: "auto" }}>  
+        <div style={{ position: "relative", width: "1380px", height: "auto" }}>  
             <img src={main} alt="Main" style={{ width: "100vw", height: "auto" }} />
 
             {/* 🔹 login.png 클릭 시 Google 로그인 실행 */}
