@@ -160,7 +160,7 @@ const SearchDetail = () => {
               onClick={() => navigate(`/timer?bookId=${book.id}&bookTitle=${encodeURIComponent(book.volumeInfo.title)}`)}
               style={{
                 position: "absolute", 
-                top: "78%", 
+                top: "70%", 
                 left: "47.5%", 
                 transform: "translate(-50%, -50%)", 
                 width: "100px", 
@@ -173,7 +173,7 @@ const SearchDetail = () => {
               alt="community"
               style={{
                 position: "absolute", 
-                top: "78%", 
+                top: "70%", 
                 left: "55%", 
                 transform: "translate(-50%, -50%)", 
                 width: "40px", 
