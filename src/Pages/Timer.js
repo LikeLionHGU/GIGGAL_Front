@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../styles/Timer.css";
 import HomeHeader from "../components/header/HomeHeader.js";
 import Footer from "../components/footer/Footer.js";
@@ -42,10 +43,37 @@ function Timer() {
   const [totalReadingTime, setTotalReadingTime] = useState(3000); // 선택한 총 시간 저장
 
   const [isRecordSaved, setIsRecordSaved] = useState(false); // 기록 저장 여부 상태 추가
-const [showWarningModal, setShowWarningModal] = useState(false); 
+  const [showWarningModal, setShowWarningModal] = useState(false); 
 
+  const [showExitWarning, setShowExitWarning] = useState(false);
+  const navigate = useNavigate();
 
-
+  useEffect(() => {
+    const handleBackButton = (event) => {
+      if (!isRecordSaved) {
+        event.preventDefault(); // 브라우저 기본 뒤로 가기 방지
+        setShowExitWarning(true); // 경고 모달 표시
+        window.history.pushState(null, "", window.location.href); // 현재 페이지 유지
+      }
+    };
+  
+    // 뒤로 가기 감지 이벤트 리스너 추가
+    window.history.pushState(null, "", window.location.href);
+    window.addEventListener("popstate", handleBackButton);
+  
+    return () => {
+      window.removeEventListener("popstate", handleBackButton);
+    };
+  }, [isRecordSaved]);
+  
+  const handleExitConfirm = () => {
+    setShowExitWarning(false);
+    navigate("/home"); // ✅ 사용자가 나가기를 선택하면 실제 뒤로 가기 실행
+  };
+  
+  const handleExitCancel = () => {
+    setShowExitWarning(false);
+  };
 
   const setReadingTime = (readingTime, breakTime) => {
     clearInterval(intervalRef.current); // 기존 인터벌 삭제
@@ -335,6 +363,18 @@ const [showWarningModal, setShowWarningModal] = useState(false);
     <div className="modal-alert-content" onClick={(event) => event.stopPropagation()}>
       <h2>작성하신 메모를 저장해주세요!</h2>
       <button className="modal-alert-button" onClick={() => setShowWarningModal(false)}>확인</button>
+    </div>
+  </div>
+)}
+
+{showExitWarning && (
+  <div className="modal-alert-overlay">
+    <div className="modal-alert-content">
+      <h2>독서 완료하기를 누르지 않으면 <br/>기록이 저장되지 않습니다.</h2>
+      <p>그래도 페이지를 나가시겠습니까?</p>
+      
+      <button className="modal-alert-button" onClick={handleExitConfirm}>나가기</button>
+      <button className="modal-alert-button exit" onClick={handleExitCancel}>계속 독서하기</button>
     </div>
   </div>
 )}
