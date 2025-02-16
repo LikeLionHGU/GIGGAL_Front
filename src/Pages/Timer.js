@@ -51,13 +51,13 @@ function Timer() {
   useEffect(() => {
     const handleBackButton = (event) => {
       if (!isRecordSaved) {
-        event.preventDefault(); // 브라우저 기본 뒤로 가기 방지
+        event.preventDefault(); 
         setShowExitWarning(true); // 경고 모달 표시
         window.history.pushState(null, "", window.location.href); // 현재 페이지 유지
       }
     };
   
-    // 뒤로 가기 감지 이벤트 리스너 추가
+   
     window.history.pushState(null, "", window.location.href);
     window.addEventListener("popstate", handleBackButton);
   
@@ -68,7 +68,7 @@ function Timer() {
   
   const handleExitConfirm = () => {
     setShowExitWarning(false);
-    navigate("/home"); // ✅ 사용자가 나가기를 선택하면 실제 뒤로 가기 실행
+    navigate("/home"); 
   };
   
   const handleExitCancel = () => {
