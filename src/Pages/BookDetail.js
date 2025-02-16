@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import '../styles/BookDetail.css';
-import HomeHeader from '../components/header/HomeHeader.js';
+import HomeHeader from '../components/header/Headers.js';
 import back from "../img/back.png";
 import dash from "../img/dash.png";
 import goto from "../img/edong.png";
