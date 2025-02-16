@@ -365,6 +365,14 @@ body {
   margin-bottom: 10px;
 }
 
+.modal-alert-buttons {
+  display: flex;
+  justify-content: space-between; 
+  margin-top: 15px;
+  gap:20px;
+}
+
+
 .modal-alert-button {
   background-color: #A3B18A;
   color: white;
@@ -374,8 +382,11 @@ body {
   font-size: 14px;
   font-weight: bold;
   cursor: pointer;
-  width: 80px;
   margin-top: 10px;
+  width: auto;
+  white-space: nowrap;
+  gap: 25px;
+  margin-left:10px;
 }
 
 .modal-alert-button:hover {
