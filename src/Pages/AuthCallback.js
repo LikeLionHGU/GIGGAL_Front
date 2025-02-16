@@ -9,21 +9,28 @@ const AuthCallback = () => {
     const idToken = parsedHash.get("id_token");
 
     if (idToken) {
-      // 백엔드로 토큰 전송
-      // fetch("http://localhost:8080/api/auth/google", {  // 이 부분에서 백엔드는 /api/auth/google로 했는데, /api/oauth/google로 되어 있었음.
       fetch("https://janghong.asia/api/auth/google/session", {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         credentials: "include",
-        body: new URLSearchParams({ credential: idToken }).toString(),   // 이 부분에서 받아오는 형식이 잘못되었었음.
+        body: new URLSearchParams({ credential: idToken }).toString(),
       })
         .then((res) => res.json())
         .then((data) => {
-          if (data.status === "success") {
-            console.log(data)
-            navigate("/search"); //  홈 화면으로 이동
+          console.log("Backend response:", data); // 백엔드 응답 확인
+
+          if (data.userEmail != null) {
+            // 백엔드에서 이메일을 가져와 로컬스토리지에 저장
+            if (data.userEmail) {
+              localStorage.setItem("userEmail", data.userEmail);
+              console.log("User email saved to localStorage:", data.userEmail); // 이메일 저장 확인
+            } else {
+              console.error("Email not found in response.");
+            }
+
+            navigate("/search"); // 홈 화면으로 이동
           } else {
             console.error("Login failed:", data.message);
           }

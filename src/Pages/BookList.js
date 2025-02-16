@@ -1,86 +1,108 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 import styles from "../styles/search.module.css";
-import Footer from '../components/footer/Footer.js';
-import HomeHeader from '../components/header/HomeHeader.js';
-import searchbtn from '../img/searchbtn.png';
-import nonbookmark from '../img/nonbookmark.png';
-import bookmark from '../img/bookmark.png';
-import { useEffect } from "react";
+import Footer from "../components/footer/Footer.js";
+import HomeHeader from "../components/header/HomeHeader.js";
+import searchbtn from "../img/searchbtn.png";
+import nonbookmark from "../img/nonbookmark.png";
+import bookmark from "../img/bookmark.png";
+import { useDebounce } from "../hooks/useDebounce";
 
-
+// 📌 Axios 인스턴스 생성 (기본 URL 설정)
+const apiClient = axios.create({
+  baseURL: "https://janghong.asia/book",
+  timeout: 5000,
+});
 
 const BookList = () => {
   const navigate = useNavigate();
-  const location = useLocation();  // useLocation 훅을 사용하여 전달된 state 받아오기
-  const [searchTerm, setSearchTerm] = useState(location.state?.searchTerm || "");  // state에서 검색어 받기
-  const [searchResults, setSearchResults] = useState(location.state?.books || []);  // state에서 검색 결과 받기
-  const [BookRead, setBookRead] = useState({});
+  const location = useLocation();
+  const [searchTerm, setSearchTerm] = useState(location.state?.searchTerm || "");
+  const [searchResults, setSearchResults] = useState(location.state?.books || []);
+  const [bookmarkedBooks, setBookmarkedBooks] = useState({});
+  const [userEmail, setUserEmail] = useState(""); // 📌 유저 이메일 상태 추가
 
-
+  // 📌 로컬스토리지에서 유저 이메일 가져오기
   useEffect(() => {
-    if (!searchResults.length && searchTerm) {
-      fetchBooks(searchTerm);  // 검색 결과가 없으면 다시 검색 실행함.
+    const storedEmail = localStorage.getItem("userEmail");
+    if (storedEmail) {
+      setUserEmail(storedEmail);
     }
-  }, [searchTerm, searchResults]); //이 배열에 포함된 값(검색어랑, 결과값)이 변경될 때마다 useEffect가 다시 실행됨.
-  //searchTerm과 searchResults가 초기값을 갖고 시작함. ---> Search.js에서 handleBtnClick 함수에서
-  // 책목록이랑 검색어를 BookList 페이지로 전달하면서 페이지 이동시키기 때문에 Search.js의 검색어와 책목록이 아래 코드의 리턴을 통해서 목록이 화면에 띄워짐.
+  }, []);
 
-
-  // 책의 북마크 상태를 토글하는 함수
-  const toggleBookmark = (book) => {
-    setBookRead((prev) => ({
-      ...prev,
-      [book.id]: !prev[book.id],  // 책의 id를 키로 하여 북마크 상태를 변경
-    }));
-  };
-
-  // 북마크 클릭 시 실행되는 함수
-  const handleBookmarkClick = (book) => {
-    toggleBookmark(book);  // 북마크 상태 토글
-    addToMark(book);  // 로컬 스토리지에 북마크 추가
-  };
-
-  // 책 정보를 구글 API로부터 가져오는 함수
+  // 📌 Google Books API 요청
   const fetchBooks = async (searchQuery) => {
-    if (!searchQuery) return;  // 검색어가 없으면 반환
+    if (!searchQuery) return;
 
     try {
-      // 구글 책 API에서 검색어에 맞는 책 데이터를 요청
-      const response = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${searchQuery}&maxResults=40`);
-      setSearchResults(response.data.items || []);  // 받은 데이터로 검색 결과 업데이트
+      const response = await axios.get(
+        `https://www.googleapis.com/books/v1/volumes?q=${searchQuery}&maxResults=10&key=AIzaSyCOhxzEmFNG0E9GCrAAYeSQ8Q2NYrjC-b0`
+      );
+      setSearchResults(response.data.items || []);
     } catch (err) {
-      console.error(err);  // 오류 발생 시 오류 출력
+      console.error("📌 책 가져오는거 실패", err);
     }
   };
 
-  // 검색어 입력 후 검색 버튼 클릭 시 실행되는 함수
+  const debouncedFetchBooks = useDebounce(fetchBooks, 500);
+
+  useEffect(() => {
+    if (searchTerm) {
+      debouncedFetchBooks(searchTerm);
+    }
+  }, [searchTerm]);
+
+  // 📌 북마크 추가 (백엔드 API 호출)
+  const toggleBookmark = async (book) => {
+    if (!book || !userEmail) {
+      console.error("📌 북마크 추가 실패: 유저 이메일이 없습니다.");
+      return;
+    }
+
+    // 요청 본문 로그 추가
+    const requestData = {
+      email: userEmail,
+      title: book.volumeInfo.title,
+      author: book.volumeInfo.authors?.join(", ") || "정보 없음",
+      pageCount: book.volumeInfo.pageCount || 0,
+      publisher: book.volumeInfo.publisher || "정보 없음",
+      thumbnail: book.volumeInfo.imageLinks?.thumbnail || "",
+    };
+
+    console.log("📌 북마크 요청 데이터:", requestData); // 요청 데이터 확인
+
+    try {
+      const response = await apiClient.post(`/bookmark`, requestData);
+
+      // 응답 데이터 로그 추가
+      console.log("📌 북마크 추가 성공:", response.data.message);
+      
+      // 상태 업데이트 (북마크 추가)
+      setBookmarkedBooks((prev) => ({
+        ...prev,
+        [book.id]: true,
+      }));
+
+    } catch (error) {
+      console.error("📌 북마크 추가 실패:", error);
+    }
+  };
+
+  // 📌 검색 실행
   const handleSearch = (e) => {
-    e.preventDefault();  // 폼 제출 시 페이지 새로고침 방지
-    const trimmedSearchTerm = searchTerm.trim();  // 검색어에서 공백 제거 후 상태 업데이트
-    setSearchTerm(trimmedSearchTerm);  // 상태 업데이트
-    sessionStorage.setItem("lastQuery", trimmedSearchTerm);  // 검색어를 세션 스토리지에 저장
-    fetchBooks(trimmedSearchTerm);  // 바로 책 정보 가져오기
+    e.preventDefault();
+    setSearchTerm(searchTerm.trim());
   };
 
-  // 책 클릭 시 상세 페이지로 이동하는 함수
+  // 📌 책 클릭 시 상세 페이지 이동
   const handleBookClick = (book) => {
-    navigate(`/detail/${book.id}`, { state: { book } });  // 책 ID를 이용해 상세 페이지로 이동
-  };
-
-  // 북마크를 로컬 스토리지에 추가하는 함수
-  const addToMark = (book) => {
-    const storedBookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];  // 로컬 스토리지에서 기존 북마크 목록 가져오기
-    if (!storedBookmarks.find((b) => b.id === book.id)) {  // 이미 북마크된 책이 아니면
-      const updatedBookmarks = [...storedBookmarks, book];  // 새로 북마크 목록에 추가
-      localStorage.setItem("bookmarks", JSON.stringify(updatedBookmarks));  // 업데이트된 북마크 목록을 로컬 스토리지에 저장
-    }
+    navigate(`/detail/${book.id}`, { state: { book } });
   };
 
   return (
     <div>
-      <HomeHeader />  {/* 헤더 컴포넌트 */}
+      <HomeHeader />
       <div className={styles.b}>
         <form onSubmit={handleSearch}>
           <div className={styles.con}>
@@ -88,7 +110,7 @@ const BookList = () => {
               <input
                 type="text"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}  // 검색어 입력 시 상태 업데이트
+                onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search"
                 className={styles.bari}
               />
@@ -100,40 +122,40 @@ const BookList = () => {
         </form>
       </div>
 
-      {/* 검색된 책 목록 */}
+      {/* 📚 검색된 책 목록 */}
       <div className={styles.books}>
-      {searchResults && searchResults.length > 0 && searchResults.map((book) => (
-    <div className={styles.bookcard} key={book.id}>  {/* 각 책 카드 */}
-      <div className={styles.infomation}>
-        <div className={styles.bookcover} onClick={() => handleBookClick(book)}>
-          {/* 책 표지 이미지 */}
-          {book.volumeInfo.imageLinks?.thumbnail ? (
-            <img src={book.volumeInfo.imageLinks.thumbnail} alt={book.volumeInfo.title} />
-          ) : (
-            <div className={styles.placeholder}>No Image</div>  // 이미지가 없으면 대체 텍스트
-          )}
+        {searchResults.map((book) => (
+          <div className={styles.bookcard} key={book.id}>
+            <div className={styles.infomation}>
+              <div className={styles.bookcover} onClick={() => handleBookClick(book)}>
+                {/* 📖 책 표지 */}
+                {book.volumeInfo.imageLinks?.thumbnail ? (
+                  <img src={book.volumeInfo.imageLinks.thumbnail} alt={book.volumeInfo.title} />
+                ) : (
+                  <div className={styles.placeholder}>No Image</div>
+                )}
 
-          <h1>{book.volumeInfo.title}</h1>  {/* 책 제목 */}
-          <h2><span className={styles.lowlight}>저자 (글) </span>{book.volumeInfo.authors}</h2>  {/* 저자 */}
-        </div>
+                <h1>{book.volumeInfo.title}</h1>
+                <h2>
+                  <span className={styles.lowlight}>저자 (글) </span>
+                  {book.volumeInfo.authors}
+                </h2>
+              </div>
+            </div>
+
+            {/* ⭐ 북마크 버튼 */}
+            <button className={styles.bookmarkButton} onClick={() => toggleBookmark(book)}>
+              <img
+                src={bookmarkedBooks[book.id] ? bookmark : nonbookmark}
+                alt="북마크"
+                style={{ width: "24px", height: "auto" }}
+              />
+            </button>
+          </div>
+        ))}
       </div>
 
-      {/* 북마크 버튼 */}
-      <button className={styles.bookmarkButton} onClick={() => handleBookmarkClick(book)}>
-        <img
-          src={BookRead[book.id] ? bookmark : nonbookmark}  // 북마크 상태에 따라 이미지 변경
-          alt="bookmark"
-          style={{
-            width: "24px",
-            height: "auto",
-          }}
-        />
-      </button>
-    </div>
-  ))}
-      </div>
-      
-      <Footer />  {/* 푸터 컴포넌트 */}
+      <Footer />
     </div>
   );
 };
