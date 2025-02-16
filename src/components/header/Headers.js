@@ -8,21 +8,21 @@ import mypage from "../../img/mypage.png";
 
 const HomeHeader = () => {
   const location = useLocation();
-  const navigate = useNavigate(); // ✅ 페이지 이동을 위한 useNavigate 추가
+  const navigate = useNavigate(); 
 
-  // ✅ 로그아웃 함수
+ 
   const handleLogout = async () => {
     try {
       const response = await axios.put("https://janghong.asia/api/auth/user/session/out");
   
       if (response.data.status === "logout") {
         alert("로그아웃되었습니다.");
-        localStorage.clear(); // ✅ 로그인 정보 삭제
+        localStorage.clear(); 
         sessionStorage.clear();
   
         setTimeout(() => {
           console.log("✅ navigate('/') 실행됨");
-          navigate("/"); // ✅ 0.1초 후 이동
+          navigate("/");
         }, 100);
       }
     } catch (error) {
@@ -48,7 +48,7 @@ const HomeHeader = () => {
           </NavLink>
         </nav>
         <div className="my">
-          {/* ✅ 로그아웃 버튼 클릭 시 handleLogout 실행 */}
+          
           <img src={Logout} alt="logoutbtn" onClick={handleLogout} style={{ cursor: "pointer", height: "2.5rem" }} />
           <img src={mypage} alt="mypagebtn" style={{ cursor: "pointer", height: "2.5rem" }} />
         </div>
