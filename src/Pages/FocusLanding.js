@@ -9,7 +9,7 @@ function FocusLanding() {
     return (
         <div>
             <HomeHeader />
-            <div style={{ position: "relative", width: "1520px", height: "auto" }}>
+            <div style={{ position: "relative", width: "1380px", height: "auto" }}>
                 <img src={mainn} alt="Main" style={{ width: "100vw", height: "auto" }} />
                 
                 <img 
@@ -19,7 +19,7 @@ function FocusLanding() {
                     style={{
                         position: "absolute", 
                         top: "86.4%", 
-                        left: "50%", 
+                        left: "51%", 
                         transform: "translate(-50%, -50%)", 
                         width: "280px", 
                         height: "auto",
