@@ -11,7 +11,7 @@ const AuthCallback = () => {
     if (idToken) {
       // 백엔드로 토큰 전송
       // fetch("http://localhost:8080/api/auth/google", {  // 이 부분에서 백엔드는 /api/auth/google로 했는데, /api/oauth/google로 되어 있었음.
-      fetch("https://janghong.asia/api/auth/google", {
+      fetch("https://janghong.asia/api/auth/google/session", {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
