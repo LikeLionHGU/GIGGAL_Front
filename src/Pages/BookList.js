@@ -62,7 +62,7 @@ const BookList = () => {
 
     // 요청 본문 로그 추가
     const requestData = {
-      email: userEmail,
+      userEmail: userEmail,
       title: book.volumeInfo.title,
       author: book.volumeInfo.authors?.join(", ") || "정보 없음",
       pageCount: book.volumeInfo.pageCount || 0,
