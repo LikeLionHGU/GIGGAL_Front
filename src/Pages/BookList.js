@@ -63,13 +63,14 @@ const fetchBooksByBookmark = async () => {
 };
 
 
-  const debouncedFetchBooks = useDebounce(fetchBooks, 500);
+const debouncedSearchTerm = useDebounce(searchTerm, 500); //  searchTerm만 디바운스
 
-  useEffect(() => {
-    if (searchTerm) {
-      debouncedFetchBooks(searchTerm);
-    }
-  }, [searchTerm, debouncedFetchBooks]);  
+useEffect(() => {
+  if (debouncedSearchTerm) {
+    fetchBooks(debouncedSearchTerm); // 디바운스된 값이 변경될 때만 실행
+  }
+}, [debouncedSearchTerm]);  // 디바운스된 값만 의존성으로 설정
+ 
   
 
   //  정렬 버튼 클릭 핸들러
@@ -118,14 +119,26 @@ const fetchBooksByBookmark = async () => {
 
  
   const handleSearch = (e) => {
-    e.preventDefault();
-    setSearchTerm(searchTerm.trim());
+    e.preventDefault();  // 폼 제출 시 페이지 새로고침 방지
+    const trimmedSearchTerm = searchTerm.trim();  // 검색어에서 공백 제거 후 상태 업데이트
+    setSearchTerm(trimmedSearchTerm);  // 상태 업데이트
+    sessionStorage.setItem("lastQuery", trimmedSearchTerm);  // 검색어를 세션 스토리지에 저장
+    fetchBooks(trimmedSearchTerm);  // 바로 책 정보 가져오기
   };
 
   
   const handleBookClick = (book) => {
-    navigate(`/detail/${book.id}`, { state: { book } });
+    if (!book || !book.id) {
+      console.error("책 ID가 존재하지 않습니다.");
+      return;
+    }
+    
+    const bookId = encodeURIComponent(book.id);
+    navigate(`/detail/${bookId}`);
   };
+  
+
+  
 
   return (
     <div>
