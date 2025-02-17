@@ -11,6 +11,7 @@ import startHover from '../img2/starthover.png';
 import startPress from '../img2/startpress.png';
 import stopHover from '../img2/stophover.png';
 import stopPress from '../img2/stoppress.png';
+import axios from "axios"; 
 
 function Timer() {
   const [time, setTime] = useState(3000);
@@ -102,30 +103,30 @@ function Timer() {
       });
     }, 1000);
   };
-  const userEmail = localStorage.getItem('userEmail');
+  
+  
 
-  
-  const fetchBookmarks = async (userEmail) => {
-    const encodedEmail = encodeURIComponent(userEmail);
-    const apiUrl = `https://janghong.asia/book/list/before/reading?userEmail=${encodedEmail}`;
-  
+  const userEmail = localStorage.getItem("userEmail"); // 로컬스토리지에서 유저 이메일 가져오기
+
+// 📌 API에서 북마크 리스트 불러오기
+useEffect(() => {
+  const fetchBookmarks = async () => {
+    if (!userEmail) {
+      console.error("📌 유저 이메일이 없습니다. 북마크 목록을 불러올 수 없습니다.");
+      return;
+    }
+
     try {
-      const response = await fetch(apiUrl);
-      const data = await response.json();
-      return data; // API에서 반환된 데이터
+      const response = await axios.get(`https://janghong.asia/book/list/before/reading?userEmail=${encodeURIComponent(userEmail)}`);
+      console.log("📌 백엔드에서 가져온 북마크 리스트:", response.data);
+      setBookmarks(response.data); // 백엔드 응답 데이터를 상태로 설정
     } catch (error) {
-      console.error("북마크를 가져오는 데 실패했습니다.", error);
-      return [];
+      console.error("📌 북마크 리스트 가져오기 실패:", error.response ? error.response.data : error);
     }
   };
-  useEffect(() => {
-    const loadBookmarks = async () => {
-      const fetchedBookmarks = await fetchBookmarks(userEmail);
-      setBookmarks(fetchedBookmarks); // 상태에 북마크 데이터 저장
-    };
 
-    loadBookmarks(); // 컴포넌트가 마운트될 때 북마크를 가져옴
-  }, [userEmail]); // userEmail이 변경될 때마다 북마크를 다시 가져옴
+  fetchBookmarks();
+}, [userEmail]); // userEmail이 변경될 때마다 실행
 
   useEffect(() => {
     if (selectedBook && time > 0 && !isPaused) {
@@ -261,19 +262,24 @@ function Timer() {
 
    
     <div className="book-selection">
-        <select 
-          className="book-dropdown" 
-          value={selectedBook}
-          onChange={(e) => setSelectedBook(e.target.value)}
-        >
-          <option value="" disabled hidden>Choose the Book Title</option>
-          {bookmarks.map((book) => (
-            <option key={book.id} value={book.id}>
-              {book.volumeInfo.title}
-            </option>
-          ))}
-        </select>
-      </div>
+  <select 
+    className="book-dropdown" 
+    value={selectedBook}
+    onChange={(e) => setSelectedBook(e.target.value)}
+  >
+    <option value="" disabled hidden>Choose the Book Title</option>
+    {bookmarks.length > 0 ? (
+      bookmarks.map((book) => (
+        <option key={book.bookId} value={book.bookId}>
+          {book.title} {/* API 응답에 맞춰 title 사용 */}
+        </option>
+      ))
+    ) : (
+      <option value="" disabled>북마크된 책이 없습니다.</option>
+    )}
+  </select>
+</div>
+
   </div>
 
  
