@@ -100,7 +100,12 @@ useEffect(() => {
       pageCount: book.volumeInfo.pageCount || 0,
       publisher: book.volumeInfo.publisher || "정보 없음",
       thumbnail: book.volumeInfo.imageLinks?.thumbnail || "",
+      isbn: book.volumeInfo.industryIdentifiers 
+        ? book.volumeInfo.industryIdentifiers.find(id => id.type === "ISBN_13")?.identifier || 
+          book.volumeInfo.industryIdentifiers.find(id => id.type === "ISBN_10")?.identifier || "정보 없음"
+        : "정보 없음"
     };
+    
 
     console.log("북마크 요청 데이터:", requestData);
 
@@ -146,13 +151,26 @@ useEffect(() => {
     try {
       const encodedSearchTerm = encodeURIComponent(searchTerm.trim());
       const response = await axios.get(`https://janghong.asia/book/ranking/difficulty?keyword=${encodedSearchTerm}`);
-      
-      console.log(" 난이도순 정렬된 데이터:", response.data);
-      setSearchResults(response.data || []);
+  
+      console.log(" 백엔드 응답 데이터:", response.data); // 🔹 응답 확인
+  
+      // 🔹 `difficultyScore`를 float 형식으로 변환 후 정렬
+      const sortedBooks = [...response.data]
+        .map(book => ({
+          ...book,
+          difficultyScore: typeof book.difficultyScore === "number" 
+            ? book.difficultyScore // 이미 숫자라면 그대로 사용
+            : parseFloat(book.difficultyScore) || 0 // 혹시 문자열이면 float 변환
+        }))
+        .sort((a, b) => b.difficultyScore - a.difficultyScore); // 🔹 높은 점수가 먼저 나오도록 정렬
+  
+      console.log(" 정렬된 책 목록:", sortedBooks); // 🔹 정렬된 데이터 확인
+      setSearchResults(sortedBooks || []);
     } catch (err) {
       console.error("난이도순 가져오기 실패:", err);
     }
   };
+  
   
 
   return (
