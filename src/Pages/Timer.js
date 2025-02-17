@@ -137,11 +137,11 @@ const handleDifficultySelect = async (difficulty) => {
 
   const userEmail = (localStorage.getItem("userEmail") || "").trim();// 로컬스토리지에서 유저 이메일 가져오기
 
-// 📌 북마크 리스트 가져오기 (Google Book ID 사용)
+// 북마크 리스트 가져오기 (Google Book ID 사용)
 useEffect(() => {
   const fetchBookmarks = async () => {
     if (!userEmail) {
-      console.error("📌 유저 이메일이 없습니다. 북마크 목록을 불러올 수 없습니다.");
+      console.error("유저 이메일이 없습니다. 북마크 목록을 불러올 수 없습니다.");
       return;
     }
 
@@ -150,12 +150,12 @@ useEffect(() => {
         `${API_BASE_URL}/book/list/now/reading?userEmail=${encodeURIComponent(userEmail)}`
       );
 
-      console.log("📌 백엔드에서 가져온 북마크 리스트:", response.data);
+      console.log(" 백엔드에서 가져온 북마크 리스트:", response.data);
       
-      // 📌 Google Book ID (`googleBookId`)를 선택하도록 변경
+      // Google Book ID (`googleBookId`)를 선택하도록 변경
       setBookmarks(response.data);
     } catch (error) {
-      console.error("📌 북마크 리스트 가져오기 실패:", error.response ? error.response.data : error);
+      console.error("북마크 리스트 가져오기 실패:", error.response ? error.response.data : error);
     }
   };
 
@@ -241,41 +241,41 @@ useEffect(() => {
   
   const handleRecordSave = async () => {
     if (!record.trim()) {
-      console.error("📌 기록이 비어 있어 저장할 수 없습니다.");
+      console.error(" 기록이 비어 있어 저장할 수 없습니다.");
       return;
     }
   
     const userEmail = localStorage.getItem("userEmail") || "";
     if (!userEmail || !selectedBook) {
-      console.error("📌 유저 이메일 또는 선택한 책(Google Book ID)이 없습니다.");
+      console.error("유저 이메일 또는 선택한 책(Google Book ID)이 없습니다.");
       return;
     }
   
-    const currentDate = new Date().toISOString().split("T")[0]; // 📌 현재 날짜 (YYYY-MM-DD 형식)
+    const currentDate = new Date().toISOString().split("T")[0]; // 현재 날짜 (YYYY-MM-DD 형식)
   
     const requestData = {
       userEmail: userEmail,
       content: record.trim(),
-      date: currentDate // 📌 날짜를 string으로 변환하여 포함
+      date: currentDate //  날짜를 string으로 변환하여 포함
     };
   
-    console.log("📌 메모 저장 요청 데이터:", JSON.stringify(requestData, null, 2)); // 데이터 확인용
+    console.log("메모 저장 요청 데이터:", JSON.stringify(requestData, null, 2)); // 데이터 확인용
   
     try {
-      // 📌 Google Book ID(selectedBook)를 사용하여 API 호출
+      // Google Book ID(selectedBook)를 사용하여 API 호출
       const response = await axios.post(`${API_BASE_URL}/memo/add/${selectedBook}`, requestData, {
         headers: {
           "Content-Type": "application/json"
         }
       });
   
-      console.log("📌 메모 저장 성공:", response.data);
+      console.log("메모 저장 성공:", response.data);
       setRecord(""); // 저장 후 입력 필드 초기화
     } catch (error) {
-      console.error("❌ 메모 저장 실패:", error.response ? error.response.data : error);
+      console.error("메모 저장 실패:", error.response ? error.response.data : error);
       if (error.response) {
-        console.error("❌ 백엔드 응답 상태 코드:", error.response.status);
-        console.error("❌ 백엔드 응답 데이터:", error.response.data);
+        console.error(" 백엔드 응답 상태 코드:", error.response.status);
+        console.error("백엔드 응답 데이터:", error.response.data);
       }
     }
   };
