@@ -76,13 +76,13 @@ useEffect(() => {
   //  정렬 버튼 클릭 핸들러
   const handleSortChange = (type) => {
     setSortType(type);
-
-    if(type === "전체보기"){
+  
+    if (type === "전체보기") {
       fetchBooks(searchTerm);
-    }
-
-    if (type === "북마크순") {
-      fetchBooksByBookmark(); 
+    } else if (type === "북마크순") {
+      fetchBooksByBookmark();
+    } else if (type === "난이도순") { // 난이도순 정렬 기능 추가
+      fetchBooksByDifficulty();
     }
   };
 
@@ -137,7 +137,22 @@ useEffect(() => {
     navigate(`/detail/${bookId}`);
   };
   
-
+  const fetchBooksByDifficulty = async () => {
+    if (!searchTerm || searchTerm.trim() === "") {
+      console.error("검색어가 비어있습니다. 난이도순 정렬을 할 수 없습니다.");
+      return;
+    }
+  
+    try {
+      const encodedSearchTerm = encodeURIComponent(searchTerm.trim());
+      const response = await axios.get(`https://janghong.asia/book/ranking/difficulty?keyword=${encodedSearchTerm}`);
+      
+      console.log(" 난이도순 정렬된 데이터:", response.data);
+      setSearchResults(response.data || []);
+    } catch (err) {
+      console.error("난이도순 가져오기 실패:", err);
+    }
+  };
   
 
   return (
@@ -162,7 +177,6 @@ useEffect(() => {
         </form>
       </div>
 
-      {/* 🔹 정렬 버튼 UI 추가 */}
       <div className={styles.filterButtons}>
         <button 
           className={sortType === "전체보기" ? styles.active : ""} 
@@ -201,7 +215,7 @@ useEffect(() => {
                   <span className={styles.lowlight}>저자 (글) </span>
                   {book.author || book.volumeInfo?.authors?.join(", ")}
                 </h2>
-                {book.countOfBookMark && <p>📌 북마크 {book.countOfBookMark}개</p>}
+                {book.countOfBookMark && <p>북마크 {book.countOfBookMark}개</p>}
               </div>
             </div>
 
