@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useCallback} from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/Home.module.css";
@@ -24,14 +24,30 @@ const Home = () => {
   const [selectedBook, setSelectedBook] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchBooks();
-  }, [selectedFilter]);
+  // useEffect(() => {
+  //   fetchBooks();
+  // }, [selectedFilter]);
 
   const userEmail = localStorage.getItem("userEmail");
+  const fetchReadingTime = useCallback(async (bookId) => {
+    try {
+      const response = await axios.get(
+        `${API_BASE_URL}/reading/time/${bookId}?userEmail=${encodeURIComponent(userEmail)}`
+      );
+  
+      // 🔹 백엔드에서 제공하는 값이 이미 "1시간 30분" 등의 문자열이라면 변환 없이 그대로 사용
+      return response.data.time || "0분"; 
+    } catch (error) {
+      console.error(`📌 ${bookId}의 읽은 시간 가져오기 실패:`, error.response ? error.response.data : error);
+      return "0분"; // 오류 발생 시 기본값
+    }
+  }, [userEmail]);
+  
+
+  
 
   // 📌 API 호출 (필터별)
-  const fetchBooks = async () => {
+  const fetchBooks = useCallback(async () => {
     if (!userEmail) {
       console.error("📌 유저 이메일이 없습니다. 책 목록을 가져올 수 없습니다.");
       return;
@@ -49,8 +65,18 @@ const Home = () => {
         response = await axios.get(`${API_BASE_URL}/list/after/reading?userEmail=${encodedEmail}`);
       }
 
+      const books = response.data || [];
+
+      // 📌 각 책의 읽은 총합 시간을 가져와 상태에 추가 저장
+      const booksWithReadingTime = await Promise.all(
+        books.map(async (book) => {
+          const readingTime = await fetchReadingTime(book.bookId);
+          return { ...book, readingTime }; // 읽은 시간 추가
+        })
+      );
+      setFilteredBooks(booksWithReadingTime);
+
       console.log(`📌 ${selectedFilter} 책 목록:`, response.data);
-      setFilteredBooks(response.data || []);
 
       // ✅ "완독" 처리된 책 저장
       if (selectedFilter === "완료") {
@@ -63,7 +89,12 @@ const Home = () => {
     } catch (error) {
       console.error("📌 책 목록 가져오기 실패:", error.response ? error.response.data : error);
     }
-  };
+  }, [selectedFilter, userEmail, fetchReadingTime]); // ✅ `useCallback`을 사용하여 의존성 문제 해결
+
+  // 📌 `useEffect`에서 `fetchBooks` 호출
+  useEffect(() => {
+    fetchBooks();
+  }, [fetchBooks]);
 
   // 📌 체크 버튼 클릭 이벤트 (완독 처리)
   const handleCheckButtonClick = async (book) => {
@@ -146,7 +177,6 @@ const Home = () => {
     }
   }; 
 
-
   return (
     <div>
       <HomeHeader />
@@ -211,9 +241,12 @@ const Home = () => {
               </div>
 
               <div className={styles.time}>
-                <img src={clock} alt="time" className={styles.clock} />
-                <div className={styles.sigan}>00시간 00분</div>
-              </div>
+  <img src={clock} alt="time" className={styles.clock} />
+  <div className={styles.sigan}>
+    {book.time} {/* 백엔드에서 가져온 총합 시간을 표시 */}
+  </div>
+</div>
+
 
               <div className={styles.btns}>
 
