@@ -130,12 +130,15 @@ const Home = () => {
                   className={styles.readingbtn}
                   onClick={() => navigate(`/timer?bookId=${book.bookId}`)}
                 />
-                <img
-                  src={recordbtn}
-                  alt="recordbtn"
-                  className={styles.recordbtn}
-                  onClick={() => navigate(`/bookdetail?bookId=${book.bookId}`)}
-                />
+<img
+  src={recordbtn}
+  alt="recordbtn"
+  className={styles.recordbtn}
+  onClick={() => navigate(`/bookdetail?bookTitle=${book.title}&bookPublisher=${book.publisher}`)}
+/>
+
+
+
               </div>
             </div>
           );

@@ -102,30 +102,30 @@ function Timer() {
       });
     }, 1000);
   };
-  
-  
+  const userEmail = localStorage.getItem('userEmail');
 
+  
+  const fetchBookmarks = async (userEmail) => {
+    const encodedEmail = encodeURIComponent(userEmail);
+    const apiUrl = `https://janghong.asia/book/list/before/reading?userEmail=${encodedEmail}`;
+  
+    try {
+      const response = await fetch(apiUrl);
+      const data = await response.json();
+      return data; // API에서 반환된 데이터
+    } catch (error) {
+      console.error("북마크를 가져오는 데 실패했습니다.", error);
+      return [];
+    }
+  };
   useEffect(() => {
-    const savedBookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
-    setBookmarks(savedBookmarks);
+    const loadBookmarks = async () => {
+      const fetchedBookmarks = await fetchBookmarks(userEmail);
+      setBookmarks(fetchedBookmarks); // 상태에 북마크 데이터 저장
+    };
 
-    const queryParams = new URLSearchParams(location.search);
-  const bookIdFromURL = queryParams.get("bookId");
-  const bookTitleFromURL = queryParams.get("bookTitle");
-
-  if (bookIdFromURL) {
-    setSelectedBook(bookIdFromURL);
-    // 책이 북마크 목록에 없으면 추가
-    setBookmarks((prevBookmarks) => {
-      const isAlreadyBookmarked = prevBookmarks.some(book => book.id === bookIdFromURL);
-      if (!isAlreadyBookmarked) {
-        return [...prevBookmarks, { id: bookIdFromURL, volumeInfo: { title: bookTitleFromURL } }];
-      }
-      return prevBookmarks;
-    });
-  }
-   
-  }, [location]);
+    loadBookmarks(); // 컴포넌트가 마운트될 때 북마크를 가져옴
+  }, [userEmail]); // userEmail이 변경될 때마다 북마크를 다시 가져옴
 
   useEffect(() => {
     if (selectedBook && time > 0 && !isPaused) {
