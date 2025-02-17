@@ -1,14 +1,17 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
-export function useDebounce(callback, delay) {
-  const [timer, setTimer] = useState(null);
+export function useDebounce(value, delay) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
 
   useEffect(() => {
-    return () => clearTimeout(timer);
-  }, [timer]);
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
 
-  return (...args) => {
-    clearTimeout(timer);
-    setTimer(setTimeout(() => callback(...args), delay));
-  };
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]); // delay 포함 -> ESLint 경고 해결
+
+  return debouncedValue;
 }
