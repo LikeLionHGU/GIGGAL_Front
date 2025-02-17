@@ -28,9 +28,10 @@ const Home = () => {
     fetchBooks();
   }, [selectedFilter]);
 
+  const userEmail = localStorage.getItem("userEmail");
+
   // 📌 API 호출 (필터별)
   const fetchBooks = async () => {
-    const userEmail = localStorage.getItem("userEmail");
     if (!userEmail) {
       console.error("📌 유저 이메일이 없습니다. 책 목록을 가져올 수 없습니다.");
       return;
@@ -122,6 +123,30 @@ const Home = () => {
     navigate("/Search");
   };
 
+  const handleReadingButtonClick = async (book) => {
+    try {
+      const response = await axios.put(
+        `${API_BASE_URL}/reading/${book.bookId}?userEmail=${encodeURIComponent(userEmail)}`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+  
+      console.log("읽는중으로 변경 성공공", response.data);
+  
+      setCompletedBooks((prev) => ({
+        ...prev,
+        [book.bookId]: true,
+      }));
+    } catch (error) {
+      console.error("📌 완독 처리 실패:", error.response ? error.response.data : error);
+    }
+  }; 
+
+
   return (
     <div>
       <HomeHeader />
@@ -192,8 +217,16 @@ const Home = () => {
 
               <div className={styles.btns}>
 
-                <img src={readingbtn} alt="readingbtn" className={styles.readingbtn} onClick={() => navigate(`/timer?bookId=${book.bookId}`)} />
-              
+              <img
+  src={readingbtn}
+  alt="readingbtn"
+  className={styles.readingbtn}
+  onClick={async () => {
+    await handleReadingButtonClick(book); // ✅ 읽는중으로 변경 API 호출
+    navigate(`/timer?bookId=${book.bookId}`); // ✅ API 호출 후 타이머 페이지로 이동
+  }}
+/>
+
 
              
 <img
@@ -231,6 +264,6 @@ const Home = () => {
       <Footer />
     </div>
   );
-};
+}
 
 export default Home;

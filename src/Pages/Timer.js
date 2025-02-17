@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "../styles/Timer.css";
 import HomeHeader from "../components/header/HomeHeader.js";
@@ -19,7 +18,6 @@ function Timer() {
   const [mode, setMode] = useState("reading");
   const [isPaused, setIsPaused] = useState(true);
   const intervalRef = useRef(null);
-  const location = useLocation();
   const resetIcon = require("../img/reset.png");
   const startIcon = require("../img/start.png");
   const stopIcon = require("../img/stop.png");
@@ -117,7 +115,7 @@ useEffect(() => {
     }
 
     try {
-      const response = await axios.get(`https://janghong.asia/book/list/before/reading?userEmail=${encodeURIComponent(userEmail)}`);
+      const response = await axios.get(`https://janghong.asia/book/list/now/reading?userEmail=${encodeURIComponent(userEmail)}`);
       console.log("📌 백엔드에서 가져온 북마크 리스트:", response.data);
       setBookmarks(response.data); // 백엔드 응답 데이터를 상태로 설정
     } catch (error) {
