@@ -100,11 +100,9 @@ useEffect(() => {
       pageCount: book.volumeInfo.pageCount || 0,
       publisher: book.volumeInfo.publisher || "정보 없음",
       thumbnail: book.volumeInfo.imageLinks?.thumbnail || "",
-      isbn: book.volumeInfo.industryIdentifiers 
-        ? book.volumeInfo.industryIdentifiers.find(id => id.type === "ISBN_13")?.identifier || 
-          book.volumeInfo.industryIdentifiers.find(id => id.type === "ISBN_10")?.identifier || "정보 없음"
-        : "정보 없음"
+      googleBookId: book.id || "정보 없음" 
     };
+    
     
 
     console.log("북마크 요청 데이터:", requestData);
