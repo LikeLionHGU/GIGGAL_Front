@@ -55,25 +55,35 @@ const [selectedDifficulty, setSelectedDifficulty] = useState("");
 const [isSubmitting, setIsSubmitting] = useState(false); 
 
 const handleDifficultySelect = async (difficulty) => {
-  if (!selectedBook || isSubmitting) return; //  중복 요청 방지
+  if (!selectedBook || isSubmitting) return; // 중복 요청 방지
   setSelectedDifficulty(difficulty);
   setIsSubmitting(true); // 요청 시작
 
+  // 📌 선택한 Google Book ID를 백엔드 Book ID로 변환
+  const bookData = bookmarks.find((book) => book.googleBookId === selectedBook);
+  const bookId = bookData?.bookId; // 📌 백엔드에서 사용하는 bookId 가져오기
+
+  if (!bookId) {
+    console.error("📌 해당 Google Book ID에 대한 백엔드 Book ID를 찾을 수 없습니다.");
+    setIsSubmitting(false);
+    return;
+  }
+
   try {
-    const response = await axios.put(`${API_BASE_URL}/book/difficulty/${selectedBook}`, {
+    const response = await axios.put(`${API_BASE_URL}/book/difficulty/${bookId}`, {
       difficulty: difficulty,
     });
 
     if (response.status === 200) {
-      console.log("난이도 평가 성공:", response.data);
+      console.log("📌 난이도 평가 성공:", response.data);
       setTimeout(() => {
-        setShowModal(false); //  0.5초 후 모달 닫기
+        setShowModal(false); // 0.5초 후 모달 닫기
         setSelectedDifficulty(""); // 상태 초기화
         setIsSubmitting(false);
       }, 500);
     }
   } catch (error) {
-    console.error("난이도 평가 실패:", error.response ? error.response.data : error);
+    console.error("❌ 난이도 평가 실패:", error.response ? error.response.data : error);
     setIsSubmitting(false); // 요청 실패 시 다시 버튼 활성화
   }
 };
@@ -137,7 +147,7 @@ const handleDifficultySelect = async (difficulty) => {
 
   const userEmail = (localStorage.getItem("userEmail") || "").trim();// 로컬스토리지에서 유저 이메일 가져오기
 
-// 북마크 리스트 가져오기 (Google Book ID 사용)
+// 📌 북마크 리스트 가져올 때 Google Book ID와 백엔드 Book ID를 함께 저장
 useEffect(() => {
   const fetchBookmarks = async () => {
     if (!userEmail) {
@@ -150,17 +160,22 @@ useEffect(() => {
         `${API_BASE_URL}/book/list/now/reading?userEmail=${encodeURIComponent(userEmail)}`
       );
 
-      console.log(" 백엔드에서 가져온 북마크 리스트:", response.data);
-      
-      // Google Book ID (`googleBookId`)를 선택하도록 변경
-      setBookmarks(response.data);
+      console.log("📌 백엔드에서 가져온 북마크 리스트:", response.data);
+
+      // 📌 Google Book ID와 백엔드 Book ID를 매핑하여 저장
+      setBookmarks(response.data.map(book => ({
+        googleBookId: book.googleBookId,
+        bookId: book.bookId, // 백엔드 ID 추가
+        title: book.title
+      })));
     } catch (error) {
-      console.error("북마크 리스트 가져오기 실패:", error.response ? error.response.data : error);
+      console.error("❌ 북마크 리스트 가져오기 실패:", error.response ? error.response.data : error);
     }
   };
 
   fetchBookmarks();
 }, [userEmail]);
+
 
 
 
