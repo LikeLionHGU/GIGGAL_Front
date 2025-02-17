@@ -48,10 +48,35 @@ function Timer() {
   const [showExitWarning, setShowExitWarning] = useState(false);
   const navigate = useNavigate();
 
-  const [elapsedTime, setElapsedTime] = useState(0); // ✅ 흐른 시간 (초 단위 저장)
-const startTimeRef = useRef(null); // ✅ 시작 시간 저장용
+  const [elapsedTime, setElapsedTime] = useState(0); // 흐른 시간 (초 단위 저장)
+const startTimeRef = useRef(null); // 시작 시간 저장용
 
-  
+const [selectedDifficulty, setSelectedDifficulty] = useState("");
+const [isSubmitting, setIsSubmitting] = useState(false); 
+
+const handleDifficultySelect = async (difficulty) => {
+  if (!selectedBook || isSubmitting) return; //  중복 요청 방지
+  setSelectedDifficulty(difficulty);
+  setIsSubmitting(true); // 요청 시작
+
+  try {
+    const response = await axios.put(`${API_BASE_URL}/book/difficulty/${selectedBook}`, {
+      difficulty: difficulty,
+    });
+
+    if (response.status === 200) {
+      console.log("난이도 평가 성공:", response.data);
+      setTimeout(() => {
+        setShowModal(false); //  0.5초 후 모달 닫기
+        setSelectedDifficulty(""); // 상태 초기화
+        setIsSubmitting(false);
+      }, 500);
+    }
+  } catch (error) {
+    console.error("난이도 평가 실패:", error.response ? error.response.data : error);
+    setIsSubmitting(false); // 요청 실패 시 다시 버튼 활성화
+  }
+};
 
   useEffect(() => {
     const handleBackButton = (event) => {
@@ -112,11 +137,11 @@ const startTimeRef = useRef(null); // ✅ 시작 시간 저장용
 
   const userEmail = (localStorage.getItem("userEmail") || "").trim();// 로컬스토리지에서 유저 이메일 가져오기
 
-// 📌 API에서 북마크 리스트 불러오기
+// API에서 북마크 리스트 불러오기
 useEffect(() => {
   const fetchBookmarks = async () => {
     if (!userEmail) {
-      console.error("📌 유저 이메일이 없습니다. 북마크 목록을 불러올 수 없습니다.");
+      console.error(" 유저 이메일이 없습니다. 북마크 목록을 불러올 수 없습니다.");
       return;
     }
 
@@ -125,15 +150,15 @@ useEffect(() => {
         `https://janghong.asia/book/list/now/reading?userEmail=${encodeURIComponent(userEmail)}`
       );
 
-      console.log("📌 백엔드에서 가져온 북마크 리스트:", response.data);
-      setBookmarks(response.data); // ✅ `setBookmarks`만 실행 (여기서 `setUserCount` 제거)
+      console.log("백엔드에서 가져온 북마크 리스트:", response.data);
+      setBookmarks(response.data); // `setBookmarks`만 실행 (여기서 `setUserCount` 제거)
     } catch (error) {
-      console.error("📌 북마크 리스트 가져오기 실패:", error.response ? error.response.data : error);
+      console.error("북마크 리스트 가져오기 실패:", error.response ? error.response.data : error);
     }
   };
 
   fetchBookmarks();
-}, [userEmail]); // ✅ `userEmail` 변경 시 실행
+}, [userEmail]); // `userEmail` 변경 시 실행
 
 
   useEffect(() => {
@@ -167,7 +192,7 @@ useEffect(() => {
     const userEmail = localStorage.getItem("userEmail");
   
     if (!userEmail) {
-      console.error("📌 유저 이메일이 없습니다.");
+      console.error("유저 이메일이 없습니다.");
       return;
     }
   
@@ -176,16 +201,16 @@ useEffect(() => {
         `${API_BASE_URL}/book/reading/time/${bookId}`,
         {
           userEmail: userEmail,
-          time: addedTimeInMinutes, // ✅ 분 단위로 변환 후 저장
+          time: addedTimeInMinutes, //  분 단위로 변환 후 저장
         },
         {
           headers: { "Content-Type": "application/json" },
         }
       );
   
-      console.log(`📌 ${bookId}의 ${addedTimeInMinutes}분 저장 완료:`, response.data);
+      console.log(` ${bookId}의 ${addedTimeInMinutes}분 저장 완료:`, response.data);
     } catch (error) {
-      console.error("📌 읽은 시간 저장 실패:", error.response ? error.response.data : error);
+      console.error(" 읽은 시간 저장 실패:", error.response ? error.response.data : error);
     }
   };
   
@@ -198,7 +223,7 @@ useEffect(() => {
       return;
     }
   
-    await saveReadingTime(selectedBook, elapsedTime); // ✅ 흐른 시간 (분) 저장
+    await saveReadingTime(selectedBook, elapsedTime); // 흐른 시간 (분) 저장
   
     setRecord("");
     setIsRecordSaved(false);
@@ -226,22 +251,22 @@ useEffect(() => {
     }
     if (time <= 0 || !isPaused) return;
   
-    startTimeRef.current = Date.now(); // ✅ 시작 시간 기록
+    startTimeRef.current = Date.now(); //  시작 시간 기록
     setIsPaused(false);
   };
   
   const stopTimer = () => {
     if (!startTimeRef.current) return; // 타이머가 시작되지 않았으면 무시
   
-    const endTime = Date.now(); // ✅ 현재 시간 저장
-    const elapsedSeconds = Math.floor((endTime - startTimeRef.current) / 1000); // ✅ 흐른 시간 (초 단위)
+    const endTime = Date.now(); // 현재 시간 저장
+    const elapsedSeconds = Math.floor((endTime - startTimeRef.current) / 1000); //  흐른 시간 (초 단위)
   
-    const elapsedMinutes = Math.floor(elapsedSeconds / 60); // ✅ 초 → 분 변환
+    const elapsedMinutes = Math.floor(elapsedSeconds / 60); // 초 → 분 변환
   
-    setElapsedTime(elapsedMinutes); // ✅ 상태에 저장
+    setElapsedTime(elapsedMinutes); // 상태에 저장
     setIsPaused(true);
     
-    console.log(`📌 흐른 시간: ${elapsedMinutes}분`);
+    console.log(` 흐른 시간: ${elapsedMinutes}분`);
   };
   
 
@@ -258,20 +283,20 @@ useEffect(() => {
   //   return allBookmarks.filter((book) => book.id === selectedBook).length;
   // }, [selectedBook]);
 
- // 📌 선택한 책이 변경될 때 `userCount` 업데이트
+ // 선택한 책이 변경될 때 `userCount` 업데이트
 useEffect(() => {
   if (selectedBook) {
     const selectedBookData = bookmarks.find((book) => book.bookId === selectedBook);
     
     if (selectedBookData) {
-      console.log("📌 선택된 책의 북마크 수 업데이트:", selectedBookData.countOfBookMark);
+      console.log(" 선택된 책의 북마크 수 업데이트:", selectedBookData.countOfBookMark);
       setUserCount(selectedBookData.countOfBookMark);
     } else {
-      console.log("📌 선택된 책을 찾을 수 없음");
+      console.log(" 선택된 책을 찾을 수 없음");
       setUserCount(0);
     }
   }
-}, [selectedBook, bookmarks]); // ✅ `selectedBook` 또는 `bookmarks` 변경될 때 실행
+}, [selectedBook, bookmarks]); //  `selectedBook` 또는 `bookmarks` 변경될 때 실행
 
 
   return (
@@ -341,13 +366,14 @@ useEffect(() => {
   <img 
   src={resetIcon} 
   alt="Reset" 
+  className="icon-reset"
   onClick={() => {
     setTime(3000); // 시간을 50분으로 초기화
     setSelectedTime("50분 / 15분"); 
   }} 
 />
     <img
-        className="icon start"
+        className="icon-start"
         src={startSrc}
         alt="Start"
         onClick={startTimer}
@@ -357,7 +383,7 @@ useEffect(() => {
         onMouseUp={() => setStartSrc(startHover)} // 마우스 떼면 Hover 상태 유지
       />
     <img
-        className="icon stop"
+        className="icon-stop"
         src={stopSrc}
         alt="Stop"
         onClick={stopTimer}
@@ -396,19 +422,38 @@ useEffect(() => {
   </div>
 </div>
 {showModal && (
-  <div className="modal-overlay" onClick={() => setShowModal(false)}>
-    <div className="modal-content" onClick={(event) => event.stopPropagation()}>
-      <h2>독서를 완료하셨습니다!</h2>
-      <p>방금 읽은 책에 대해서 어떻게 생각하시나요?</p>
+        <div className="modal-overlay" onClick={() => setShowModal(false)}>
+          <div className="modal-content" onClick={(event) => event.stopPropagation()}>
+            <h2>독서를 완료하셨습니다!</h2>
+            <p>방금 읽은 책에 대해서 어떻게 생각하시나요?</p>
 
-      <button>📖 술술 읽혀요</button>
-      <button>🧐 읽을만해요</button>
-      <button>🔍 관련 지식이 필요해요</button>
+           
+            <button 
+              className={selectedDifficulty === "easy" ? "selected" : ""} 
+              onClick={() => handleDifficultySelect("easy")}
+              disabled={isSubmitting} //  요청 중이면 버튼 비활성화
+            >
+              📖 술술 읽혀요
+            </button>
+            <button 
+              className={selectedDifficulty === "normal" ? "selected" : ""} 
+              onClick={() => handleDifficultySelect("normal")}
+              disabled={isSubmitting}
+            >
+              🧐 읽을만해요
+            </button>
+            <button 
+              className={selectedDifficulty === "hard" ? "selected" : ""} 
+              onClick={() => handleDifficultySelect("hard")}
+              disabled={isSubmitting}
+            >
+              🔍 관련 지식이 필요해요
+            </button>
 
-      <button className="modal-close-btn" onClick={() => setShowModal(false)}>보내기</button>
-    </div>
-  </div>
-)}
+            <button className="modal-close-btn" onClick={() => setShowModal(false)}>닫기</button>
+          </div>
+        </div>
+      )}
 
 {showAlertModal && (
   <div className="modal-alert-overlay" onClick={() => setShowAlertModal(false)}>
