@@ -366,13 +366,14 @@ useEffect(() => {
   <img 
   src={resetIcon} 
   alt="Reset" 
+  className="icon-reset"
   onClick={() => {
     setTime(3000); // 시간을 50분으로 초기화
     setSelectedTime("50분 / 15분"); 
   }} 
 />
     <img
-        className="icon start"
+        className="icon-start"
         src={startSrc}
         alt="Start"
         onClick={startTimer}
@@ -382,7 +383,7 @@ useEffect(() => {
         onMouseUp={() => setStartSrc(startHover)} // 마우스 떼면 Hover 상태 유지
       />
     <img
-        className="icon stop"
+        className="icon-stop"
         src={stopSrc}
         alt="Stop"
         onClick={stopTimer}
