@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef} from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Timer.css";
 import HomeHeader from "../components/header/HomeHeader.js";
@@ -110,7 +110,7 @@ const startTimeRef = useRef(null); // ✅ 시작 시간 저장용
   
   
 
-  const userEmail = localStorage.getItem("userEmail"); // 로컬스토리지에서 유저 이메일 가져오기
+  const userEmail = (localStorage.getItem("userEmail") || "").trim();// 로컬스토리지에서 유저 이메일 가져오기
 
 // 📌 API에서 북마크 리스트 불러오기
 useEffect(() => {
@@ -121,16 +121,20 @@ useEffect(() => {
     }
 
     try {
-      const response = await axios.get(`https://janghong.asia/book/list/now/reading?userEmail=${encodeURIComponent(userEmail)}`);
+      const response = await axios.get(
+        `https://janghong.asia/book/list/now/reading?userEmail=${encodeURIComponent(userEmail)}`
+      );
+
       console.log("📌 백엔드에서 가져온 북마크 리스트:", response.data);
-      setBookmarks(response.data); // 백엔드 응답 데이터를 상태로 설정
+      setBookmarks(response.data); // ✅ `setBookmarks`만 실행 (여기서 `setUserCount` 제거)
     } catch (error) {
       console.error("📌 북마크 리스트 가져오기 실패:", error.response ? error.response.data : error);
     }
   };
 
   fetchBookmarks();
-}, [userEmail]); // userEmail이 변경될 때마다 실행
+}, [userEmail]); // ✅ `userEmail` 변경 시 실행
+
 
   useEffect(() => {
     if (selectedBook && time > 0 && !isPaused) {
@@ -249,16 +253,26 @@ useEffect(() => {
     }
   }, [selectedBook]);
 
-  const getBookmarkedUserCount = useCallback(() => {
-    const allBookmarks = JSON.parse(localStorage.getItem("allUsersBookmarks")) || [];
-    return allBookmarks.filter((book) => book.id === selectedBook).length;
-  }, [selectedBook]);
+  // const getBookmarkedUserCount = useCallback(() => {
+  //   const allBookmarks = JSON.parse(localStorage.getItem("allUsersBookmarks")) || [];
+  //   return allBookmarks.filter((book) => book.id === selectedBook).length;
+  // }, [selectedBook]);
 
-  useEffect(() => {
-    if (selectedBook) {
-      setUserCount(getBookmarkedUserCount());
+ // 📌 선택한 책이 변경될 때 `userCount` 업데이트
+useEffect(() => {
+  if (selectedBook) {
+    const selectedBookData = bookmarks.find((book) => book.bookId === selectedBook);
+    
+    if (selectedBookData) {
+      console.log("📌 선택된 책의 북마크 수 업데이트:", selectedBookData.countOfBookMark);
+      setUserCount(selectedBookData.countOfBookMark);
+    } else {
+      console.log("📌 선택된 책을 찾을 수 없음");
+      setUserCount(0);
     }
-  }, [selectedBook, getBookmarkedUserCount]);
+  }
+}, [selectedBook, bookmarks]); // ✅ `selectedBook` 또는 `bookmarks` 변경될 때 실행
+
 
   return (
     <div className="whole">
@@ -301,22 +315,23 @@ useEffect(() => {
 
    
     <div className="book-selection">
-  <select 
-    className="book-dropdown" 
-    value={selectedBook}
-    onChange={(e) => setSelectedBook(e.target.value)}
-  >
-    <option value="" disabled hidden>Choose the Book Title</option>
-    {bookmarks.length > 0 ? (
-      bookmarks.map((book) => (
-        <option key={book.bookId} value={book.bookId}>
-          {book.title} {/* API 응답에 맞춰 title 사용 */}
-        </option>
-      ))
-    ) : (
-      <option value="" disabled>북마크된 책이 없습니다.</option>
-    )}
-  </select>
+    <select 
+  className="book-dropdown" 
+  value={selectedBook}
+  onChange={(e) => setSelectedBook(Number(e.target.value))} // 🔹 숫자로 변환
+>
+  <option value="" disabled hidden>Choose the Book Title</option>
+  {bookmarks.length > 0 ? (
+    bookmarks.map((book) => (
+      <option key={book.bookId} value={book.bookId}>
+        {book.title}
+      </option>
+    ))
+  ) : (
+    <option value="" disabled>북마크된 책이 없습니다.</option>
+  )}
+</select>
+
 </div>
 
   </div>
