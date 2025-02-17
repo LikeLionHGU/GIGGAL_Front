@@ -23,6 +23,7 @@ function Timer() {
   const stopIcon = require("../img/stop.png");
   const recordIcon = require("../img/record.png");
   const recordingIcon = require("../img/recording.png");
+  const API_BASE_URL = "https://janghong.asia"; 
  
 
 
@@ -46,6 +47,11 @@ function Timer() {
 
   const [showExitWarning, setShowExitWarning] = useState(false);
   const navigate = useNavigate();
+
+  const [elapsedTime, setElapsedTime] = useState(0); // ✅ 흐른 시간 (초 단위 저장)
+const startTimeRef = useRef(null); // ✅ 시작 시간 저장용
+
+  
 
   useEffect(() => {
     const handleBackButton = (event) => {
@@ -152,33 +158,53 @@ useEffect(() => {
     return () => clearInterval(intervalRef.current);
   }, [selectedBook, time, isPaused, mode, totalReadingTime]); //  totalReadingTime 추가
   
-
-  const saveReadingTime = (bookId, addedTime) => {
+  const saveReadingTime = async (bookId, addedTimeInMinutes) => {
     if (!bookId) return;
-    const currentReadingTime = JSON.parse(localStorage.getItem(`readingTime_${bookId}`)) || 0;
-    localStorage.setItem(`readingTime_${bookId}`, JSON.stringify(currentReadingTime + addedTime));
+    const userEmail = localStorage.getItem("userEmail");
+  
+    if (!userEmail) {
+      console.error("📌 유저 이메일이 없습니다.");
+      return;
+    }
+  
+    try {
+      const response = await axios.put(
+        `${API_BASE_URL}/book/reading/time/${bookId}`,
+        {
+          userEmail: userEmail,
+          time: addedTimeInMinutes, // ✅ 분 단위로 변환 후 저장
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+  
+      console.log(`📌 ${bookId}의 ${addedTimeInMinutes}분 저장 완료:`, response.data);
+    } catch (error) {
+      console.error("📌 읽은 시간 저장 실패:", error.response ? error.response.data : error);
+    }
   };
+  
 
-  const saveRecordAndComplete = (isCompletion = false) => {
-    if (!selectedBook) return; // 책이 선택되지 않으면 종료
-    
-    // 🛠️ 메모를 입력했지만 저장하지 않은 경우에만 경고 모달을 띄움
+  const saveRecordAndComplete = async (isCompletion = false) => {
+    if (!selectedBook) return;
+  
     if (isCompletion && record.trim() && !isRecordSaved) {
       setShowWarningModal(true);
       return;
     }
   
-    const existingRecords = JSON.parse(localStorage.getItem(`records_${selectedBook}`)) || [];
-    localStorage.setItem(`records_${selectedBook}`, JSON.stringify([...existingRecords, record]));
-    saveReadingTime(selectedBook, 3000);
+    await saveReadingTime(selectedBook, elapsedTime); // ✅ 흐른 시간 (분) 저장
   
-    setRecord(""); // 기록 초기화
-    setIsRecordSaved(false); // 독서 완료 후 다시 초기화
+    setRecord("");
+    setIsRecordSaved(false);
   
     if (isCompletion) {
-      setShowModal(true); // '독서 완료하기' 버튼 클릭 시 모달 표시
+      setShowModal(true);
     }
   };
+  
+  
   
   
   const handleRecordSave = () => {
@@ -191,14 +217,29 @@ useEffect(() => {
 
   const startTimer = () => {
     if (!selectedBook) {
-      setShowAlertModal(true); // 책이 선택되지 않으면 모달 표시
+      setShowAlertModal(true);
       return;
     }
     if (time <= 0 || !isPaused) return;
+  
+    startTimeRef.current = Date.now(); // ✅ 시작 시간 기록
     setIsPaused(false);
-    
   };
-  const stopTimer = () => setIsPaused(true);
+  
+  const stopTimer = () => {
+    if (!startTimeRef.current) return; // 타이머가 시작되지 않았으면 무시
+  
+    const endTime = Date.now(); // ✅ 현재 시간 저장
+    const elapsedSeconds = Math.floor((endTime - startTimeRef.current) / 1000); // ✅ 흐른 시간 (초 단위)
+  
+    const elapsedMinutes = Math.floor(elapsedSeconds / 60); // ✅ 초 → 분 변환
+  
+    setElapsedTime(elapsedMinutes); // ✅ 상태에 저장
+    setIsPaused(true);
+    
+    console.log(`📌 흐른 시간: ${elapsedMinutes}분`);
+  };
+  
 
   useEffect(() => {
     if (selectedBook) {
