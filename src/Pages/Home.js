@@ -221,12 +221,24 @@ const Home = () => {
   }}
 />
 
-                <img
-                  src={recordbtn}
-                  alt="recordbtn"
-                  className={styles.recordbtn}
-                  onClick={() => navigate(`/bookdetail?bookTitle=${book.title}&bookPublisher=${book.publisher}`)}
-                />
+<img
+  src={recordbtn}
+  alt="recordbtn"
+  className={styles.recordbtn}
+  onClick={() =>
+    navigate(
+      `/bookdetail?bookId=${encodeURIComponent(book.id)}&bookTitle=${encodeURIComponent(
+        book.title
+      )}&bookTime=${encodeURIComponent(book.time)}&bookPublisher=${encodeURIComponent(
+        book.publisher
+      )}&bookImage=${encodeURIComponent(book.imageLinks?.thumbnail || "")}&bookAuthors=${encodeURIComponent(
+        book.authors?.join(", ") || "정보 없음"
+      )}&bookDescription=${encodeURIComponent(book.description || "설명 없음")}`
+    )
+  }
+/>
+
+
               </div>
             </div>
           ))
