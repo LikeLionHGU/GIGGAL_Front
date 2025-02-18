@@ -55,7 +55,18 @@ const fetchBooksByBookmark = async () => {
 
   try {
     const encodedSearchTerm = encodeURIComponent(searchTerm.trim());
+    console.log("📌 API 요청에 사용된 검색어:", encodedSearchTerm);
     const response = await axios.get(`https://janghong.asia/book/ranking/bookmark?keyword=${encodedSearchTerm}`);
+
+    console.log("📌 전체 응답 객체:", response);  // 전체 응답 객체 확인
+    console.log("📌 백엔드 응답 데이터:", response.data); // 백엔드에서 받은 데이터 확인
+
+    if (!response.data || response.data.length === 0) {
+      console.warn("🚨 백엔드에서 북마크순 데이터가 비어 있습니다!");
+    } else {
+      console.log("✅ 북마크순 정렬된 데이터:", response.data);
+    }
+
     setSearchResults(response.data || []);
   } catch (err) {
     console.error(" 북마크순 가져오기 실패", err);
