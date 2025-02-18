@@ -112,19 +112,27 @@
     font-weight: bold;
   }
 
-  .mylist-container {
-    padding-top: 3rem;
+  
+
+  .mylist {
+padding-top: 3rem;
     padding-left: 5rem;
     padding-bottom: 5rem;
     width: 80rem;  /* 너비 고정 */
+    height: 25rem;
     position: relative;
     display: flex;
+   
   }
+  .mylisticon{
+    top:790px;
+    left:100px;
+    width: 9rem;  /* 너비 고정 */
+    height: auto;
+    position: absolute;
+    display: flex;
+   
 
-  .mylist {
-    width: 100%;  /* 부모 요소의 너비에 맞게 조정 */
-    height: 50%;  /* 비율을 유지하면서 자동으로 높이 조정 */
-    object-fit: cover;  /* 비율을 유지하면서 필요시 잘림 */
   }
   .memo-container {
     position: absolute; /* mylist 위에 배치 */
@@ -147,7 +155,7 @@
   .memocon {
     min-width: 300px;
     max-width: 100px;
-    height: 370px;
+    height: 200px;
     border-radius: 10px;
     padding: 10px;
     border: 1px solid #ddd;
