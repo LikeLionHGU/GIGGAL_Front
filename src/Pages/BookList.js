@@ -135,10 +135,13 @@ useEffect(() => {
       console.error("책 ID가 존재하지 않습니다.");
       return;
     }
-    
-    const bookId = encodeURIComponent(book.id);
-    navigate(`/detail/${bookId}`);
+  
+    const googleBookId = book.id;
+    const bookId = book.volumeInfo?.industryIdentifiers?.[0]?.identifier || "unknown";
+  
+    navigate(`/searchdetail/${googleBookId}/${bookId}`);
   };
+  
   
   const fetchBooksByDifficulty = async () => {
     if (!searchTerm || searchTerm.trim() === "") {

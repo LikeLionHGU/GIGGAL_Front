@@ -205,12 +205,21 @@ useEffect(() => {
     return () => clearInterval(intervalRef.current);
   }, [selectedBook, time, isPaused, mode, totalReadingTime]); //  totalReadingTime 추가
   
-  const saveReadingTime = async (bookId, addedTimeInMinutes) => {
-    if (!bookId) return;
-    const userEmail = localStorage.getItem("userEmail");
+  const saveReadingTime = async (googleBookId, addedTimeInMinutes) => {
+    if (!googleBookId || addedTimeInMinutes <= 0) return;
   
+    const userEmail = localStorage.getItem("userEmail");
     if (!userEmail) {
-      console.error("유저 이메일이 없습니다.");
+      console.error("📌 유저 이메일이 없습니다.");
+      return;
+    }
+  
+    // 📌 선택한 Google Book ID를 백엔드 Book ID로 변환
+    const bookData = bookmarks.find((book) => book.googleBookId === googleBookId);
+    const bookId = bookData?.bookId; // 백엔드에서 사용하는 bookId 가져오기
+  
+    if (!bookId) {
+      console.error("📌 해당 Google Book ID에 대한 백엔드 Book ID를 찾을 수 없습니다.");
       return;
     }
   
@@ -219,20 +228,18 @@ useEffect(() => {
         `${API_BASE_URL}/book/reading/time/${bookId}`,
         {
           userEmail: userEmail,
-          time: addedTimeInMinutes, //  분 단위로 변환 후 저장
+          time: addedTimeInMinutes, // ✅ 분 단위 변환 후 저장
         },
         {
           headers: { "Content-Type": "application/json" },
         }
       );
   
-      console.log(` ${bookId}의 ${addedTimeInMinutes}분 저장 완료:`, response.data);
+      console.log(`📌 ${bookId}의 ${addedTimeInMinutes}분 저장 완료:`, response.data);
     } catch (error) {
-      console.error(" 읽은 시간 저장 실패:", error.response ? error.response.data : error);
+      console.error("📌 읽은 시간 저장 실패:", error.response ? error.response.data : error);
     }
   };
-  
-
   const saveRecordAndComplete = async (isCompletion = false) => {
     if (!selectedBook) return;
   
@@ -313,18 +320,20 @@ useEffect(() => {
   
   const stopTimer = () => {
     if (!startTimeRef.current) return; // 타이머가 시작되지 않았으면 무시
-  
-    const endTime = Date.now(); // 현재 시간 저장
-    const elapsedSeconds = Math.floor((endTime - startTimeRef.current) / 1000); //  흐른 시간 (초 단위)
-  
-    const elapsedMinutes = Math.floor(elapsedSeconds / 60); // 초 → 분 변환
-  
-    setElapsedTime(elapsedMinutes); // 상태에 저장
-    setIsPaused(true);
     
-    console.log(` 흐른 시간: ${elapsedMinutes}분`);
-  };
+    const endTime = Date.now(); // ✅ 현재 시간 저장
+    const elapsedSeconds = Math.floor((endTime - startTimeRef.current) / 1000); // ✅ 흐른 시간 (초 단위)
+    const elapsedMinutes = Math.floor(elapsedSeconds / 60); // ✅ 초 → 분 변환
   
+    setElapsedTime(elapsedMinutes); // ✅ 상태에 저장
+    setIsPaused(true);
+  
+    console.log(`📌 흐른 시간: ${elapsedMinutes}분`);
+  
+    if (elapsedMinutes > 0) {
+      saveReadingTime(selectedBook, elapsedMinutes);
+    }
+  };
 
   useEffect(() => {
     if (selectedBook) {
