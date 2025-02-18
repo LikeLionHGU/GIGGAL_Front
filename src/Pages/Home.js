@@ -243,7 +243,7 @@ const Home = () => {
             </div>
           ))
         ) : (
-          <p className={styles.noBooks}>해당 필터에 맞는 책이 없습니다.</p>
+          <p className={styles.noBooks}/>
         )}
       </div>
 

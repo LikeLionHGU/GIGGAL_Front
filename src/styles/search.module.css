@@ -16,6 +16,16 @@
   text-align: center; /* 책 제목과 저자 정보 중앙 정렬 */
 }
 
+.nobookmarklist{
+  display: flex;
+  height: auto;
+  width: 30rem;
+  padding-left: 30rem;
+  padding-top: 2rem;
+  padding-bottom: 5rem;
+
+}
+
 .bookcover img {
   border-radius: 10%; /* 둥글게 */
   width: 150px; /* 크기 지정 */

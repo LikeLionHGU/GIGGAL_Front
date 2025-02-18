@@ -6,6 +6,8 @@ import Footer from "../components/footer/Footer.js";
 import HomeHeader from "../components/header/HomeHeader.js";
 import searchbtn from "../img/searchbtn.png";
 import nonbookmark from "../img/nonbookmark.png";
+import nobookmarklist from "../img/nobookmarklist.png";
+import nolevellist from "../img/nolevellist.png";
 import bookmark from "../img/bookmark.png";
 import { useDebounce } from "../hooks/useDebounce";
 
@@ -171,6 +173,25 @@ useEffect(() => {
       console.error("난이도순 가져오기 실패:", err);
     }
   };
+
+  // 정렬된 책 목록이 없을 경우 메시지를 보여주는 부분
+const renderNoResultsMessage = () => {
+  if (sortType === "북마크순") {
+    return <img
+    src={nobookmarklist}
+    alt="nbl"
+    className={styles.nobookmarklist}
+  />
+  }
+  if (sortType === "난이도순") {
+    return <img
+    src={nolevellist}
+    alt="nbl"
+    className={styles.nobookmarklist}
+  />;
+  }
+  return null;
+};
   
   
 
@@ -229,7 +250,12 @@ useEffect(() => {
 
      
       <div className={styles.books}>
-        {searchResults.map((book) => (
+      {searchResults.length === 0 ? (
+        <div className={styles.noResultsMessage}>
+          {renderNoResultsMessage()}
+        </div>
+      ) : (
+        searchResults.map((book) => (
           <div className={styles.bookcard} key={book.id || book.bookId}>
             <div className={styles.infomation}>
               <div className={styles.bookcover} onClick={() => handleBookClick(book)}>
@@ -257,7 +283,8 @@ useEffect(() => {
               />
             </button>
           </div>
-        ))}
+        ))
+      )}
       </div>
 
       <Footer />
