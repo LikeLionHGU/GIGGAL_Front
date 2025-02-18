@@ -8,6 +8,7 @@ import goto from "../img/edong.png";
 import mylist from "../img/mylist.png";
 import readingbtn from '../img/readingbtn.png';  // '../img/'로 경로를 수정
 import Footer from '../components/footer/Footer.js';
+import axios from "axios"; 
 
 const BookDetail = () => {
   const navigate = useNavigate();
@@ -15,12 +16,11 @@ const BookDetail = () => {
   const params = new URLSearchParams(location.search);
   const bookTitle = params.get("bookTitle");
   const bookPublisher = params.get("bookPublisher");
+  const API_BASE_URL = "https://janghong.asia"; 
 
   const bookTime = params.get("bookTime") || "시간 없음";
-
-
-  const [book, setBook] = useState(null);  // 선택된 책 정보
-  const [records, setRecords] = useState([]);  // 독서 기록
+  const [book, setBook] = useState(null);
+  const [records, setRecords] = useState([]);
 
   useEffect(() => {
     // 구글 북스 API 호출
@@ -33,10 +33,34 @@ const BookDetail = () => {
       }
     };
     fetchBookDetails();
-    // 로컬스토리지에서 독서 기록 불러오기
-    const savedRecords = JSON.parse(localStorage.getItem(`records_${bookTitle}`)) || [];
-    setRecords(savedRecords);
+
   }, [bookTitle, bookPublisher]);
+
+
+
+ 
+useEffect(() => {
+    const fetchMemos = async () => {
+      const userEmail = localStorage.getItem("userEmail") || "";
+      if (!userEmail || !book?.id) {
+        console.error("유저 이메일 또는 책 ID가 없습니다.");
+        return;
+      }
+
+      try {
+        const response = await axios.get(`${API_BASE_URL}/memo/list/${book.id}?userEmail=${userEmail}`);
+        console.log("메모 조회 성공:", response.data);
+        setRecords(response.data);
+      } catch (error) {
+        console.error("메모 조회 실패:", error.response ? error.response.data : error);
+      }
+    };
+    if (book?.id) {
+      fetchMemos();
+    }
+  }, [book]);
+
+  
 
   const getDescription = (description) => {
     if (description && description.length > 200) {
@@ -86,13 +110,18 @@ const BookDetail = () => {
       {book && (
         <div>
           <div className="memo-container">
-            {records.length > 0 ? (
-              records.map((entry, index) => (
-                <textarea key={index} className="memocon" value={entry} readOnly />
-              ))
-            ) : (
-              <p>메모가 없습니다.</p>
-            )}
+          {console.log("렌더링 시점의 메모 목록:", records)}
+          {records.length > 0 ? (
+  records.map((entry, index) => (
+    <div key={index} className="memo-entry">
+                  <p className="memo-date">{entry.date}</p>
+                  <textarea className="memocon" value={entry.content} readOnly />
+                </div>
+  ))
+) : (
+  <p>메모가 없습니다.</p>
+)}
+
           </div>
         </div>
       )}

@@ -260,7 +260,7 @@ useEffect(() => {
   
   
   
-  
+  //메모 저장
   const handleRecordSave = async () => {
     if (!record.trim()) {
       console.error(" 기록이 비어 있어 저장할 수 없습니다.");
@@ -301,6 +301,9 @@ useEffect(() => {
       }
     }
   };
+
+  
+  
   
   
   
