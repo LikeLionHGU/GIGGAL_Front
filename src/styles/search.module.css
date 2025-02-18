@@ -219,3 +219,71 @@
   color: #666;  /* 비활성화된 라디오 버튼의 색상 */
 }
 
+.bestboxContainer {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  height: 400px; /* bestbox 이미지 크기에 맞춤 */
+  background-image: url('../img/bestbox.png'); /* bestbox를 배경으로 설정 */
+  background-size: cover;
+  background-position: center;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.bestboxContent {
+  position: absolute;
+  width: 90%;
+  height: 100%;
+  padding: 20px;
+  color: black;
+  overflow-y: auto;
+}
+
+.bestboxTitle {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.bookList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.bookItem {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.bookImage {
+  width: 60px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.bookInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.bookTitle {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.bookAuthor, .bookPublisher, .bookMarkCount {
+  font-size: 14px;
+  opacity: 0.8;
+}
+

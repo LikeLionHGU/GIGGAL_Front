@@ -1,55 +1,48 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import _ from "lodash"; // Lodash 라이브러리 추가
 import styles from "../styles/search.module.css";
 import HomeHeader from '../components/header/Headers.js';
 import hr from '../img/line.png';  
 import boogies from '../img/boogies.png';  
 import searchbtn from '../img/searchbtn.png';  
 import text from '../img/text.png';  
-import bestbox from '../img/bestbox.png';  
 import Footer from '../components/footer/Footer.js';
 
-// 구글 책 API URL 및 API Key 추가
-const API_URL = "https://www.googleapis.com/books/v1/volumes";
-const GOOGLE_API_KEY = "AIzaSyCOhxzEmFNG0E9GCrAAYeSQ8Q2NYrjC-b0"; // 🔹 여기에 Google API Key 추가
+const API_BASE_URL = "https://janghong.asia/book"; // 백엔드 API URL
 
 const Search = () => {
-  const [books, setBooks] = useState([]);  
+  // eslint-disable-next-line no-unused-vars
+const [books, setBooks] = useState([]);
+ 
   const [searchTerm, setSearchTerm] = useState("");  
+  const [recommendBooks, setRecommendBooks] = useState([]); // 추천 책 리스트
   const navigate = useNavigate();
 
-  // 🔹 디바운스를 적용한 API 요청 함수
-  const fetchBooks = useCallback(
-    _.debounce(async (searchQuery) => {
-      if (!searchQuery) return;
-
+  // 🔹 백엔드 API에서 추천 책 데이터 가져오기
+  useEffect(() => {
+    const fetchRecommendBooks = async () => {
       try {
-        const response = await axios.get(`${API_URL}?q=${searchQuery}&maxResults=40&key=${GOOGLE_API_KEY}`);
-        setBooks(response.data.items || []);
-        sessionStorage.setItem("lastBooks", JSON.stringify(response.data.items || []));
+        const response = await axios.get(`${API_BASE_URL}/ranking/recommendation`);
+        setRecommendBooks(response.data || []);
       } catch (err) {
-        console.error("❌ API 요청 실패:", err);
+        console.error("❌ 추천 책 API 요청 실패:", err);
       }
-    }, 1000), // 1초(1000ms) 동안 추가 요청이 없으면 실행
-    []
-  );
+    };
+
+    fetchRecommendBooks();
+  }, []);
 
   // 🔹 검색어 변경 시 API 호출
   const handleSearchChange = (e) => {
-    const trimmedSearchTerm = e.target.value.trim();
-    setSearchTerm(trimmedSearchTerm);
-    fetchBooks(trimmedSearchTerm); // 자동으로 API 요청 (디바운스 적용됨)
+    setSearchTerm(e.target.value);
   };
 
   // 🔹 검색 버튼 클릭 시 실행
   const handleBtnClick = () => {
     if (!searchTerm.trim()) return;
-  
     navigate(`/BookList`, { state: { books, searchTerm } });
   };
-  
 
   return (
     <div>
@@ -73,7 +66,7 @@ const Search = () => {
               <input
                 type="text"
                 value={searchTerm}
-                onChange={handleSearchChange} // 🔹 입력 시 API 요청 (디바운스 적용됨)
+                onChange={handleSearchChange} 
                 placeholder="Search"
                 className={styles.bari}
               />
@@ -85,7 +78,26 @@ const Search = () => {
         </form>
 
         <img src={text} alt="text" className={styles.text} />  
-        <img src={bestbox} alt="bestbox" className={styles.bestbox} />  
+
+        {/* 🔹 bestbox를 배경으로 하고 그 안에 책 리스트를 표시 */}
+        <div className={styles.bestboxContainer}>
+          <div className={styles.bestboxContent}>
+            <ul className={styles.bookList}>
+              {recommendBooks.length > 0 ? (
+                recommendBooks.map((book) => (
+                  <li key={book.bookId} className={styles.bookItem} onClick={() => navigate(`/bookdetail/${book.bookId}`)}>
+                    <img src={book.thumbnail || "https://via.placeholder.com/100"} alt={book.title} className={styles.bookImage} />
+                    <div className={styles.bookInfo}>
+                      <h4 className={styles.bookTitle}>{book.title}</h4>
+                    </div>
+                  </li>
+                ))
+              ) : (
+                <p className={styles.noResults}>추천된 책이 없습니다.</p>
+              )}
+            </ul>
+          </div>
+        </div>
       </div>
 
       <Footer />  
