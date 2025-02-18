@@ -52,7 +52,7 @@ const BookDetail = () => {
   return (
     <div>
       <HomeHeader />
-      <p>읽은 시간: {decodeURIComponent(bookTime)}</p>
+      
       <div className="back-container">
         <img className="backbtn" src={back} alt="back" onClick={goToHome} />
       </div>
@@ -65,7 +65,7 @@ const BookDetail = () => {
             <img
               src={book.volumeInfo.imageLinks?.thumbnail}
               alt={book.volumeInfo.title}
-              className="book-thumbnail"
+              className="bookthumbnail"
             />
             <h2 className="book-title">{book.volumeInfo.title}</h2>
             <p className="text">
@@ -75,6 +75,7 @@ const BookDetail = () => {
             </p>
             <p className="description">{getDescription(book.volumeInfo.description)}</p>
             <img className="rbtn" src={readingbtn} alt="readingbtn" onClick={() => navigate(`/timer?bookId=${book.id}`)} />
+            <div className="totaltime">{decodeURIComponent(bookTime)}</div>
           </div>
         )}
       </div>

@@ -16,16 +16,33 @@
     position: relative;
 }
 
+.dash-container{
+  padding-top:2rem;
+}
+.book-thumbnail{
+  padding-top:3rem;
+}
+.book-title{
+  padding-top:3rem;
+}
+.text{
+  padding-top: 3.3rem;
+}
+.description{
+  padding-top: 3rem;
+}
+
 .goto {
     height: 1.3rem;
     padding-top: 1.5rem;
     padding-left: 5.3rem;
+    padding-bottom: 1rem;
     cursor: pointer;
 }
 
-.book-thumbnail{
+.bookthumbnail{
     position: absolute; /* `dash` 위에 배치 */
-    top:38%;
+    top:44%;
     height: 18rem;
     border-radius: 10%;
     left:10%;
@@ -67,6 +84,18 @@
     height: 2.5rem;
     font-family: 'Pretendard-Regular';
     cursor: pointer;
+    padding-top:3rem;
+  }
+
+  .totaltime{
+    position: absolute;
+    font-family: 'Pretendard-Regular';
+    font-size: 60px;
+    color:#455622;
+    font-weight: bold;
+    padding-top:3rem;
+    top: 51%;
+    left: 69%;
   }
 
   .rbtn:hover{
