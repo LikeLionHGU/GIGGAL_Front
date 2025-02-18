@@ -54,14 +54,18 @@ const startTimeRef = useRef(null); // 시작 시간 저장용
 const [selectedDifficulty, setSelectedDifficulty] = useState("");
 const [isSubmitting, setIsSubmitting] = useState(false); 
 
-const handleDifficultySelect = async (difficulty) => {
+const handleDifficultySelect = (difficulty) => {
   if (!selectedBook || isSubmitting) return; // 중복 요청 방지
   setSelectedDifficulty(difficulty);
-  setIsSubmitting(true); // 요청 시작
+};
 
-  // 📌 선택한 Google Book ID를 백엔드 Book ID로 변환
+// "보내기" 버튼을 눌렀을 때 실행되는 함수
+const submitDifficultyAndExit = async () => {
+  if (!selectedBook || !selectedDifficulty || isSubmitting) return; // 선택한 난이도가 없으면 실행하지 않음
+  setIsSubmitting(true); // 중복 요청 방지
+
   const bookData = bookmarks.find((book) => book.googleBookId === selectedBook);
-  const bookId = bookData?.bookId; // 📌 백엔드에서 사용하는 bookId 가져오기
+  const bookId = bookData?.bookId; // 백엔드에서 사용하는 bookId 가져오기
 
   if (!bookId) {
     console.error("📌 해당 Google Book ID에 대한 백엔드 Book ID를 찾을 수 없습니다.");
@@ -71,22 +75,25 @@ const handleDifficultySelect = async (difficulty) => {
 
   try {
     const response = await axios.put(`${API_BASE_URL}/book/difficulty/${bookId}`, {
-      difficulty: difficulty,
+      difficulty: selectedDifficulty,
     });
 
     if (response.status === 200) {
       console.log("📌 난이도 평가 성공:", response.data);
+
       setTimeout(() => {
-        setShowModal(false); // 0.5초 후 모달 닫기
+        setShowModal(false); // ✅ "보내기" 버튼을 눌렀을 때 모달 닫기
         setSelectedDifficulty(""); // 상태 초기화
         setIsSubmitting(false);
+        navigate("/home"); // ✅ Home.js로 이동
       }, 500);
     }
   } catch (error) {
     console.error("❌ 난이도 평가 실패:", error.response ? error.response.data : error);
-    setIsSubmitting(false); // 요청 실패 시 다시 버튼 활성화
+    setIsSubmitting(false);
   }
 };
+
 
   useEffect(() => {
     const handleBackButton = (event) => {
@@ -490,37 +497,43 @@ useEffect(() => {
   </div>
 </div>
 {showModal && (
-        <div className="modal-overlay" onClick={() => setShowModal(false)}>
-          <div className="modal-content" onClick={(event) => event.stopPropagation()}>
-            <h2>독서를 완료하셨습니다!</h2>
-            <p>방금 읽은 책에 대해서 어떻게 생각하시나요?</p>
+  <div className="modal-overlay" onClick={() => setShowModal(false)}>
+    <div className="modal-content" onClick={(event) => event.stopPropagation()}>
+      <h2>독서를 완료하셨습니다!</h2>
+      <p>방금 읽은 책에 대해서 어떻게 생각하시나요?</p>
 
-           
-            <button 
-              className={selectedDifficulty === "easy" ? "selected" : ""} 
-              onClick={() => handleDifficultySelect("easy")}
-              disabled={isSubmitting} //  요청 중이면 버튼 비활성화
-            >
-              📖 술술 읽혀요
-            </button>
-            <button 
-              className={selectedDifficulty === "normal" ? "selected" : ""} 
-              onClick={() => handleDifficultySelect("normal")}
-              disabled={isSubmitting}
-            >
-              🧐 읽을만해요
-            </button>
-            <button 
-              className={selectedDifficulty === "hard" ? "selected" : ""} 
-              onClick={() => handleDifficultySelect("hard")}
-              disabled={isSubmitting}
-            >
-              🔍 관련 지식이 필요해요
-            </button>
+      {/* 난이도 선택 버튼 */}
+      <button 
+        className={selectedDifficulty === "easy" ? "selected" : ""} 
+        onClick={() => handleDifficultySelect("easy")}
+        disabled={isSubmitting}
+      >
+        📖 술술 읽혀요
+      </button>
+      <button 
+        className={selectedDifficulty === "normal" ? "selected" : ""} 
+        onClick={() => handleDifficultySelect("normal")}
+        disabled={isSubmitting}
+      >
+        🧐 읽을만해요
+      </button>
+      <button 
+        className={selectedDifficulty === "hard" ? "selected" : ""} 
+        onClick={() => handleDifficultySelect("hard")}
+        disabled={isSubmitting}
+      >
+        🔍 관련 지식이 필요해요
+      </button>
 
-            <button className="modal-close-btn" onClick={() => setShowModal(false)}>닫기</button>
-          </div>
-        </div>
+      {/* "보내기" 버튼을 추가하여 선택 후 Home으로 이동 */}
+      <button className="modal-submit-btn" onClick={submitDifficultyAndExit} disabled={!selectedDifficulty || isSubmitting}>
+        보내기
+      </button>
+
+    </div>
+  </div>
+
+
       )}
 
 {showAlertModal && (

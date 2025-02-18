@@ -38,7 +38,7 @@ const BookDetail = () => {
 
 
 
- 
+ //메모 조회하기
 useEffect(() => {
     const fetchMemos = async () => {
       const userEmail = localStorage.getItem("userEmail") || "";
@@ -59,6 +59,40 @@ useEffect(() => {
       fetchMemos();
     }
   }, [book]);
+
+
+  const handleDelete = async (entry) => {
+    if (!entry || !entry.memoId) {  // memoId가 없는 경우를 처리
+      console.error("memoId가 없습니다.");
+      return;
+    }
+  
+    try {
+      const userEmail = localStorage.getItem("userEmail") || "";
+      if (!userEmail) {
+        console.error("사용자 이메일이 없습니다.");
+        return;
+      }
+  
+      const { memoId} = entry;
+  
+      const deleteUrl = `${API_BASE_URL}/memo/delete/${memoId}`;
+      console.log("삭제 요청 URL:", deleteUrl);
+  
+      await axios.delete(deleteUrl);
+      console.log("메모 삭제 성공");
+  
+      setRecords((prevRecords) => prevRecords.filter((item) => item.memoId !== memoId));
+
+    } catch (error) {
+      console.error("메모 삭제 실패:", error.response ? error.response.data : error);
+    }
+  };
+  
+  
+      
+  
+  
 
   
 
@@ -112,15 +146,21 @@ useEffect(() => {
           <div className="memo-container">
           {console.log("렌더링 시점의 메모 목록:", records)}
           {records.length > 0 ? (
-  records.map((entry, index) => (
-    <div key={index} className="memo-entry">
-                  <p className="memo-date">{entry.date}</p>
-                  <textarea className="memocon" value={entry.content} readOnly />
-                </div>
-  ))
+  records.map((entry) => {
+    console.log("entry.memoId 확인:", entry.memoId);  // memoId 확인 로그 추가
+    return (
+      <div key={entry.memoId} className="memo-entry">
+        <p className="memo-date">{entry.date}</p>
+        <textarea className="memocon" value={entry.content} readOnly />
+        <button onClick={() => handleDelete(entry)} className="delete-button">삭제</button>
+      </div>
+    );
+  })
 ) : (
   <p>메모가 없습니다.</p>
 )}
+
+
 
           </div>
         </div>
