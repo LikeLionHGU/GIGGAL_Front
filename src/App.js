@@ -25,8 +25,7 @@ const AppContent = () => {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/search" element={<Search />} />
-        <Route path="/detail/:bookId" element={<SearchDetail />} />
-        <Route path="/detail/:encodedBookTitle/:encodedBookPublisher" element={<SearchDetail />} />
+        <Route path="/searchdetail/:googleBookId/:bookId" element={<SearchDetail />} />
         <Route path="/home" element={<Home />} />
         <Route path="/timer" element={<Timer />} />
         <Route path="/bookdetail" element={<BookDetail />} />
