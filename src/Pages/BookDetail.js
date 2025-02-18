@@ -6,6 +6,7 @@ import back from "../img/back.png";
 import dash from "../img/dash.png";
 import goto from "../img/edong.png";
 import mylist from "../img/mylist.png";
+import mylisticon from "../img/mylist-icon.png";
 import readingbtn from '../img/readingbtn.png';  // '../img/'로 경로를 수정
 import Footer from '../components/footer/Footer.js';
 import axios from "axios"; 
@@ -138,9 +139,10 @@ useEffect(() => {
         )}
       </div>
 
-      <div className="mylist-container">
+      
         <img className="mylist" src={mylist} alt="dash" />
-      </div>
+        <img className="mylisticon" src={mylisticon} alt="dash" />
+   
       {book && (
         <div>
           <div className="memo-container">
@@ -150,9 +152,11 @@ useEffect(() => {
     console.log("entry.memoId 확인:", entry.memoId);  // memoId 확인 로그 추가
     return (
       <div key={entry.memoId} className="memo-entry">
-        <p className="memo-date">{entry.date}</p>
-        <textarea className="memocon" value={entry.content} readOnly />
-        <button onClick={() => handleDelete(entry)} className="delete-button">삭제</button>
+
+       <div className="memo-box">
+       <div className="memocon">{entry.date}<br /><br />{entry.content} <button onClick={() => handleDelete(entry)} className="delete-button">삭제</button>
+</div></div>
+ 
       </div>
     );
   })
