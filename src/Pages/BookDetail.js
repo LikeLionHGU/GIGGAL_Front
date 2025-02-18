@@ -12,32 +12,30 @@ import Footer from '../components/footer/Footer.js';
 const BookDetail = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const bookTitle = queryParams.get("bookTitle");
-  const bookPublisher = queryParams.get("bookPublisher");
+  const params = new URLSearchParams(location.search);
+  const bookTitle = params.get("bookTitle");
+  const bookPublisher = params.get("bookPublisher");
+
+  const bookTime = params.get("bookTime") || "시간 없음";
+
 
   const [book, setBook] = useState(null);  // 선택된 책 정보
   const [records, setRecords] = useState([]);  // 독서 기록
-  const [totalReadingTime, setTotalReadingTime] = useState(0);  // 총 독서 시간
 
   useEffect(() => {
     // 구글 북스 API 호출
     const fetchBookDetails = async () => {
-      const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=intitle:${bookTitle}+inpublisher:${bookPublisher}`);
+      const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=intitle:${bookTitle}+inpublisher:${bookPublisher}&key=AIzaSyCOhxzEmFNG0E9GCrAAYeSQ8Q2NYrjC-b0`);
       const data = await response.json();
       const bookData = data.items?.[0]; // 첫 번째 결과 가져오기
       if (bookData) {
         setBook(bookData);
       }
     };
-
     fetchBookDetails();
-
-    // 로컬스토리지에서 독서 기록 및 시간 불러오기
+    // 로컬스토리지에서 독서 기록 불러오기
     const savedRecords = JSON.parse(localStorage.getItem(`records_${bookTitle}`)) || [];
     setRecords(savedRecords);
-    const savedReadingTime = JSON.parse(localStorage.getItem(`readingTime_${bookTitle}`)) || 0;
-    setTotalReadingTime(savedReadingTime);
   }, [bookTitle, bookPublisher]);
 
   const getDescription = (description) => {
@@ -47,12 +45,6 @@ const BookDetail = () => {
     return description || "설명 정보 없음";
   };
 
-  const formatTime = (seconds) => {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    return `${hours}:${String(minutes).padStart(2, "0")}`;
-  };
-
   const goToHome = () => {
     navigate("/Home");  // 수정된 경로: "/"
   };
@@ -60,6 +52,7 @@ const BookDetail = () => {
   return (
     <div>
       <HomeHeader />
+      <p>읽은 시간: {decodeURIComponent(bookTime)}</p>
       <div className="back-container">
         <img className="backbtn" src={back} alt="back" onClick={goToHome} />
       </div>
@@ -80,8 +73,8 @@ const BookDetail = () => {
               {book.volumeInfo.pageCount || "정보 없음"}{"p "}
               {book.volumeInfo.publishedDate || "정보 없음"}
             </p>
-            <p className="description">{getDescription(book.volumeInfo.description)}</p>  
-            <img className="rbtn" src={readingbtn} alt="readingbtn"  onClick={() => navigate(`/timer?bookId=${book.id}`)} />
+            <p className="description">{getDescription(book.volumeInfo.description)}</p>
+            <img className="rbtn" src={readingbtn} alt="readingbtn" onClick={() => navigate(`/timer?bookId=${book.id}`)} />
           </div>
         )}
       </div>
@@ -89,10 +82,8 @@ const BookDetail = () => {
       <div className="mylist-container">
         <img className="mylist" src={mylist} alt="dash" />
       </div>
-  
       {book && (
         <div>
-          <p className="time">{formatTime(totalReadingTime)}</p>
           <div className="memo-container">
             {records.length > 0 ? (
               records.map((entry, index) => (
