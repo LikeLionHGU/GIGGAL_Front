@@ -192,27 +192,37 @@ useEffect(() => {
           </div>
         </form>
       </div>
-
       <div className={styles.filterButtons}>
-        <button 
-          className={sortType === "전체보기" ? styles.active : ""} 
-          onClick={() => handleSortChange("전체보기")}
-        >
-          전체 보기
-        </button>
-        <button 
-          className={sortType === "난이도순" ? styles.active : ""} 
-          onClick={() => handleSortChange("난이도순")}
-        >
-          난이도순
-        </button>
-        <button 
-          className={sortType === "북마크순" ? styles.active : ""} 
-          onClick={() => handleSortChange("북마크순")}
-        >
-          북마크순
-        </button>
-      </div>
+  <label className={styles.filterLabel}>
+    <input
+      type="radio"
+      className={sortType === "전체보기" ? styles.active : styles.inactive}
+      onClick={() => handleSortChange("전체보기")}
+      name="sort"
+    />
+    전체 보기
+  </label>
+  <label className={styles.filterLabel}>
+    <input
+      type="radio"
+      className={sortType === "난이도순" ? styles.active : styles.inactive}
+      onClick={() => handleSortChange("난이도순")}
+      name="sort"
+    />
+    난이도순
+  </label>
+  <label className={styles.filterLabel}>
+    <input
+      type="radio"
+      className={sortType === "북마크순" ? styles.active : styles.inactive}
+      onClick={() => handleSortChange("북마크순")}
+      name="sort"
+    />
+    북마크순
+  </label>
+</div>
+
+
 
      
       <div className={styles.books}>
