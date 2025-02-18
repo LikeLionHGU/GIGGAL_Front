@@ -168,7 +168,6 @@ useEffect(() => {
       );
 
       console.log("📌 백엔드에서 가져온 북마크 리스트:", response.data);
-
       // 📌 Google Book ID와 백엔드 Book ID를 매핑하여 저장
       setBookmarks(response.data.map(book => ({
         googleBookId: book.googleBookId,
@@ -182,6 +181,30 @@ useEffect(() => {
 
   fetchBookmarks();
 }, [userEmail]);
+
+useEffect(() => {
+  const fetchUserCount = async () => {
+    if (!selectedBook) {
+      setUserCount(0);
+      return;
+    }
+
+    try {
+      // 📌 명세서에 맞춘 엔드포인트로 변경
+      const response = await axios.get(`${API_BASE_URL}/book/bookmarkNumber/difficulty/${selectedBook}`);
+
+      console.log("📌 API 응답 데이터:", response.data);
+
+      // 📌 응답 데이터에서 `bookmarkCount` 값을 가져와서 설정
+      setUserCount(response.data.bookmarkCount || 0); 
+    } catch (error) {
+      console.error("❌ 북마크 수 가져오기 실패:", error.response ? error.response.data : error);
+      setUserCount(0);
+    }
+  };
+
+  fetchUserCount();
+}, [selectedBook]); // ✅ 선택된 책이 변경될 때 실행
 
 
 
