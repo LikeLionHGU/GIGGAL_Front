@@ -48,10 +48,11 @@
   grid-template-columns: repeat(auto-fill, minmax(300px, 100fr));
   gap: 70px; /* 아이템 간 간격 추가 */
   font-family: 'Pretendard-Regular';
-  padding-left: 3rem;
+  padding-left: 2rem;
   max-width: 2000px;
-  padding-top: 7rem;
+  padding-top: 1rem;
   margin-bottom: 100px;
+  padding-right:2rem;
 }
 
 /* 북카드 스타일 */
@@ -230,9 +231,12 @@
 
 .filterContainer {
   display: flex;
-  justify-content: center;
-  gap: 20px;
+  justify-content: left;
+  padding-left:41px;
+  padding-top: 50px;
+  gap: 15px;
   margin: 20px 0;
+  font-weight: bold;
 }
 
 .filterContainer label {
@@ -240,6 +244,7 @@
   align-items: center;
   font-size: 1rem;
   cursor: pointer;
+  accent-color: #789043;
 }
 
 .filterContainer input {

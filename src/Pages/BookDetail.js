@@ -1,125 +1,101 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import axios from "axios";
 import '../styles/BookDetail.css';
 import HomeHeader from '../components/header/Headers.js';
 import back from "../img/back.png";
 import dash from "../img/dash.png";
 import goto from "../img/edong.png";
 import mylist from "../img/mylist.png";
-import readingbtn from '../img/readingbtn.png';
+import readingbtn from '../img/readingbtn.png';  // '../img/'로 경로를 수정
 import Footer from '../components/footer/Footer.js';
-
-const API_BASE_URL = "https://janghong.asia/memo"; // 📌 백엔드 API 기본 URL
 
 const BookDetail = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const googleBookId = queryParams.get("bookId"); // 📌 Google Books ID
-  const [book, setBook] = useState(null);
-  const [records, setRecords] = useState([]); // 📌 API에서 가져온 메모 데이터 저장
-  const [loading, setLoading] = useState(true); // 📌 로딩 상태 추가
+  const params = new URLSearchParams(location.search);
+  const bookTitle = params.get("bookTitle");
+  const bookPublisher = params.get("bookPublisher");
+
+  const bookTime = params.get("bookTime") || "시간 없음";
+
+
+  const [book, setBook] = useState(null);  // 선택된 책 정보
+  const [records, setRecords] = useState([]);  // 독서 기록
 
   useEffect(() => {
-    const userEmail = localStorage.getItem("userEmail") || "";
-    if (!googleBookId || !userEmail) {
-      console.error("📌 Google Books ID 또는 유저 이메일이 없습니다.");
-      setLoading(false);
-      return;
-    }
-
-    // 📌 1️⃣ Google Books API에서 책 정보 가져오기
+    // 구글 북스 API 호출
     const fetchBookDetails = async () => {
-      try {
-        const response = await axios.get(`https://www.googleapis.com/books/v1/volumes/${googleBookId}`);
-        if (response.data) {
-          setBook(response.data);
-        }
-      } catch (error) {
-        console.error("📌 책 정보를 가져오는 데 실패했습니다:", error);
+      const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=intitle:${bookTitle}+inpublisher:${bookPublisher}&key=AIzaSyCOhxzEmFNG0E9GCrAAYeSQ8Q2NYrjC-b0`);
+      const data = await response.json();
+      const bookData = data.items?.[0]; // 첫 번째 결과 가져오기
+      if (bookData) {
+        setBook(bookData);
       }
     };
-
-    // 📌 2️⃣ 백엔드에서 사용자의 메모 데이터 가져오기
-    const fetchUserMemos = async () => {
-      try {
-        const response = await axios.get(`${API_BASE_URL}/list/${googleBookId}?userEmail=${encodeURIComponent(userEmail)}`);
-        console.log("📌 메모 조회 성공:", response.data);
-        setRecords(response.data || []);
-      } catch (error) {
-        console.error("❌ 메모를 불러오는 데 실패했습니다:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchBookDetails();
-    fetchUserMemos();
-  }, [googleBookId]);
+    // 로컬스토리지에서 독서 기록 불러오기
+    const savedRecords = JSON.parse(localStorage.getItem(`records_${bookTitle}`)) || [];
+    setRecords(savedRecords);
+  }, [bookTitle, bookPublisher]);
 
   const getDescription = (description) => {
-    return description && description.length > 200 ? description.slice(0, 200) + "..." : description || "설명 정보 없음";
+    if (description && description.length > 200) {
+      return description.slice(0, 200) + "...";
+    }
+    return description || "설명 정보 없음";
   };
 
   const goToHome = () => {
-    navigate("/Home");
+    navigate("/Home");  // 수정된 경로: "/"
   };
 
   return (
     <div>
       <HomeHeader />
+      
       <div className="back-container">
         <img className="backbtn" src={back} alt="back" onClick={goToHome} />
       </div>
-      <img className="goto" src={goto} alt="goto" onClick={goToHome} />
+      <img className="goto" src={goto} alt="dash" onClick={goToHome} />
 
       <div className="dash-container">
         <img className="dash" src={dash} alt="dash" />
         {book && (
           <div>
             <img
-              src={book.volumeInfo?.imageLinks?.thumbnail}
-              alt={book.volumeInfo?.title}
-              className="book-thumbnail"
+              src={book.volumeInfo.imageLinks?.thumbnail}
+              alt={book.volumeInfo.title}
+              className="bookthumbnail"
             />
-            <h2 className="book-title">{book.volumeInfo?.title}</h2>
+            <h2 className="book-title">{book.volumeInfo.title}</h2>
             <p className="text">
-              {book.volumeInfo?.authors?.join(", ") || "정보 없음"}{" "}
-              {book.volumeInfo?.pageCount || "정보 없음"}p{" "}
-              {book.volumeInfo?.publishedDate || "정보 없음"}
+              {book.volumeInfo.authors?.join(", ") || "정보 없음"}{" "}
+              {book.volumeInfo.pageCount || "정보 없음"}{"p "}
+              {book.volumeInfo.publishedDate || "정보 없음"}
             </p>
-            <p className="description">{getDescription(book.volumeInfo?.description)}</p>
-            <img
-              className="rbtn"
-              src={readingbtn}
-              alt="readingbtn"
-              onClick={() => navigate(`/timer?bookId=${googleBookId}`)}
-            />
+            <p className="description">{getDescription(book.volumeInfo.description)}</p>
+            <img className="rbtn" src={readingbtn} alt="readingbtn" onClick={() => navigate(`/timer?bookId=${book.id}`)} />
+            <div className="totaltime">{decodeURIComponent(bookTime)}</div>
           </div>
         )}
       </div>
 
       <div className="mylist-container">
-        <img className="mylist" src={mylist} alt="mylist" />
+        <img className="mylist" src={mylist} alt="dash" />
       </div>
-
-      <div className="memo-container">
-        <h3>📌 내 메모</h3>
-        {loading ? (
-          <p>⏳ 메모를 불러오는 중...</p>
-        ) : records.length > 0 ? (
-          records.map((entry, index) => (
-            <div key={index} className="memo-entry">
-              <p className="memo-content">✏️ {entry.content}</p>
-              <p className="memo-date">📅 {entry.date}</p>
-            </div>
-          ))
-        ) : (
-          <p>📝 저장된 메모가 없습니다.</p>
-        )}
-      </div>
-
+      {book && (
+        <div>
+          <div className="memo-container">
+            {records.length > 0 ? (
+              records.map((entry, index) => (
+                <textarea key={index} className="memocon" value={entry} readOnly />
+              ))
+            ) : (
+              <p>메모가 없습니다.</p>
+            )}
+          </div>
+        </div>
+      )}
       <Footer />
     </div>
   );
