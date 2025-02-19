@@ -10,6 +10,9 @@ body {
   font-family: 'Pretendard-Regular', sans-serif; 
 }
 
+p{
+  font-family: 'Pretendard-Regular', sans-serif; 
+}
 .whole{
   background-color: #F8FFEA;
 }
@@ -315,10 +318,14 @@ body {
 
 .modal-content {
   background: white;
-  padding: 20px;
+  padding-right: 100px;
+  padding-left: 100px;
+  padding-bottom:20px;
   border-radius: 10px;
+  padding-top:20px;
   text-align: center;
   width: 350px;
+  font-weight:bold;
 }
 
 .modal-content h2 {
@@ -327,18 +334,47 @@ body {
 
 .modal-content p {
   margin-bottom: 20px;
+  padding-left:-60px;
 }
 
+/* 선택 버튼 기본 스타일 */
 .modal-content button {
-  display: block;
-  width: 100%;
-  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70%;
   padding: 10px;
-  font-size: 16px;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
+  background: #EFEFEF; /* Default 배경 */
+  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
+  margin-bottom: 10px;
+  transition: background 0.2s, transform 0.1s;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* 기본 그림자 */
 }
+
+/* 아이콘 스타일 */
+.modal-content button img {
+  margin-right: 8px; /* 아이콘과 텍스트 간격 */
+  width: 25px;
+  height: 25px;
+}
+
+/* Hover 상태 */
+.modal-content button:hover {
+  background: #C7C7C7; /* Hover 배경색 */
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.15); /* Hover 시 그림자 강조 */
+}
+
+/* Press(클릭) 상태 */
+.modal-content button:active {
+  background: #9E9E9E; /* Press 배경색 */
+  transform: scale(0.98); /* 약간 축소 */
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2); /* Press 시 그림자 줄이기 */
+}
+
 
 .modal-close-btn {
   background: #4CAF50;
@@ -416,4 +452,33 @@ body {
 
 .footer {
   margin-top: -10px; /* 🔹 필요하면 0px으로 줄이기 */
+}
+
+/* ✅ 보내기 버튼 (작고 둥글게) */
+.modal-submit-btn {
+  background-color: #566F56 !important; /* 초록색 배경 */
+  color: white; /* 글자색 */
+  border: none;
+  padding: 8px 15px; /* 내부 여백 줄이기 */
+  border-radius: 20px !important; /* 더 둥글게 */
+  font-size: 13px; /* 글씨 크기 줄이기 */
+  font-weight: bold;
+  cursor: pointer;
+  width: 150px !important; /* 기본 버튼보다 작게 */
+  text-align: center;
+  display: block;
+  margin: 15px auto 0; /* 상단 여백 줄이고 중앙 정렬 */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* 버튼 그림자 */
+  transition: background 0.2s, transform 0.1s;
+}
+
+/* Hover 상태 */
+.modal-submit-btn:hover {
+  background-color: #8A9F6B;
+}
+
+/* Press(클릭) 상태 */
+.modal-submit-btn:active {
+  background-color: #7B8E58;
+  transform: scale(0.96); /* 클릭 시 약간 축소 */
 }

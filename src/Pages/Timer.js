@@ -271,6 +271,7 @@ useEffect(() => {
       console.error("📌 읽은 시간 저장 실패:", error.response ? error.response.data : error);
     }
   };
+
   const saveRecordAndComplete = async (isCompletion = false) => {
     if (!selectedBook) return;
   
@@ -278,9 +279,11 @@ useEffect(() => {
       setShowWarningModal(true);
       return;
     }
-  
-    await saveReadingTime(selectedBook, elapsedTime); // 흐른 시간 (분) 저장
-  
+    
+    if(!isPaused){
+      await saveReadingTime(selectedBook, elapsedTime); // 흐른 시간 (분) 저장
+    }
+    
     setRecord("");
     setIsRecordSaved(false);
   
@@ -530,7 +533,7 @@ useEffect(() => {
 {showModal && (
   <div className="modal-overlay" onClick={() => setShowModal(false)}>
     <div className="modal-content" onClick={(event) => event.stopPropagation()}>
-      <h2>독서를 완료하셨습니다!</h2>
+      <p>독서를 완료하셨습니다!</p>
       <p>방금 읽은 책에 대해서 어떻게 생각하시나요?</p>
 
       {/* 난이도 선택 버튼 */}

@@ -26,18 +26,7 @@ const Home = () => {
 
   const userEmail = localStorage.getItem("userEmail");
   
-  const fetchReadingTime = useCallback(async (bookId) => {
-    try {
-      const response = await axios.get(
-        `${API_BASE_URL}/reading/time/${bookId}?userEmail=${encodeURIComponent(userEmail)}`
-      );
-      return response.data.time || "0분"; 
-    } catch (error) {
-      console.error(`📌 ${bookId}의 읽은 시간 가져오기 실패:`, error.response ? error.response.data : error);
-      return "0분"; 
-    }
-  }, [userEmail]);
-
+ 
   const fetchBooks = useCallback(async () => {
     if (!userEmail) {
       console.error("📌 유저 이메일이 없습니다. 책 목록을 가져올 수 없습니다.");
@@ -60,8 +49,7 @@ const Home = () => {
 
       const booksWithReadingTime = await Promise.all(
         books.map(async (book) => {
-          const readingTime = await fetchReadingTime(book.bookId);
-          return { ...book, readingTime };
+          return { ...book};
         })
       );
       setFilteredBooks(booksWithReadingTime);
@@ -76,7 +64,7 @@ const Home = () => {
     } catch (error) {
       console.error("📌 책 목록 가져오기 실패:", error.response ? error.response.data : error);
     }
-  }, [selectedFilter, userEmail, fetchReadingTime]);
+  }, [selectedFilter, userEmail]);
 
   useEffect(() => {
     fetchBooks();
