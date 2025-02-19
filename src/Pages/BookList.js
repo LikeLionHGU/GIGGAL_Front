@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import styles from "../styles/search.module.css";
 import Footer from "../components/footer/Footer.js";
-import HomeHeader from "../components/header/HomeHeader.js";
+import HomeHeader from "../components/header/BookListHeader.js";
 import searchbtn from "../img/searchbtn.png";
 import nonbookmark from "../img/nonbookmark.png";
 import nobookmarklist from "../img/nobookmarklist.png";
