@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef} from "react";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom"; 
 import "../styles/Timer.css";
 import HomeHeader from "../components/header/HomeHeader.js";
 import Footer from "../components/footer/Footer.js";
@@ -53,6 +54,18 @@ const startTimeRef = useRef(null); // 시작 시간 저장용
 
 const [selectedDifficulty, setSelectedDifficulty] = useState("");
 const [isSubmitting, setIsSubmitting] = useState(false); 
+
+const location = useLocation();
+const params = new URLSearchParams(location.search);
+const bookIdFromParams = params.get("bookId");
+const bookTitleFromParams = params.get("bookTitle");
+
+useEffect(() => {
+  if (bookIdFromParams) {
+    setSelectedBook(bookIdFromParams); // `selectedBook`을 URL에서 받은 `bookId`로 설정
+  }
+}, [bookIdFromParams]);
+
 
 const handleDifficultySelect = (difficulty) => {
   if (!selectedBook || isSubmitting) return; // 중복 요청 방지
@@ -438,25 +451,27 @@ useEffect(() => {
 
    
     <div className="book-selection">
-    <select 
-  className="book-dropdown" 
-  value={selectedBook}
-  onChange={(e) => setSelectedBook(e.target.value)} // 🔹 googleBookId 저장
->
-  <option value="" disabled hidden>Choose the Book Title</option>
-  {bookmarks.length > 0 ? (
-    bookmarks.map((book) => (
-      <option key={book.googleBookId} value={book.googleBookId}> 
-        {book.title}
-      </option>
-    ))
-  ) : (
-    <option value="" disabled>북마크된 책이 없습니다.</option>
-  )}
-</select>
+  <select 
+    className="book-dropdown" 
+    value={selectedBook}
+    onChange={(e) => setSelectedBook(e.target.value)} // googleBookId 저장
+  >
+    <option value="" disabled hidden>
+  {bookTitleFromParams ? decodeURIComponent(bookTitleFromParams) : "Choose the Book Title"}
+</option>
 
-
+    {bookmarks.length > 0 ? (
+      bookmarks.map((book) => (
+        <option key={book.bookId} value={book.bookId}> 
+          {book.title}
+        </option>
+      ))
+    ) : (
+      <option value="" disabled>북마크된 책이 없습니다.</option>
+    )}
+  </select>
 </div>
+
 
   </div>
 
