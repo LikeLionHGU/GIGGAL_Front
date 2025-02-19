@@ -183,3 +183,12 @@ body {
   position: relative;
   top: -5px; /* 살짝 위로 조정 */
 }
+
+.communityImage {
+  width: 150%; /* 기존 크기보다 줄이기 */
+  max-width: 550px; /* 최대 크기 제한 */
+  height: auto;
+  transition: transform 0.3s ease-in-out; /* 부드러운 크기 변화 효과 */
+}
+
+

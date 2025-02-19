@@ -168,9 +168,17 @@ const SearchDetail = () => {
               </div>
               <div className={styles.bookInfo}>
                 <h1 className={styles.bookTitle}>{book?.volumeInfo?.title || "제목 없음"}</h1>
+                
+          <button onClick={toggleBookmark}>
+            <img src={bookRead[book?.id] ? bookmark : nonbookmark} alt="북마크" className={styles.bookmarkIcon} />
+          </button>
+          <span>{bookmarkData?.bookmarkCount || 0}</span>
+        
+        <div className={styles.bookmarkContainer}>
                 <p className={styles.shortDescription}>
                   북마크 수: {bookmarkData?.bookmarkCount || 0} | 난이도 평가: {bookmarkData?.difficultyState || "없음"}
                 </p>
+                </div>
                 <p className={styles.shortDescription}>{shortDescription}</p>
               </div>
             </div>
@@ -179,12 +187,7 @@ const SearchDetail = () => {
           )}
         </div>
 
-        <div className={styles.bookmarkContainer}>
-          <button onClick={toggleBookmark}>
-            <img src={bookRead[book?.id] ? bookmark : nonbookmark} alt="북마크" className={styles.bookmarkIcon} />
-          </button>
-          <span>{bookmarkData?.bookmarkCount || 0}</span>
-        </div>
+        
         <div className={styles.tabs}>
   <div 
     className={`${styles.tab} ${activeTab === "bookInfo" ? styles.active : ""}`} 
