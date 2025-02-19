@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef} from "react";
 import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom"; 
 import "../styles/Timer.css";
 import HomeHeader from "../components/header/HomeHeader.js";
 import Footer from "../components/footer/Footer.js";
@@ -11,6 +10,9 @@ import startHover from '../img2/starthover.png';
 import startPress from '../img2/startpress.png';
 import stopHover from '../img2/stophover.png';
 import stopPress from '../img2/stoppress.png';
+import sulsul from'../img2/sulsul.png';
+import rhks from'../img2/관련지식.png';
+import dlfr from'../img2/읽을만.png';
 import axios from "axios"; 
 
 function Timer() {
@@ -54,18 +56,6 @@ const startTimeRef = useRef(null); // 시작 시간 저장용
 
 const [selectedDifficulty, setSelectedDifficulty] = useState("");
 const [isSubmitting, setIsSubmitting] = useState(false); 
-
-const location = useLocation();
-const params = new URLSearchParams(location.search);
-const bookIdFromParams = params.get("bookId");
-const bookTitleFromParams = params.get("bookTitle");
-
-useEffect(() => {
-  if (bookIdFromParams) {
-    setSelectedBook(bookIdFromParams); // `selectedBook`을 URL에서 받은 `bookId`로 설정
-  }
-}, [bookIdFromParams]);
-
 
 const handleDifficultySelect = (difficulty) => {
   if (!selectedBook || isSubmitting) return; // 중복 요청 방지
@@ -451,27 +441,25 @@ useEffect(() => {
 
    
     <div className="book-selection">
-  <select 
-    className="book-dropdown" 
-    value={selectedBook}
-    onChange={(e) => setSelectedBook(e.target.value)} // googleBookId 저장
-  >
-    <option value="" disabled hidden>
-  {bookTitleFromParams ? decodeURIComponent(bookTitleFromParams) : "Choose the Book Title"}
-</option>
+    <select 
+  className="book-dropdown" 
+  value={selectedBook}
+  onChange={(e) => setSelectedBook(e.target.value)} // 🔹 googleBookId 저장
+>
+  <option value="" disabled hidden>Choose the Book Title</option>
+  {bookmarks.length > 0 ? (
+    bookmarks.map((book) => (
+      <option key={book.googleBookId} value={book.googleBookId}> 
+        {book.title}
+      </option>
+    ))
+  ) : (
+    <option value="" disabled>북마크된 책이 없습니다.</option>
+  )}
+</select>
 
-    {bookmarks.length > 0 ? (
-      bookmarks.map((book) => (
-        <option key={book.bookId} value={book.bookId}> 
-          {book.title}
-        </option>
-      ))
-    ) : (
-      <option value="" disabled>북마크된 책이 없습니다.</option>
-    )}
-  </select>
+
 </div>
-
 
   </div>
 
@@ -546,21 +534,21 @@ useEffect(() => {
         onClick={() => handleDifficultySelect("easy")}
         disabled={isSubmitting}
       >
-        📖 술술 읽혀요
+        <img src={sulsul} alt="술술" style={{width:"100px", height:"auto"}}/>
       </button>
       <button 
         className={selectedDifficulty === "normal" ? "selected" : ""} 
         onClick={() => handleDifficultySelect("normal")}
         disabled={isSubmitting}
       >
-        🧐 읽을만해요
+       <img src={dlfr} alt="읽을만" style={{width:"110px", height:"auto"}}/>
       </button>
       <button 
         className={selectedDifficulty === "hard" ? "selected" : ""} 
         onClick={() => handleDifficultySelect("hard")}
         disabled={isSubmitting}
       >
-        🔍 관련 지식이 필요해요
+        <img src={rhks} alt="관련지식" style={{width:"150px", height:"auto"}}/>
       </button>
 
       {/* "보내기" 버튼을 추가하여 선택 후 Home으로 이동 */}
