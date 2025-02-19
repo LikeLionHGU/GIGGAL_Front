@@ -114,7 +114,8 @@ const SearchDetail = () => {
         pageCount: book.volumeInfo?.pageCount || 0,
         publisher: book.volumeInfo?.publisher || "출판사 정보 없음",
         thumbnail: book.volumeInfo?.imageLinks?.thumbnail || "",
-        googleBookId: googleBookId, //  백엔드에서 요구하는 googleBookId 추가
+        googleBookId: googleBookId, //  백엔드에서 요구하는 googleBookId 추가,
+         bookDetail: book.volumeInfo.description || "정보 없음"
       });
   
       console.log(" 북마크 추가 성공:", response.data);
