@@ -19,17 +19,7 @@ const [books, setBooks] = useState([]);
   const [recommendBooks, setRecommendBooks] = useState([]); // 추천 책 리스트
   const navigate = useNavigate();
 
-    const handleBookClick = (book) => {
-    if (!book || !book.id) {
-      console.error("책 ID가 존재하지 않습니다.");
-      return;
-    }
-  
-    const googleBookId = book.id;
-    const bookId = book.volumeInfo?.industryIdentifiers?.[0]?.identifier || "unknown";
-  
-    navigate(`/searchdetail/${googleBookId}/${bookId}`);
-  };
+    
 
   // 🔹 백엔드 API에서 추천 책 데이터 가져오기
   useEffect(() => {
