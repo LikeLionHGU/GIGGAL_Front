@@ -165,14 +165,19 @@ const SearchDetail = () => {
                 ) : (
                   <p>책 표지를 불러올 수 없습니다.</p>
                 )}
+              <img 
+                src={bookRead[book?.id] ? bookmark : nonbookmark} 
+                alt="북마크" 
+                className={styles.bookmarkIcon} 
+                onClick={toggleBookmark} 
+              />
+
               </div>
               <div className={styles.bookInfo}>
                 <h1 className={styles.bookTitle}>{book?.volumeInfo?.title || "제목 없음"}</h1>
                 
-          <button onClick={toggleBookmark}>
-            <img src={bookRead[book?.id] ? bookmark : nonbookmark} alt="북마크" className={styles.bookmarkIcon} />
-          </button>
-          <span>{bookmarkData?.bookmarkCount || 0}</span>
+          
+          {/* <span>{bookmarkData?.bookmarkCount || 0}</span> */}
         
         <div className={styles.bookmarkContainer}>
                 <p className={styles.shortDescription}>

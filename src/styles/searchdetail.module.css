@@ -150,8 +150,11 @@ body {
 }
 
 .bookmarkIcon {
+  position:absolute;
+  top:361px;
+  left:583px;
   width: 18px;
-  height: 18px;
+  height: 35px;
 }
 
 .bookmarkText {
