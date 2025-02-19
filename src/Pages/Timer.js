@@ -1,11 +1,9 @@
 import { useState, useEffect, useRef} from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Timer.css";
-import HomeHeader from "../components/header/HomeHeader.js";
+import HomeHeader from "../components/header/HomeHeader2.js";
 import Footer from "../components/footer/Footer.js";
 import TimerBackground from "../img/timer.png"; 
-import hr from '../img/hr.png';  
-import styles from "../styles/Home.module.css";
 import startHover from '../img2/starthover.png';
 import startPress from '../img2/startpress.png';
 import stopHover from '../img2/stophover.png';
@@ -403,9 +401,9 @@ useEffect(() => {
   return (
     <div className="whole">
        <HomeHeader/>
-       <img src={hr} alt="hr" className={styles.hr}/>
       <div className="timer-container">
   <div className="reading-count">
+    <br/>
     <span style={{ color: "#ADCA6C" }}>●</span> 현재 {userCount}명이 이 책을 같이 읽고 있어요 !
   </div>
 
@@ -468,15 +466,20 @@ useEffect(() => {
   <img 
   src={resetIcon} 
   alt="Reset" 
+  width="50"  // ✅ 가로 크기 (픽셀 단위)
+  height="50" // ✅ 세로 크기 (픽셀 단위)
   onClick={() => {
-    setTime(3000); // 시간을 50분으로 초기화
+    setTime(3000);
     setSelectedTime("50분 / 15분"); 
   }} 
 />
+
     <img
         className="icon start"
         src={startSrc}
         alt="Start"
+        width="40"  
+        height="40" 
         onClick={startTimer}
         onMouseEnter={() => setStartSrc(startHover)} // Hover 시 변경
         onMouseLeave={() => setStartSrc(startIcon)} // 원래 이미지로 복귀
@@ -487,6 +490,8 @@ useEffect(() => {
         className="icon stop"
         src={stopSrc}
         alt="Stop"
+        width="40"  
+        height="40" 
         onClick={stopTimer}
         onMouseEnter={() => setStopSrc(stopHover)}
         onMouseLeave={() => setStopSrc(stopIcon)}
@@ -496,7 +501,7 @@ useEffect(() => {
   </div>
 
   <div className="record-section">
-    <div className="recording"><img src={recordingIcon} alt="Recording"  className="recording-text" ></img></div>
+    <div className="recording"><img src={recordingIcon} alt="Recording"  className="recording-text"></img></div>
     <div className="record-container">
       <textarea
         className="record-input"
