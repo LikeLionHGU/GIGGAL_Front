@@ -18,7 +18,7 @@ const API_BASE_URL = "https://janghong.asia/book";
 
 const Home = () => {
   const [filteredBooks, setFilteredBooks] = useState([]);
-  const [selectedFilter, setSelectedFilter] = useState("예정");
+  const [selectedFilter, setSelectedFilter] = useState("진행");
   const [completedBooks, setCompletedBooks] = useState({});
   const [Alertopen, setAlertopen] = useState(false);
   const [selectedBook, setSelectedBook] = useState(null);

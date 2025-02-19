@@ -231,8 +231,8 @@
 
 .bestboxContainer {
   position: relative;
-  width: 100%;
-  max-width: 800px;
+  width: 90%;
+
   height: 400px; /* bestbox 이미지 크기에 맞춤 */
   background-image: url('../img/bestbox.png'); /* bestbox를 배경으로 설정 */
   background-size: cover;
@@ -245,11 +245,11 @@
 
 .bestboxContent {
   position: absolute;
-  width: 90%;
+  width: 200%;
   height: 100%;
   padding: 20px;
   color: black;
-  overflow-y: auto;
+
 }
 
 .bestboxTitle {
@@ -259,38 +259,49 @@
 }
 
 .bookList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+  display: flex;          /* 가로로 배치 */
+  flex-wrap: wrap;        /* 한 줄에 다 들어가지 않으면 자동으로 줄바꿈 */
+  gap: 150px;              /* 책 항목 간의 간격 */
+  padding-left: 170px;
+
 }
 
 .bookItem {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 15px;
-  padding: 10px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  margin-bottom: 10px;
-  cursor: pointer;
+  gap: 2px;
+
+
+  justify-content: center; /* 중앙 정렬 */
+
+  width: 120px; /* 각 책 항목의 너비 */
 }
 
-.bookImage {
-  width: 60px;
-  height: 90px;
-  object-fit: cover;
-  border-radius: 5px;
+
+.booki {
+  width: 170px;  /* 너비 */
+  height: 250px;  /* 높이 */
+  object-fit: cover;  /* 이미지 비율 유지 */
+  border-radius: 10px;  /* 둥글게 처리 */
+
 }
+
+
 
 .bookInfo {
   display: flex;
   flex-direction: column;
+  align-items: center;    /* 제목 중앙 정렬 */
 }
 
 .bookTitle {
-  font-size: 16px;
+  font-size: 17px;
   font-weight: bold;
+  text-align: center;
+  font-family: 'Pretendard-Regular';
 }
+
 
 .bookAuthor, .bookPublisher, .bookMarkCount {
   font-size: 14px;
