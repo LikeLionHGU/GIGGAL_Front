@@ -134,9 +134,14 @@ padding-top: 3rem;
    
 
   }
+  .date{
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
   .memo-container {
     position: absolute; /* mylist 위에 배치 */
-    top: 98%; /* mylist 위로 이동 (조절 가능) */
+    top: 104%; /* mylist 위로 이동 (조절 가능) */
     left: 6%;
     display: flex;
     overflow-x: auto; /* 가로 스크롤 */
@@ -146,6 +151,7 @@ padding-top: 3rem;
     border-radius: 10px;
     scrollbar-width: none;
     max-width: 82%;
+    font-family: 'Pretendard-Regular';
   }
   
   .memo-container::-webkit-scrollbar {
@@ -155,7 +161,7 @@ padding-top: 3rem;
   .memocon {
     min-width: 300px;
     max-width: 100px;
-    height: 200px;
+    height: 210px;
     border-radius: 10px;
     padding: 10px;
     border: 1px solid #ddd;
@@ -164,6 +170,36 @@ padding-top: 3rem;
     resize: none;
     scroll-snap-align: start;
     flex-shrink: 0;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;  position: relative;
+  }
+  
+  .delete-button{
+    cursor: pointer;
+    height: auto;
+    width:20px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+  }
+
+  .content{
+    height: auto;
+    width:20px;
+    position: absolute;
+    top: 70px;
+    left: 25px;
+    display: flex;
+  }
+
+  .date{
+    font-size: 20px;
+    font-weight: bold;
+    position: absolute;
+    left: 20px;
+    top:20px;
+
   }
   
  
