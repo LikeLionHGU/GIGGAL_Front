@@ -1,30 +1,44 @@
 .floating-btn {
-    position: fixed;  /* 고정 위치 */
-    bottom: 90px;     /* 화면 하단에서 20px 떨어짐 */
-    right: 60px;      /* 화면 오른쪽에서 20px 떨어짐 */
-    width: 60px;      /* 버튼 너비 */
-    height: 60px;     /* 버튼 높이 */
-    display: flex;     /* 아이콘을 중앙에 정렬 */
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;  /* 마우스 포인터를 클릭 가능 상태로 바꿈 */
-    z-index: 1000;     /* 다른 요소들 위에 표시 */
-  }
+  position: fixed;  /* 고정 위치 */
+  bottom: 90px;     /* 화면 하단에서 20px 떨어짐 */
+  right: 60px;      /* 화면 오른쪽에서 20px 떨어짐 */
+  width: 60px;      /* 버튼 너비 */
+  height: 60px;     /* 버튼 높이 */
+  display: flex;     /* 아이콘을 중앙에 정렬 */
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;  /* 마우스 포인터를 클릭 가능 상태로 바꿈 */
+  z-index: 1000;     /* 다른 요소들 위에 표시 */
+}
 
-  .floating-btn:hover {
-    position: fixed;  /* 고정 위치 */
-    bottom: 90px;     /* 화면 하단에서 20px 떨어짐 */
-    right: 60px;      /* 화면 오른쪽에서 20px 떨어짐 */
-    width: 60px;      /* 버튼 너비 */
-    height: 60px;     /* 버튼 높이 */
-    display: flex;     /* 아이콘을 중앙에 정렬 */
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;  /* 마우스 포인터를 클릭 가능 상태로 바꿈 */
-    z-index: 1000;     /* 다른 요소들 위에 표시 */
-    content: url( '../../img/fh.png');
+.floating-btn:hover {
+  content: url( '../../img/fh.png'); /* 버튼 아이콘 변경 */
+}
 
-   
-  }
+/* 툴팁 이미지 스타일 */
+.floating-btn-container {
+  position: relative; /* 툴팁을 버튼에 상대적인 위치에 배치 */
   
+}
+
+.tooltip {
+  visibility: hidden; /* 기본적으로 툴팁을 숨김 */
+  position: fixed;  /* 고정 위치 */
+  bottom: 150px;  
   
+  right: 30px;      /* 화면 오른쪽에서 20px 떨어짐 */
+
+  z-index: 1100; /* 버튼보다 위에 표시 */
+  opacity: 0; /* 툴팁이 기본적으로 보이지 않게 설정 */
+  transition: opacity 0.3s ease; /* 툴팁 표시할 때 부드러운 효과 */
+}
+
+.floating-btn:hover + .tooltip {
+  visibility: visible; /* 호버 시 툴팁 표시 */
+  opacity: 1; /* 툴팁 표시 */
+}
+
+.tooltip img {
+  width: 130px; /* 툴팁 이미지 크기 설정 */
+  height: auto; /* 툴팁 이미지 크기 설정 */
+}

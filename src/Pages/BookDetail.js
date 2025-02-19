@@ -218,7 +218,7 @@ useEffect(() => {
     );
   })
 ) : (
-  <p>메모가 없습니다.</p>
+  <div className="nocontent">아직 기록이 없어요.<br/>지금 책을 읽고 기록을 추가해보세요!</div>
 )}
 
 
@@ -246,8 +246,8 @@ useEffect(() => {
       <div className="ttext">기록을 삭제하시겠습니까?</div>
 
       <div className="tbtns">
-              <img src={x} alt="x"  onClick={closeDeleteModal}/>
-      <img src={yes} alt="yes"onClick={confirmDelete}/>
+              <img src={x} className="x" alt="x"  onClick={closeDeleteModal}/>
+      <img src={yes} alt="yes" className="yes"onClick={confirmDelete}/>
     
             </div>
 
