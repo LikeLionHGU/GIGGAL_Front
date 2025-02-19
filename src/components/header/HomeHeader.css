@@ -1,5 +1,4 @@
 .Homeheader {
-    background-color: #F8FFEA;
     font-family: 'Pretendard-Regular';
     padding: 0.5rem 3.5rem;
     display: flex;
@@ -39,8 +38,8 @@
     gap: 1rem; /* 글자 사이 여백 */
 }
 
-.nav .active {
-    text-decoration: underline; /* 활성화된 링크에 밑줄 추가 */
-    font-weight: bold; /* 활성화된 링크에 볼드 적용 */
-}
-
+.nav a.active {
+    text-decoration: underline !important;
+    font-weight: bold !important;
+  }
+  

@@ -10,6 +10,20 @@ const HomeHeader = () => {
   const location = useLocation();
   const navigate = useNavigate(); 
 
+
+  // 페이지마다 다른 배경색 설정
+  const headerStyle = {
+    backgroundColor:
+      location.pathname === '/search' ? 'rgba(248, 255, 234, 0)' :  // 홈 페이지
+      location.pathname === '/searchdetail' ? 'rgba(255, 255, 255, 1)' :  // About 페이지
+      '#F8FFEA', // 그 외의 페이지
+    fontFamily: 'Pretendard-Regular',
+    padding: '0.5rem 3.5rem',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  };
+
  
   const handleLogout = async () => {
     try {
@@ -34,14 +48,19 @@ const HomeHeader = () => {
 
   return (
     <div>
-      <header className="Homeheader">
+      <header style={headerStyle} className="Homeheader">
         <h1 className="Home-header-title">
           <NavLink to="/search">
             <img src={Bookgie} alt="부기 로고" style={{ cursor: "pointer", height: "50px" }} />
           </NavLink>
         </h1>
         <nav className="nav">
-          <NavLink to="/search">책 탐색하기</NavLink>
+        <NavLink 
+  to="/search" 
+  className={({ isActive }) => isActive ? "active" : ""}
+>
+  책 탐색하기
+</NavLink>
           <NavLink to="/timerlanding">뽀커스 모드</NavLink>
           <NavLink to="/home" className={location.pathname.includes("/bookdetail") ? "active" : ""}>
             나의 책

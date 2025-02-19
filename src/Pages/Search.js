@@ -2,7 +2,7 @@ import React, { useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "../styles/search.module.css";
-import HomeHeader from '../components/header/Headers.js';
+import HomeHeader from '../components/header/HomeHeader.js';
 import hr from '../img/line.png';  
 import boogies from '../img/boogies.png';  
 import searchbtn from '../img/searchbtn.png';  
@@ -18,6 +18,18 @@ const [books, setBooks] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");  
   const [recommendBooks, setRecommendBooks] = useState([]); // 추천 책 리스트
   const navigate = useNavigate();
+
+    const handleBookClick = (book) => {
+    if (!book || !book.id) {
+      console.error("책 ID가 존재하지 않습니다.");
+      return;
+    }
+  
+    const googleBookId = book.id;
+    const bookId = book.volumeInfo?.industryIdentifiers?.[0]?.identifier || "unknown";
+  
+    navigate(`/searchdetail/${googleBookId}/${bookId}`);
+  };
 
   // 🔹 백엔드 API에서 추천 책 데이터 가져오기
   useEffect(() => {
@@ -85,15 +97,15 @@ const [books, setBooks] = useState([]);
             <ul className={styles.bookList}>
               {recommendBooks.length > 0 ? (
                 recommendBooks.map((book) => (
-                  <li key={book.bookId} className={styles.bookItem} onClick={() => navigate(`/bookdetail/${book.bookId}`)}>
-                    <img src={book.thumbnail || "https://via.placeholder.com/100"} alt={book.title} className={styles.bookImage} />
+                  <li key={book.bookId} className={styles.bookItem}>
+                    <img src={book.thumbnail || "https://via.placeholder.com/100"} alt={book.title} className={styles.booki} />
                     <div className={styles.bookInfo}>
                       <h4 className={styles.bookTitle}>{book.title}</h4>
                     </div>
                   </li>
                 ))
               ) : (
-                <p className={styles.noResults}>추천된 책이 없습니다.</p>
+                <p className={styles.noResults}></p>
               )}
             </ul>
           </div>
