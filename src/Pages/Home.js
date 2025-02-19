@@ -217,9 +217,10 @@ const Home = () => {
   className={styles.readingbtn}
   onClick={async () => {
     await handleReadingButtonClick(book); // ✅ 읽는중으로 변경 API 호출
-    navigate(`/timer?bookId=${book.bookId}&bookTitle=${encodeURIComponent(book.title)}`); // ✅ API 호출 후 타이머 페이지로 이동, bookId와 bookTitle 전달
+    navigate(`/timer?bookId=${encodeURIComponent(book.bookId)}&bookTitle=${encodeURIComponent(book.title)}`); // ✅ 선택한 책의 제목을 함께 전달
   }}
 />
+
 
 <img
   src={recordbtn}
