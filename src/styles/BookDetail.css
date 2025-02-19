@@ -45,13 +45,22 @@
 
 .bookthumbnail{
     position: absolute; /* `dash` 위에 배치 */
-    top:44%;
-    height: 18rem;
+    top:43%;
+    height: 19rem;
     border-radius: 10%;
-    left:10%;
+    left:12%;
     
 }
+.nocontent{
+  font-weight:bold;
+  text-align: center;
+  color:#B2B2B2;
+  font-size: 20px;
+  padding-left: 460px;
+  padding-top:70px;
+  line-height: 1.5;  /* 줄 간격 */
 
+}
 .book-title{
     position: absolute; /* `dash` 위에 배치 */
     top:35%;
@@ -121,7 +130,7 @@
 padding-top: 3rem;
     padding-left: 5rem;
     padding-bottom: 5rem;
-    width: 80rem;  /* 너비 고정 */
+    width: 80.5rem;  /* 너비 고정 */
     height: 25rem;
     position: relative;
     display: flex;
@@ -237,8 +246,8 @@ padding-top: 3rem;
   
   .modalcon {
     background-color: white;
-    padding: 20px;
-    border-radius: 5px;
+    padding: 30px;
+    border-radius: 10px;
     width: 500px; /* 가로 고정 */
     min-height: 100px; /* 최소 높이 */
     max-height: 80vh; /* 너무 길어지면 화면 80%까지만 확장 */
@@ -256,7 +265,7 @@ padding-top: 3rem;
   border: 1px solid #ccc; /* 테두리 추가 */
   border-color: black;
   border-radius: 10px;
-  padding:10px;
+  padding:25px;
 }
 
 .mdate{
@@ -303,9 +312,9 @@ padding-top: 3rem;
   .tmodalcon {
     background-color: white;
     padding: 20px;
-    border-radius: 5px;
+    border-radius: 15px;
     width: 350px; /* 가로 고정 */
-    height:150px;
+    height:100px;
     white-space: normal;
     text-align: center;
    position: relative;
@@ -315,7 +324,7 @@ padding-top: 3rem;
 
 .ttext{
   position: absolute;
-  top: 60px;
+  top: 40px;
   left:100px;
   right:100px;
   font-family: 'Pretendard-Regular';
@@ -323,25 +332,32 @@ padding-top: 3rem;
   font-size:18px;
 }
 
-.tbtns{
-  display: flex;
-  gap: 6px;
-  padding-left: 21%;
-  padding-top: 6%;
-}
 
-.tbtns img {
 
+.x{
   width: 100px;
   height: auto;
   cursor: pointer;
   padding-top: 60px;
 }
+.yes{
+  width: auto;
+  height:30px;
+  cursor: pointer;
+  padding-top: 60px;
+}
 
 
- 
+
+.x:hover{
+  content: url("../img/xh.png");
+}
   
+.yes:hover{
+  content: url("../img/yesh.png");
+}
   
-  
-  
+.nocontent br {
+  margin-bottom: 100px; /* 줄바꿈 후 아래에 간격 추가 */
+}
   
