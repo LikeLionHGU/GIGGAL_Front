@@ -283,6 +283,7 @@ const renderNoResultsMessage = () => {
                   {book.author || book.volumeInfo?.authors?.join(", ")}
                 </h2>
                 {book.countOfBookMark && <p>북마크 {book.countOfBookMark}개</p>}
+                {book.difficultyState && <p>난이도: {book.difficultyState}</p>}
               </div>
             </div>
 

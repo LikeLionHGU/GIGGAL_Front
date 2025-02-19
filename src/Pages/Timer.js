@@ -518,7 +518,7 @@ useEffect(() => {
 
 
     </div>
-    <button className="complete-reading-btn" onClick={() => saveRecordAndComplete(true)}>  
+    <button className="complete-reading-btn" onClick={() => {saveRecordAndComplete(true); stopTimer();}}>  
   <div className="resultbtn">  
     독서 완료하기  
   </div>  
