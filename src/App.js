@@ -14,7 +14,7 @@ import FocusLanding from "./Pages/FocusLanding";
 
 const AppContent = () => {
   const location = useLocation(); // 현재 경로 가져오기
-  const excludedPages = ["/timer", "/bookdetail", "/main"]; // 플로팅 버튼이 없어야 할 페이지
+  const excludedPages = ["/timer", "/main"]; // 플로팅 버튼이 없어야 할 페이지
 
   const handleClick = () => {
     alert("플로팅 버튼 클릭!");

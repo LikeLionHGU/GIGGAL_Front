@@ -34,11 +34,14 @@
 
 .goto {
     height: 1.3rem;
-    padding-top: 1.5rem;
+    padding-top: 1.7rem;
     padding-left: 5.3rem;
     padding-bottom: 1rem;
     cursor: pointer;
 }
+
+
+
 
 .bookthumbnail{
     position: absolute; /* `dash` 위에 배치 */
@@ -79,7 +82,7 @@
 
   .rbtn {
     position: absolute;
-    top: 69%;
+    top: 69.5%;
     left: 28.5%;
     height: 2.5rem;
     font-family: 'Pretendard-Regular';
@@ -90,12 +93,12 @@
   .totaltime{
     position: absolute;
     font-family: 'Pretendard-Regular';
-    font-size: 60px;
+    font-size: 45px;
     color:#455622;
     font-weight: bold;
     padding-top:3rem;
-    top: 51%;
-    left: 69%;
+    top: 53%;
+    left: 69.6%;
   }
 
   .rbtn:hover{
@@ -127,7 +130,7 @@ padding-top: 3rem;
   .mylisticon{
     top:790px;
     left:100px;
-    width: 9rem;  /* 너비 고정 */
+    width: 8rem;  /* 너비 고정 */
     height: auto;
     position: absolute;
     display: flex;
@@ -142,7 +145,7 @@ padding-top: 3rem;
   .memo-container {
     position: absolute; /* mylist 위에 배치 */
     top: 104%; /* mylist 위로 이동 (조절 가능) */
-    left: 6%;
+    left: 7%;
     display: flex;
     overflow-x: auto; /* 가로 스크롤 */
     scroll-snap-type: x mandatory; /* 캐러셀 */
@@ -150,7 +153,7 @@ padding-top: 3rem;
     padding: 1rem;
     border-radius: 10px;
     scrollbar-width: none;
-    max-width: 82%;
+    max-width: 85.3%;
     font-family: 'Pretendard-Regular';
   }
   
@@ -160,7 +163,7 @@ padding-top: 3rem;
   
   .memocon {
     min-width: 300px;
-    max-width: 100px;
+    max-width: 420px; /* min-width보다 크게 설정 */
     height: 210px;
     border-radius: 10px;
     padding: 10px;
@@ -171,8 +174,14 @@ padding-top: 3rem;
     scroll-snap-align: start;
     flex-shrink: 0;
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
-    display: flex;  position: relative;
+    display: flex;
+    position: relative;
+    flex-direction: row; /* 가로 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    gap: 10px; /* 요소 간 간격 */
+    overflow: hidden; /* 내용 넘칠 때 숨김 */
   }
+  
   
   .delete-button{
     cursor: pointer;
@@ -184,14 +193,25 @@ padding-top: 3rem;
     display: flex;
   }
 
-  .content{
+  .content {
     height: auto;
-    width:20px;
+    width: 255px;
     position: absolute;
     top: 70px;
-    left: 25px;
-    display: flex;
+    left: 29px;
+    right: 29px;
+    text-align: justify; /* 양쪽 맞춤 */
+    word-break: break-word; /* 줄바꿈 처리 */
+    white-space: normal; /* 자동 줄바꿈 허용 */
   }
+  
+  .more {
+    font-weight: bold;
+    display: inline-block; /* inline-block으로 설정해서 텍스트가 중앙에 배치되도록 */
+    text-align: center; /* '더보기' 부분만 중앙 정렬 */
+    margin-top: 5px; /* 필요 시, '더보기' 텍스트의 위치 조정 */
+  }
+  
 
   .date{
     font-size: 20px;
@@ -202,6 +222,123 @@ padding-top: 3rem;
 
   }
   
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 모달 배경 반투명 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* 다른 요소들보다 위에 표시되도록 설정 */
+  }
+  
+  .modalcon {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 500px; /* 가로 고정 */
+    min-height: 100px; /* 최소 높이 */
+    max-height: 80vh; /* 너무 길어지면 화면 80%까지만 확장 */
+    height: auto; /* 내용에 맞게 자동 조정 */
+    overflow-y: auto; /* 내용이 길어질 경우 스크롤 생성 */
+    word-break: break-word;
+    white-space: normal;
+    text-align: justify;
+   position: relative;
+   font-family: 'Pretendard-Regular';
+
+}
+
+.border{
+  border: 1px solid #ccc; /* 테두리 추가 */
+  border-color: black;
+  border-radius: 10px;
+  padding:10px;
+}
+
+.mdate{
+  font-weight: bold;
+  font-size: 25px;
+ 
+
+
+}
+  
+  
+  .contentt {
+    text-align: justify; /* 양쪽 맞춤 */
+  }
+  
+  
+  
+  .mbutton {
+    cursor: pointer;
+
+    position: absolute;
+    top: 35px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    height:auto;
+    width:15px;
+  }
+
+  
+  .tmodal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 모달 배경 반투명 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* 다른 요소들보다 위에 표시되도록 설정 */
+  }
+  
+  .tmodalcon {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 350px; /* 가로 고정 */
+    height:150px;
+    white-space: normal;
+    text-align: center;
+   position: relative;
+   font-family: 'Pretendard-Regular';
+
+}
+
+.ttext{
+  position: absolute;
+  top: 60px;
+  left:100px;
+  right:100px;
+  font-family: 'Pretendard-Regular';
+  font-weight: bold;
+  font-size:18px;
+}
+
+.tbtns{
+  display: flex;
+  gap: 6px;
+  padding-left: 21%;
+  padding-top: 6%;
+}
+
+.tbtns img {
+
+  width: 100px;
+  height: auto;
+  cursor: pointer;
+  padding-top: 60px;
+}
+
+
  
   
   
