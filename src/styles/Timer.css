@@ -144,8 +144,9 @@ body {
   width: 530px;
   padding: 10px;
   border-radius: 8px;
-  border: 1px solid #6b8e23;
+  border: 1px solid #455622;
   background-color: #F8FFEA;
+  font-weight:bold;
   font-size: 14px;
   margin-left:200px;
   margin-top:-100px;
