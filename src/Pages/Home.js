@@ -101,6 +101,7 @@ const Home = () => {
           ...prev,
           [book.bookId]: true,
         }));
+        console.log(response);
       } catch (error) {
         console.error("📌 완독 처리 실패:", error.response ? error.response.data : error);
       }
@@ -138,6 +139,7 @@ const Home = () => {
         ...prev,
         [book.bookId]: true,
       }));
+      console.log(response);
     } catch (error) {
       console.error("📌 읽는중 처리 실패:", error.response ? error.response.data : error);
     }
