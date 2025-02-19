@@ -8,6 +8,7 @@ import goto from "../img/edong.png";
 import mylist from "../img/mylist.png";
 import mylisticon from "../img/mylist-icon.png";
 import readingbtn from '../img/readingbtn.png';  // '../img/'로 경로를 수정
+import trash from '../img/trash.png';  // '../img/'로 경로를 수정
 import Footer from '../components/footer/Footer.js';
 import axios from "axios"; 
 
@@ -154,7 +155,7 @@ useEffect(() => {
       <div key={entry.memoId} className="memo-entry">
 
        <div className="memo-box">
-       <div className="memocon">{entry.date}<br /><br />{entry.content} <button onClick={() => handleDelete(entry)} className="delete-button">삭제</button>
+       <div className="memocon"><div className="date">{entry.date}</div><br /><br /><div className="content">{entry.content}</div> <img  src={trash} alt="dash" onClick={() => handleDelete(entry)} className="delete-button"/>
 </div></div>
  
       </div>
