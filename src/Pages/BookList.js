@@ -113,7 +113,8 @@ useEffect(() => {
       pageCount: book.volumeInfo.pageCount || 0,
       publisher: book.volumeInfo.publisher || "정보 없음",
       thumbnail: book.volumeInfo.imageLinks?.thumbnail || "",
-      googleBookId: book.id || "정보 없음" 
+      googleBookId: book.id || "정보 없음" ,
+       bookDetail: book.volumeInfo.description || "정보 없음"
     };
     
     
