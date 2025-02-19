@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import '../styles/BookDetail.css';
-import HomeHeader from '../components/header/Headers.js';
+import HomeHeader from '../components/header/HomeHeader.js';
 import back from "../img/back.png";
 import dash from "../img/dash.png";
 import goto from "../img/edong.png";
@@ -9,10 +9,14 @@ import mylist from "../img/mylist.png";
 import mylisticon from "../img/mylist-icon.png";
 import readingbtn from '../img/readingbtn.png';  // '../img/'로 경로를 수정
 import trash from '../img/trash.png';  // '../img/'로 경로를 수정
+import closebtn from '../img/closebtn.png';  // '../img/'로 경로를 수정
+import x from '../img/x.png';  // '../img/'로 경로를 수정
+import yes from '../img/yes.png';  // '../img/'로 경로를 수정
 import Footer from '../components/footer/Footer.js';
 import axios from "axios"; 
 
 const BookDetail = () => {
+  const MAX_LENGTH = 150; // 최대 글자 수
   const navigate = useNavigate();
   const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -23,6 +27,32 @@ const BookDetail = () => {
   const bookTime = params.get("bookTime") || "시간 없음";
   const [book, setBook] = useState(null);
   const [records, setRecords] = useState([]);
+  const [selectedMemo, setSelectedMemo] = useState(null); // 선택된 메모 상태
+  const [showModal, setShowModal] = useState(false); // 모달 열림 상태
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false); // 삭제 모달 상태
+const [memoToDelete, setMemoToDelete] = useState(null); // 삭제할 메모 저장
+
+// 삭제 모달 열기 함수
+const openDeleteModal = (entry) => {
+  setMemoToDelete(entry);
+  setShowDeleteModal(true);
+};
+
+// 삭제 모달 닫기
+const closeDeleteModal = () => {
+  setShowDeleteModal(false);
+  setMemoToDelete(null);
+};
+
+
+// 삭제 확정 함수
+const confirmDelete = async () => {
+  if (memoToDelete) {
+    await handleDelete(memoToDelete);
+    closeDeleteModal();
+  }
+};
 
   useEffect(() => {
     // 구글 북스 API 호출
@@ -39,7 +69,17 @@ const BookDetail = () => {
   }, [bookTitle, bookPublisher]);
 
 
+  // 모달 열기 함수
+  const openModal = (memo) => {
+    setSelectedMemo(memo); // 클릭한 메모를 상태에 저장
+    setShowModal(true); // 모달 열기
+  };
 
+    // 모달 닫기 함수
+    const closeModal = () => {
+      setShowModal(false);
+      setSelectedMemo(null);
+    };
  //메모 조회하기
 useEffect(() => {
     const fetchMemos = async () => {
@@ -129,8 +169,8 @@ useEffect(() => {
             />
             <h2 className="book-title">{book.volumeInfo.title}</h2>
             <p className="text">
-              {book.volumeInfo.authors?.join(", ") || "정보 없음"}{" "}
-              {book.volumeInfo.pageCount || "정보 없음"}{"p "}
+              {book.volumeInfo.authors?.join(", ") || "정보 없음"}{" |  "}
+              {book.volumeInfo.pageCount || "정보 없음"}{"p |  "}
               {book.volumeInfo.publishedDate || "정보 없음"}
             </p>
             <p className="description">{getDescription(book.volumeInfo.description)}</p>
@@ -155,7 +195,23 @@ useEffect(() => {
       <div key={entry.memoId} className="memo-entry">
 
        <div className="memo-box">
-       <div className="memocon"><div className="date">{entry.date}</div><br /><br /><div className="content">{entry.content}</div> <img  src={trash} alt="dash" onClick={() => handleDelete(entry)} className="delete-button"/>
+       <div className="memocon"  onClick={() => openModal(entry)}><div className="date">{entry.date}</div><br /><br /><div className="content">
+  {entry.content.length > MAX_LENGTH
+    ? <>
+        {entry.content.slice(0, MAX_LENGTH)}<div className="more">... 더보기</div>
+      </>
+    : entry.content}
+</div>
+
+<img
+  src={trash}
+  alt="dash"
+  onClick={(e) => {
+    e.stopPropagation(); // 이벤트 전파 방지
+    openDeleteModal(entry); // 삭제 모달 열기
+  }}
+  className="delete-button"
+/>
 </div></div>
  
       </div>
@@ -170,6 +226,35 @@ useEffect(() => {
           </div>
         </div>
       )}
+
+{showModal && selectedMemo && (
+        <div className="modal">
+          <div className="modalcon">
+            <p><div className="mdate">{selectedMemo.date}</div></p> 
+            <div className="border">
+            <div className="contentt">{selectedMemo.content}</div>
+            </div>
+            <img src={closebtn} alt="closebtn" className="mbutton" onClick={closeModal}/>
+          </div>
+        </div>
+      )}
+
+
+{showDeleteModal && (
+  <div className="tmodal">
+    <div className="tmodalcon">
+      <div className="ttext">기록을 삭제하시겠습니까?</div>
+
+      <div className="tbtns">
+              <img src={x} alt="x"  onClick={closeDeleteModal}/>
+      <img src={yes} alt="yes"onClick={confirmDelete}/>
+    
+            </div>
+
+    
+    </div>
+  </div>
+)}
       <Footer />
     </div>
   );
