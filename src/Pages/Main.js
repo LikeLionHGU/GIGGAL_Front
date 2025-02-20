@@ -1,7 +1,7 @@
 import main from "../img/mainlanding.png";
 import login from "../img/Login.png"; 
 import login2 from "../img/Login2.png";
-
+import "../styles/Main.css";
 import Footer from "../img/Footer copy.png";
 
 
@@ -31,32 +31,19 @@ function Main() {
                 src={login} 
                 alt="Login"
                 onClick={handleGoogleLogin} // 🔹 클릭 시 구글 로그인 실행
-                style={{
-                    position: "absolute", 
-                    top: "2.3%", 
-                    left: "88%", 
-                    transform: "translate(-50%, -50%)", 
-                    width: "200px", 
-                    height: "auto",
-                    cursor: "pointer" 
-                }} 
+            className="login-button2"
             />
 
+
             {/* 🔹 login2.png 클릭 시에도 Google 로그인 실행 */}
+         
             <img 
-                src={login2} 
-                alt="Login2"
-                onClick={handleGoogleLogin} // 🔹 클릭 시 구글 로그인 실행 (변경됨!)
-                style={{
-                    position: "absolute", 
-                    top: "14%", 
-                    left: "52%", 
-                    transform: "translate(-50%, -50%)", 
-                    width: "220px", 
-                    height: "auto",
-                    cursor: "pointer" 
-                }} 
-            />
+   src={login2} 
+  alt="Login"
+  onClick={handleGoogleLogin}
+  className="login-button"
+/>
+
 
 <img src={Footer} alt="Main" style={{ width: "100vw", height: "auto" }} />
         </div>

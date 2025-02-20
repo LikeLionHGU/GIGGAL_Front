@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import mainn from "../img/timerlanding.png";
 import HomeHeader from '../components/header/HomeHeader.js';
 import goreading from "../img/goreading.png";
+import styles from "../styles/FocusLanding.css";
 
 function FocusLanding() {
     const navigate = useNavigate();  // useNavigate 훅 사용
@@ -13,19 +14,12 @@ function FocusLanding() {
                 <img src={mainn} alt="Main" style={{ width: "100vw", height: "auto" }} />
                 
                 <img 
-                    src={goreading} 
-                    alt="Login"
-                    onClick={() => navigate("/timer")}  // 함수 전달
-                    style={{
-                        position: "absolute", 
-                        top: "86.4%", 
-                        left: "51%", 
-                        transform: "translate(-50%, -50%)", 
-                        width: "280px", 
-                        height: "auto",
-                        cursor: "pointer" 
-                    }} 
-                />
+    src={goreading} 
+    alt="Login"
+    onClick={() => navigate("/timer")} 
+    className="go"
+/>
+
             </div>
         </div>
     );

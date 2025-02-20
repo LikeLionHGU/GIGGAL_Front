@@ -14,6 +14,7 @@ import "../styles/BookDetail.css";
 import Footer from "../components/footer/Footer.js";
 import readingbtn from '../img/readingbtn.png';  // '../img/'로 경로를 수정
 import commu from '../img/commu.png';  // '../img/'로 경로를 수정
+import Modal from "../Pages/Modal"; 
 
 const API_BASE_URL = "https://janghong.asia/book";
 const GOOGLE_BOOKS_API_KEY = "AIzaSyCOhxzEmFNG0E9GCrAAYeSQ8Q2NYrjC-b0";
@@ -27,6 +28,15 @@ const SearchDetail = () => {
   const [activeTab, setActiveTab] = useState("bookInfo");
   const [errorMessage, setErrorMessage] = useState("");
   const lastApiCallTime = useRef(0);
+  
+  const [showModal, setShowModal] = useState(false); 
+  const handleReadingClick1 = () => {
+    if (!bookRead[googleBookId]) {
+      setShowModal(true); // 북마크 안 되어 있으면 모달 띄우기
+    } else {
+      navigate(`/timer?bookId=${book.id}`);
+    }
+  };
 
   console.log(" googleBookId 값 확인:", googleBookId);
 
@@ -144,10 +154,6 @@ const SearchDetail = () => {
   };
   
 
-  // //  책 설명 (30자 이하로 제한)
-  // const shortDescription = book?.volumeInfo?.subtitle?.slice(0, 30) + "..." ||
-  //   book?.searchInfo?.textSnippet?.slice(0, 30) + "..." ||
-  //   book?.volumeInfo?.subtitle || book?.searchInfo?.textSnippet || "설명 없음";
 
   return (
     <div>
@@ -193,7 +199,7 @@ const SearchDetail = () => {
               {book.volumeInfo.publishedDate || "정보 없음"}
             </div>
             <img src={hr} alt="line" className={styles.hr1}></img>
-            <img className={styles.rbtn1} src={readingbtn} alt="readingbtn" onClick={() => navigate(`/timer?bookId=${book.id}`)} />
+            <img className={styles.rbtn1} src={readingbtn} alt="readingbtn" onClick={handleReadingClick1} />
             <img src={commu} alt="line" className={styles.commu}></img>
             </div>
           ) : (
@@ -201,33 +207,44 @@ const SearchDetail = () => {
           )}
        
 
-        <div className={styles.boxx}>
-        <div className={styles.tabs}>
-  <div 
-    className={`${styles.tab} ${activeTab === "bookInfo" ? styles.active : ""}`} 
-    onClick={() => setActiveTab("bookInfo")}
-  >
-    책 정보
+       <div className={styles.boxx}>
+  <div className={styles.tabs}>
+    <div 
+      className={`${styles.tab} ${activeTab === "bookInfo" ? styles.active : ""}`} 
+      onClick={() => setActiveTab("bookInfo")}
+    >
+      책 정보
+    </div>
+    <div 
+      className={`${styles.tab} ${activeTab === "community" ? styles.active : ""}`} 
+      onClick={() => setActiveTab("community")}
+    >
+      커뮤니티
+    </div>
   </div>
-  <div 
-    className={`${styles.tab} ${activeTab === "community" ? styles.active : ""}`} 
-    onClick={() => setActiveTab("community")}
-  >
-    커뮤니티
+
+  <div className={styles.bookContent}>
+    {activeTab === "bookInfo" ? (
+      <p className={styles.bookDescription}>
+        {book?.volumeInfo?.description
+          ? book.volumeInfo.description.length > 1200
+            ? book.volumeInfo.description.slice(0, 1200) + "..."
+            : book.volumeInfo.description
+          : "설명 없음"}
+      </p>
+    ) : (
+      <img src={communityexample} alt="커뮤니티 예제" className={styles.communityImage} />
+    )}
   </div>
-</div>
+</div> {/* <div> 태그 닫기 추가 */}
+{showModal && (
+  <Modal onClose={() => setShowModal(false)}>
+    <p>📌 책을 읽기 전에 먼저 북마크를 추가해주세요!</p>
+  </Modal>
+)}
 
-<div className={styles.bookContent}>
-  {activeTab === "bookInfo" ? (
-    <p className={styles.bookDescription}>{book?.volumeInfo?.description || "설명 없음"}</p>
-  ) : (
-    <img src={communityexample} alt="커뮤니티 예제" className={styles.communityImage} />
-  )}
-</div>
-</div>
+<Footer /> {/* Footer는 div 바깥에 배치할 수도 있음 */}
 
-     
-      <Footer/>
     </div>
   );
 };

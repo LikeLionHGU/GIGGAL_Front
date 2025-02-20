@@ -30,4 +30,42 @@
     height: auto;
     cursor: pointer; /* 마우스 오버 시 클릭 가능 */
   }
+  .login-button {
+    width: 220px; /* 200px → 220px */
+    height: auto;
+    cursor: pointer;
+    transition: opacity 0.3s ease-in-out;
+    
+    position: absolute;  /* 따옴표 제거 */
+    top: 14%;           /* 따옴표 제거 */
+    left: 52%;          /* 따옴표 제거 */
+    transform: translate(-50%, -50%);
+}
+.login-button2 {
+  position: absolute;  /* 따옴표 제거 */
+  top: 2.3%;           /* 따옴표 제거 */
+  left: 88%;           /* 따옴표 제거 */
+  transform: translate(-50%, -50%);
+  width: 200px;        /* 따옴표 제거 */
+  height: auto;
+  cursor: pointer;
+}
+.login-button2:hover {
+  content: url('../img/Loginh.png'); /* 호버 시 이미지 변경 */
+}
+.login-button2:active {
+  content: url('../img/Loginp.png'); /* 호버 시 이미지 변경 */
+}
+
+
+
+  
+  .login-button:hover {
+    content: url('../img/Login2h.png'); /* 호버 시 이미지 변경 */
+  }
+  
+  .login-button:active {
+    content: url('../img/Login2p.png'); /* 클릭(프레스) 시 이미지 변경 */
+  }
+  
   
