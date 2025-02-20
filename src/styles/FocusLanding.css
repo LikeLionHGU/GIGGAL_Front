@@ -1,0 +1,16 @@
+.go {
+    position: absolute;
+    top: 86.4%;
+    left: 51%;
+    transform: translate(-50%, -50%);
+    width: 280px;
+    height: auto;
+    cursor: pointer;
+}
+.go:hover {
+    content: url('../img/goreadingh.png'); /* 호버 시 이미지 변경 */
+  }
+  .go:active {
+    content: url('../img/goreadingp.png'); /* 호버 시 이미지 변경 */
+  }
+  
