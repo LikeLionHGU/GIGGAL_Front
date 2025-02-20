@@ -2,14 +2,18 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef, useCallback } from "react";
 import axios from "axios";
 import styles from "../styles/searchdetail.module.css";
-import SearchHeader from "../components/header/HomeHeader.js";
+import SearchHeader from "../components/header/Headers.js";
 import nonbookmark from "../img/nonbookmark.png";
 import bookmark from "../img/bookmark.png";
 import communityexample from "../img2/communityexample.png";
 import back from "../img/back.png";
+import hr from "../img/hr.png";
+import box1 from "../img/box1.png";
 import path from "../img2/path.png";
 import "../styles/BookDetail.css";
 import Footer from "../components/footer/Footer.js";
+import readingbtn from '../img/readingbtn.png';  // '../img/'로 경로를 수정
+import commu from '../img/commu.png';  // '../img/'로 경로를 수정
 
 const API_BASE_URL = "https://janghong.asia/book";
 const GOOGLE_BOOKS_API_KEY = "AIzaSyCOhxzEmFNG0E9GCrAAYeSQ8Q2NYrjC-b0";
@@ -148,34 +152,32 @@ const SearchDetail = () => {
   return (
     <div>
       <SearchHeader />
-      <div className={styles.container}>
-        <div className={styles.innercontainer}>
-          
-          <div className="back-container">
-            <img className="backbtn" src={back} alt="back" onClick={goBack} />
-          </div>
-          <img className="goto" src={path} alt="path" />
+      <img src={hr} alt="line" className="hr"></img>
 
+      <div className={styles.backcontainer}>
+        <img className={styles.backbtn} src={back} alt="back" onClick={goBack} />
+      </div>  
+      <img className={styles.goto1} src={path} alt="path" /> 
           {errorMessage ? (
             <div className={styles.errorMessage}>{errorMessage}</div>
           ) : book ? (
-            <div className={styles.bookHeader}>
-              <div className={styles.bookImageContainer}>
+            <div>
+             <img src={box1} alt='box' className={styles.box1}/>
                 {book?.volumeInfo?.imageLinks?.thumbnail ? (
-                  <img src={book.volumeInfo.imageLinks.thumbnail} alt={book.volumeInfo.title} className={styles.bookCover} />
+                  <img src={book.volumeInfo.imageLinks.thumbnail} alt={book.volumeInfo.title} className={styles.bookCover1} />
                 ) : (
                   <p>책 표지를 불러올 수 없습니다.</p>
                 )}
               <img 
                 src={bookRead[book?.id] ? bookmark : nonbookmark} 
                 alt="북마크" 
-                className={styles.bookmarkIcon} 
+                className={styles.bookmarkIcon1} 
                 onClick={toggleBookmark} 
               />
 
-              </div>
-              <div className={styles.bookInfo}>
-                <h1 className={styles.bookTitle}>{book?.volumeInfo?.title || "제목 없음"}</h1>
+           
+           
+                <h1 className={styles.bookTitle1}>{book?.volumeInfo?.title || "제목 없음"}</h1>
                 
           
           {/* <span>{bookmarkData?.bookmarkCount || 0}</span> */}
@@ -185,15 +187,21 @@ const SearchDetail = () => {
                   북마크 수: {bookmarkData?.bookmarkCount || 0} | 난이도 평가: {bookmarkData?.difficultyState || "없음"}
                 </p>
                 </div>
-                <p className={styles.shortDescription}>{shortDescription}</p>
-              </div>
+                <div className={styles.text1}>
+              {book.volumeInfo.authors?.join(", ") || "정보 없음"}{" |  "}
+              {book.volumeInfo.pageCount || "정보 없음"}{"p |  "}
+              {book.volumeInfo.publishedDate || "정보 없음"}
+            </div>
+            <img src={hr} alt="line" className={styles.hr1}></img>
+            <img className={styles.rbtn1} src={readingbtn} alt="readingbtn" onClick={() => navigate(`/timer?bookId=${book.id}`)} />
+            <img src={commu} alt="line" className={styles.commu}></img>
             </div>
           ) : (
             <p className={styles.loading}>📚 책 정보를 불러오는 중...</p>
           )}
-        </div>
+       
 
-        
+        <div className={styles.boxx}>
         <div className={styles.tabs}>
   <div 
     className={`${styles.tab} ${activeTab === "bookInfo" ? styles.active : ""}`} 
@@ -216,8 +224,9 @@ const SearchDetail = () => {
     <img src={communityexample} alt="커뮤니티 예제" className={styles.communityImage} />
   )}
 </div>
+</div>
 
-      </div>
+     
       <Footer/>
     </div>
   );

@@ -9,45 +9,53 @@ body {
   font-family: 'Pretendard-Regular', sans-serif;
 }
 
-/* 전체 컨테이너 */
-.container {
-  width: 85%;
-  max-width: 1500px;
-  margin: 40px auto;
-  background: white;
-
-  border-radius: 12px;
-  padding-top:10px;
-}
-
-.backButton {
-  width: 40px;
-  height: auto;
-}
-
-
-
-/* 책 정보 카드 */
-.bookHeader {
-  justify-content: center;
+.backcontainer {
   display: flex;
-  align-items: flex-start;
-  gap: 25px;
-  background-color: rgba(146, 173, 87, 0.1);
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
-  margin-left:0px;
-  margin-top:20px;
+  justify-content: flex-start; /* 왼쪽 정렬 */
+  padding-left: 53px;
+  padding-top:30px;
+  padding-bottom:30px;
 }
+
+.backbtn {
+  height: 1rem;
+  cursor: pointer;
+}
+
+
+
+.heline {
+  width: 6rem !important; /* 크기 줄이기 */
+  height: auto; /* 비율 유지 */
+  display: flex;
+  justify-content: center;
+  padding-left: 3rem;
+  padding-top: 4rem;
+}
+
+
+
+
+
+.box1{
+  height:22rem;
+  width:84rem;
+  padding-left:45px;
+  display: flex;
+  align-items: center; /* 세로 중앙 정렬 */
+  position: relative;
+}
+
 
 /* 책 표지 이미지 */
-.bookCover {
-  margin-left: 300px;
+.bookCover1 {
   width: 180px;
   height: auto;
   border-radius: 8px;
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 300px;
+  left:400px;
 }
 
 /* 책 정보 컨테이너 */
@@ -58,13 +66,24 @@ body {
   flex: 1;
   margin-left: 30px;
 }
+.goto1{
+  height: 1.2rem;
+    padding-left: 4rem;
+    padding-top:30px;
+    padding-bottom: 0.5rem;
+    cursor: pointer;
+}
 
 /* 제목 */
-.bookTitle {
+.bookTitle1 {
   font-size: 26px;
   font-weight: bold;
   color: #333;
   margin-bottom: 8px;
+  font-family: 'Pretendard-Regular', sans-serif;
+  position:absolute;
+  top:300px;
+  left:660px;
 }
 
 /* 북마크 컨테이너 */
@@ -77,16 +96,13 @@ body {
   gap: 8px;
   width: fit-content;
   margin-bottom: 20px;
+  position:absolute;
+  top:370px;
+  left:660px;
+
 }
 
-/* 작가, 출판사, 쪽수 */
-.contain {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-top: 10px;
-}
+
 
 /* 구분선 */
 .divider {
@@ -97,14 +113,39 @@ body {
   margin-bottom: 10px;
 }
 
-/* 짧막한 책 소개 */
-.shortDescription {
-  font-size: 16px;
-  color: #444;
-  line-height: 1.5;
-  margin-top: -5px;
-}
 
+.text1{
+  font-family: 'Pretendard-Regular';
+  font-size: 1rem;
+  font-weight: 500;
+  color: #9E9E9E;
+  display: flex;
+  justify-content: center;
+  padding-top: 0.7rem;
+  font-family: 'Pretendard-Regular', sans-serif;
+  position:absolute;
+  top:460px;
+  left:660px;
+}
+.hr1{
+  position:absolute;
+  top:460px;
+  left:660px;
+  width:500px;
+
+}
+.rbtn1{
+  position:absolute;
+  top:505px;
+  left:660px;
+  width:100px;
+}
+.commu{
+  position:absolute;
+  top:505px;
+  left:770px;
+  width:30px;
+}
 /* 탭 스타일 */
 .tabs {
   display: flex;
@@ -120,26 +161,36 @@ body {
   font-weight: bold;
   font-size: 14px;
   cursor: pointer;
-  background-color: #eef0e4;
+  background-color: #7E9D7E;
   border-radius: 8px 8px 0 0;
   transition: background 0.3s ease-in-out;
   border-bottom: 2px solid transparent;
+  color:white;
 }
 
 .tab.active {
-  background-color: #7E9D7E;
-  color: white;
-  border-bottom: 3px solid #7E9D7E;
+  background-color:  rgba(126, 157, 126, 0.15);
+  color: #9E9E9E;
+ 
+}
+
+.boxx{
+  padding-bottom:100px;
+  padding-left: 50px;
 }
 
 /* 본문 */
 .bookContent {
-  padding: 30px;
-  padding-left:200px;
-  padding-right:200px;
+  height: 500px; /* 원하는 고정된 높이 */
+  width: 1090px;
+  padding-left: 150px;
+  padding-right: 100px;
+  padding-bottom: 120px;
+  padding-top: 70px;
   background: rgba(126, 157, 126, 0.15);
   border-radius: 0 0 10px 10px;
 }
+
 
 .bookDescription {
   font-size: 18px;
@@ -149,12 +200,17 @@ body {
   padding: 15px 20px;
 }
 
-.bookmarkIcon {
-  position:absolute;
-  top:361px;
-  left:583px;
-  width: 18px;
-  height: 35px;
+.bookmarkIcon1 {
+  position: absolute;
+  top:300px; /* 책 표지 위 여백 */
+  left:540px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  width:25px;
+  height: auto;
+  
 }
 
 .bookmarkText {
@@ -163,10 +219,7 @@ body {
   gap: 4px;
 }
 
-.innercontainer{
-  margin-left:0px;
-  justify-content: center; 
-}
+
 
 .bookmarkButton{
   margin-top:20px;
@@ -182,16 +235,13 @@ body {
   border: none;
   cursor: pointer;
   color: #4d5d41;
-  margin-bottom: 20px; /* 기존보다 위로 이동 */
+  margin-bottom: 30px; /* 기존보다 위로 이동 */
   position: relative;
   top: -5px; /* 살짝 위로 조정 */
 }
-
-.communityImage {
-  width: 150%; /* 기존 크기보다 줄이기 */
-  max-width: 550px; /* 최대 크기 제한 */
+.communityImage{
+  padding-left:210px;
+  width:600px;
   height: auto;
-  transition: transform 0.3s ease-in-out; /* 부드러운 크기 변화 효과 */
+
 }
-
-
