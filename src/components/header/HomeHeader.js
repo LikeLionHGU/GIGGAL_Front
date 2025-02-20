@@ -14,7 +14,7 @@ const HomeHeader = () => {
   // 페이지마다 다른 배경색 설정
   const headerStyle = {
     backgroundColor:
-      location.pathname === '/Search' ? 'rgba(248, 255, 234, 0)' :  // 홈 페이지
+      location.pathname === '/search' ? 'rgba(248, 255, 234, 0)' :  // 홈 페이지
       location.pathname === '/searchdetail' ? 'rgba(255, 255, 255, 1)' :  // About 페이지
       '#F8FFEA', // 그 외의 페이지
     fontFamily: 'Pretendard-Regular',

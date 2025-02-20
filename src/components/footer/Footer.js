@@ -10,10 +10,14 @@ const Footer = () => {
       <div className="footer">
         <div className="container">
         <img src={Bookgie} alt="부기 로고" style={{ height: "50px" }} />
-        <div className="footert">책 찾기부터 몰입까지 이어주는 나의 책읽기 도우미<br/>BOOGIE ON AND ON !</div>
+        <div className="footert">
+  독서 습관 형성해주는 부기와<span style={{ display: "block", height: "10px" }}></span>
+  BOOGIE ON AND ON !
+</div>
+
         </div>
         <div className="copy">
-        Copyright © 2025 Ease Crop. Created by Bookgie
+        Copyright © 2025 Ease Corp. Created by Bookgie
         </div>
         <img src={SNS} alt="부기 로고" className='sns'/>
 

@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import mainn from "../img/timerlanding.png";
 import HomeHeader from '../components/header/HomeHeader.js';
 import goreading from "../img/goreading.png";
+import "../styles/FocusLanding.css";
 
 
 function FocusLanding() {

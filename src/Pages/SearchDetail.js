@@ -2,10 +2,10 @@ import { useParams, useNavigate} from "react-router-dom";
 import { useState, useEffect, useRef, useCallback } from "react";
 import axios from "axios";
 import styles from "../styles/searchdetail.module.css";
-import SearchHeader from "../components/header/Headers.js";
+import SearchHeader from "../components/header/SearchHeaders.js";
 import communityexample from "../img2/communityexample.png";
 import back from "../img/back.png";
-import hr from "../img/hr.png";
+import booksu from "../img/booksu.png";
 import box1 from "../img/box1.png";
 import path from "../img2/path.png";
 import "../styles/BookDetail.css";
@@ -159,9 +159,17 @@ console.log(isBookmarked);
 
 
   return (
-    <div>
+    <div >
       <SearchHeader />
-      <img src={hr} alt="line" className="hr"></img>
+      <div
+  style={{
+    position: 'absolute',
+    width: '1330px',
+  left:'58px',
+    border: '1px solid #C7C7C7' // 선의 크기를 1px로 설정
+  }}
+>
+</div>
 
       <div className={styles.backcontainer}>
         <img className={styles.backbtn} src={back} alt="back" onClick={goBack} />
@@ -193,7 +201,17 @@ console.log(isBookmarked);
         <div className={styles.bookmarkContainer}>
                 
                 <p className={styles.shortDescription}>
-                  북마크 수: {bookmarkData?.bookmarkCount || 0} | 난이도 평가: {bookmarkData?.difficultyState || "없음"}
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+  <img src={booksu} alt="line" className={styles.booksu} />
+  <span className="bmc">
+  <span style={{ marginLeft: '10px'}}/>
+    {bookmarkData?.bookmarkCount || 0}
+  </span>
+  <span style={{ marginLeft: '50px'}}>
+    {bookmarkData?.difficultyState || ""}
+  </span>
+</div>
+
                 </p>
                 </div>
                 <div className={styles.text1}>
@@ -228,8 +246,8 @@ console.log(isBookmarked);
     {activeTab === "bookInfo" ? (
       <p className={styles.bookDescription}>
         {book?.volumeInfo?.description
-          ? book.volumeInfo.description.length > 1200
-            ? book.volumeInfo.description.slice(0, 1200) + "..."
+          ? book.volumeInfo.description.length > 1000
+            ? book.volumeInfo.description.slice(0, 1000) + "..."
             : book.volumeInfo.description
           : "설명 없음"}
       </p>
