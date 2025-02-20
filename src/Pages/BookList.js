@@ -9,7 +9,7 @@ import nonbookmark from "../img/nonbookmark.png";
 import nobookmarklist from "../img/nobookmarklist.png";
 import nolevellist from "../img/nolevellist.png";
 import bookmark from "../img/bookmark.png";
-import { useDebounce } from "../hooks/useDebounce";
+
 
 //  Axios 인스턴스 생성 (기본 URL 설정)
 const apiClient = axios.create({
@@ -25,6 +25,7 @@ const BookList = () => {
   const [bookmarkedBooks, setBookmarkedBooks] = useState({});
   const [userEmail, setUserEmail] = useState(""); 
   const [sortType, setSortType] = useState("전체보기"); // 🔹 정렬 타입 추가
+  
 
   //  로컬스토리지에서 유저 이메일 가져오기
   useEffect(() => {
@@ -76,13 +77,8 @@ const fetchBooksByBookmark = async () => {
 };
 
 
-const debouncedSearchTerm = useDebounce(searchTerm, 500); //  searchTerm만 디바운스
 
-useEffect(() => {
-  if (debouncedSearchTerm) {
-    fetchBooks(debouncedSearchTerm); // 디바운스된 값이 변경될 때만 실행
-  }
-}, [debouncedSearchTerm]);  // 디바운스된 값만 의존성으로 설정
+
  
   
 
@@ -199,7 +195,7 @@ const renderNoResultsMessage = () => {
     return <img
     src={nolevellist}
     alt="nbl"
-    className={styles.nobookmarklist}
+    className={styles.nolevellist}
   />;
   }
   return null;

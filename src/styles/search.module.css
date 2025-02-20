@@ -9,6 +9,10 @@
   padding-top: 4rem;
   margin-bottom: 100px;
 }
+html, body {
+  overflow-x: hidden;
+}
+
 
 .bookcard {
   position: relative; /* 북마크 버튼을 책 표지 위에 배치하기 위한 설정 */
@@ -16,11 +20,31 @@
   text-align: center; /* 책 제목과 저자 정보 중앙 정렬 */
 }
 
-.nobookmarklist{
+.bookmarkButton img {
+  width: 24px;
+  height: auto;
+  transition: transform 0.3s ease-in-out; /* 부드럽게 변환 */
+}
+
+.bookmarkButton:hover img {
+  content: url("../img/bookh.png"); /* 호버 시 이미지 변경 */
+}
+
+
+.nolevellist{
   display: flex;
   height: auto;
   width: 30rem;
   padding-left: 30rem;
+  padding-top: 2rem;
+  padding-bottom: 5rem;
+
+}
+.nobookmarklist{
+  display: flex;
+  height: auto;
+  width: 24.5rem;
+  padding-left: 33rem;
   padding-top: 2rem;
   padding-bottom: 5rem;
 
@@ -292,7 +316,6 @@
 .bookInfo {
   display: flex;
   flex-direction: column;
-  height: 1000px;
   align-items: center;    /* 제목 중앙 정렬 */
 }
 

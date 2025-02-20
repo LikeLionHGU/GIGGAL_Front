@@ -186,8 +186,8 @@ const Home = () => {
                   style={{
                     backgroundImage: `url(${completedBooks[book.bookId] ? checkImg : whiteImg})`,
                     backgroundSize: "cover",
-                    width: "24px",
-                    height: "24px",
+                    width: "16px",
+                    height: "16px",
                     border: "none",
                     cursor: "pointer",
                   }}
