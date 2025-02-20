@@ -1,375 +1,376 @@
 .back-container {
-    display: flex;
-    justify-content: flex-start; /* 왼쪽 정렬 */
-
+  display: flex;
+  justify-content: flex-start; /* 왼쪽 정렬 */
+  padding: 2rem;
 }
 
 .backbtn {
-    height: 1rem;
-    cursor: pointer;
+  height: 1rem;
+  cursor: pointer;
 }
 
 .dash {
-    padding-top: 0rem;
-    padding-left: 5rem;
-    height: 25rem;
-    position: relative;
+  padding-top: 0rem;
+  padding-left: 5rem;
+  height: 25rem;
+  position: relative;
 }
 
 .dash-container{
-  padding-top:2rem;
+padding-top:2rem;
 }
 .book-thumbnail{
-  padding-top:3rem;
+padding-top:3rem;
 }
 .book-title{
-  padding-top:3rem;
+padding-top:3rem;
 }
 .text{
-  padding-top: 3.3rem;
+padding-top: 3.3rem;
 }
 .description{
-  padding-top: 3rem;
+padding-top: 3rem;
 }
 
 .goto {
-    height: 1.3rem;
-    padding-left: 5.3rem;
-    padding-bottom: 1rem;
-    cursor: pointer;
+  height: 1.3rem;
+  padding-top: 1.7rem;
+  padding-left: 5.3rem;
+  padding-bottom: 1rem;
+  cursor: pointer;
 }
 
 
 
 
 .bookthumbnail{
-    position: absolute; /* `dash` 위에 배치 */
-    top:43%;
-    height: 19rem;
-    border-radius: 10%;
-    left:12%;
-    
+  position: absolute; /* `dash` 위에 배치 */
+  top:43%;
+  height: 19rem;
+  border-radius: 10%;
+  left:12%;
+  
 }
 .nocontent{
-  font-weight:bold;
-  text-align: center;
-  color:#B2B2B2;
-  font-size: 20px;
-  padding-left: 460px;
-  padding-top:70px;
-  line-height: 1.5;  /* 줄 간격 */
+font-weight:bold;
+text-align: center;
+color:#B2B2B2;
+font-size: 20px;
+padding-left: 460px;
+padding-top:70px;
+line-height: 1.5;  /* 줄 간격 */
 
 }
 .book-title{
-    position: absolute; /* `dash` 위에 배치 */
-    top:35%;
-    left:29%;
-    height: 18rem;
-    font-family: 'Pretendard-Regular';
+  position: absolute; /* `dash` 위에 배치 */
+  top:35%;
+  left:29%;
+  height: 18rem;
+  font-family: 'Pretendard-Regular';
 }
 
 .text{
-    position: absolute; /* `dash` 위에 배치 */
-    color:#9092A3;
-    top:40%;
-    left:29%;
-    height: 18rem;
-    font-family: 'Pretendard-Regular';
+  position: absolute; /* `dash` 위에 배치 */
+  color:#9092A3;
+  top:40%;
+  left:29%;
+  height: 18rem;
+  font-family: 'Pretendard-Regular';
 
 }
 .description {
-    position: absolute;
-    top: 48%;
-    left: 29%;
-    height: 18rem;
-    font-family: 'Pretendard-Regular';
-    max-width: 24%;  /* 최대 너비 */
-    overflow: hidden;
-    text-overflow: ellipsis;  /* 넘칠 경우 '...'으로 처리 */
-  }
+  position: absolute;
+  top: 48%;
+  left: 29%;
+  height: 18rem;
+  font-family: 'Pretendard-Regular';
+  max-width: 24%;  /* 최대 너비 */
+  overflow: hidden;
+  text-overflow: ellipsis;  /* 넘칠 경우 '...'으로 처리 */
+}
 
-  .rbtn {
-    position: absolute;
-    top: 69.5%;
-    left: 28.5%;
-    height: 2.5rem;
-    font-family: 'Pretendard-Regular';
-    cursor: pointer;
-    padding-top:3rem;
-  }
+.rbtn {
+  position: absolute;
+  top: 69.5%;
+  left: 28.5%;
+  height: 2.5rem;
+  font-family: 'Pretendard-Regular';
+  cursor: pointer;
+  padding-top:3rem;
+}
 
-  .totaltime{
-    position: absolute;
-    font-family: 'Pretendard-Regular';
-    font-size: 45px;
-    color:#455622;
-    font-weight: bold;
-    padding-top:3rem;
-    top: 53%;
-    left: 69.6%;
-  }
+.totaltime{
+  position: absolute;
+  font-family: 'Pretendard-Regular';
+  font-size: 45px;
+  color:#455622;
+  font-weight: bold;
+  padding-top:3rem;
+  top: 53%;
+  left: 69.6%;
+}
 
-  .rbtn:hover{
-    content: url("../img/image.png");
-  }
+.rbtn:hover{
+  content: url("../img/image.png");
+}
 
-  .time {
-    position: absolute;
-    top: 40%;
-    left: 70%;
-    font-size: 80px;
-    font-family: 'Pretendard-Regular';
-    color: #455622;
-    font-weight: bold;
-  }
+.time {
+  position: absolute;
+  top: 40%;
+  left: 70%;
+  font-size: 80px;
+  font-family: 'Pretendard-Regular';
+  color: #455622;
+  font-weight: bold;
+}
 
-  
 
-  .mylist {
+
+.mylist {
 padding-top: 3rem;
-    padding-left: 5rem;
-    padding-bottom: 5rem;
-    width: 80.5rem;  /* 너비 고정 */
-    height: 25rem;
-    position: relative;
-    display: flex;
-   
-  }
-  .mylisticon{
-    top:790px;
-    left:100px;
-    width: 8rem;  /* 너비 고정 */
-    height: auto;
-    position: absolute;
-    display: flex;
-   
+  padding-left: 5rem;
+  padding-bottom: 5rem;
+  width: 80.5rem;  /* 너비 고정 */
+  height: 25rem;
+  position: relative;
+  display: flex;
+ 
+}
+.mylisticon{
+  top:790px;
+  left:100px;
+  width: 8rem;  /* 너비 고정 */
+  height: auto;
+  position: absolute;
+  display: flex;
+ 
 
-  }
-  .date{
-    font-size: 20px;
-    font-weight: bold;
-  }
-  
-  .memo-container {
-    position: absolute; /* mylist 위에 배치 */
-    top: 104%; /* mylist 위로 이동 (조절 가능) */
-    left: 7%;
-    display: flex;
-    overflow-x: auto; /* 가로 스크롤 */
-    scroll-snap-type: x mandatory; /* 캐러셀 */
-    gap: 1rem;
-    padding: 1rem;
-    border-radius: 10px;
-    scrollbar-width: none;
-    max-width: 85.3%;
-    font-family: 'Pretendard-Regular';
-  }
-  
-  .memo-container::-webkit-scrollbar {
-    display: none;
-  }
-  
-  .memocon {
-    min-width: 300px;
-    max-width: 420px; /* min-width보다 크게 설정 */
-    height: 210px;
-    border-radius: 10px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    background-color: #f9f9f9;
-    font-size: 16px;
-    resize: none;
-    scroll-snap-align: start;
-    flex-shrink: 0;
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    position: relative;
-    flex-direction: row; /* 가로 정렬 */
-    align-items: center; /* 세로 중앙 정렬 */
-    gap: 10px; /* 요소 간 간격 */
-    overflow: hidden; /* 내용 넘칠 때 숨김 */
-    transition: all 0.3s ease; /* 호버 및 클릭 효과에 부드러운 전환 추가 */
-    cursor: pointer;
-  }
+}
+.date{
+  font-size: 20px;
+  font-weight: bold;
+}
 
-  /* 호버 상태에서 배경색과 테두리 색 변경 */
+.memo-container {
+  position: absolute; /* mylist 위에 배치 */
+  top: 104%; /* mylist 위로 이동 (조절 가능) */
+  left: 7%;
+  display: flex;
+  overflow-x: auto; /* 가로 스크롤 */
+  scroll-snap-type: x mandatory; /* 캐러셀 */
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 10px;
+  scrollbar-width: none;
+  max-width: 85.3%;
+  font-family: 'Pretendard-Regular';
+}
+
+.memo-container::-webkit-scrollbar {
+  display: none;
+}
+
+.memocon {
+  min-width: 300px;
+  max-width: 420px; /* min-width보다 크게 설정 */
+  height: 210px;
+  border-radius: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+  font-size: 16px;
+  resize: none;
+  scroll-snap-align: start;
+  flex-shrink: 0;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  position: relative;
+  flex-direction: row; /* 가로 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  gap: 10px; /* 요소 간 간격 */
+  overflow: hidden; /* 내용 넘칠 때 숨김 */
+  transition: all 0.3s ease; /* 호버 및 클릭 효과에 부드러운 전환 추가 */
+  cursor: pointer;
+}
+
+/* 호버 상태에서 배경색과 테두리 색 변경 */
 .memocon:hover {
-  background-color: #EFEFEF; /* 배경색 변경 */
+background-color: #EFEFEF; /* 배경색 변경 */
 }
 
 /* 클릭 상태에서 배경색과 테두리 색 변경 */
 .memocon:active {
-  background-color: #EFEFEF; /* 클릭 시 배경색 변경 */
+background-color: #EFEFEF; /* 클릭 시 배경색 변경 */
 
 }
-  
-  
-  .delete-button{
-    cursor: pointer;
-    height: auto;
-    width:20px;
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    display: flex;
-  }
 
-  .content {
-    height: auto;
-    width: 255px;
-    position: absolute;
-    top: 70px;
-    left: 29px;
-    right: 29px;
-    text-align: justify; /* 양쪽 맞춤 */
-    word-break: break-word; /* 줄바꿈 처리 */
-    white-space: normal; /* 자동 줄바꿈 허용 */
-  }
-  
-  .more {
-    font-weight: bold;
-    display: inline-block; /* inline-block으로 설정해서 텍스트가 중앙에 배치되도록 */
-    text-align: center; /* '더보기' 부분만 중앙 정렬 */
-    margin-top: 5px; /* 필요 시, '더보기' 텍스트의 위치 조정 */
-  }
-  
 
-  .date{
-    font-size: 20px;
-    font-weight: bold;
-    position: absolute;
-    left: 20px;
-    top:20px;
+.delete-button{
+  cursor: pointer;
+  height: auto;
+  width:20px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+}
 
-  }
-  
-  .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* 모달 배경 반투명 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999; /* 다른 요소들보다 위에 표시되도록 설정 */
-  }
-  
-  .modalcon {
-    background-color: white;
-    padding: 30px;
-    border-radius: 10px;
-    width: 500px; /* 가로 고정 */
-    min-height: 100px; /* 최소 높이 */
-    max-height: 80vh; /* 너무 길어지면 화면 80%까지만 확장 */
-    height: auto; /* 내용에 맞게 자동 조정 */
-    overflow-y: auto; /* 내용이 길어질 경우 스크롤 생성 */
-    word-break: break-word;
-    white-space: normal;
-    text-align: justify;
-   position: relative;
-   font-family: 'Pretendard-Regular';
+.content {
+  height: auto;
+  width: 255px;
+  position: absolute;
+  top: 70px;
+  left: 29px;
+  right: 29px;
+  text-align: justify; /* 양쪽 맞춤 */
+  word-break: break-word; /* 줄바꿈 처리 */
+  white-space: normal; /* 자동 줄바꿈 허용 */
+}
+
+.more {
+  font-weight: bold;
+  display: inline-block; /* inline-block으로 설정해서 텍스트가 중앙에 배치되도록 */
+  text-align: center; /* '더보기' 부분만 중앙 정렬 */
+  margin-top: 5px; /* 필요 시, '더보기' 텍스트의 위치 조정 */
+}
+
+
+.date{
+  font-size: 20px;
+  font-weight: bold;
+  position: absolute;
+  left: 20px;
+  top:20px;
+
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 모달 배경 반투명 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* 다른 요소들보다 위에 표시되도록 설정 */
+}
+
+.modalcon {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  width: 500px; /* 가로 고정 */
+  min-height: 100px; /* 최소 높이 */
+  max-height: 80vh; /* 너무 길어지면 화면 80%까지만 확장 */
+  height: auto; /* 내용에 맞게 자동 조정 */
+  overflow-y: auto; /* 내용이 길어질 경우 스크롤 생성 */
+  word-break: break-word;
+  white-space: normal;
+  text-align: justify;
+ position: relative;
+ font-family: 'Pretendard-Regular';
 
 }
 
 .border{
-  border: 1px solid #ccc; /* 테두리 추가 */
-  border-color: black;
-  border-radius: 10px;
-  padding:25px;
+border: 1px solid #ccc; /* 테두리 추가 */
+border-color: black;
+border-radius: 10px;
+padding:25px;
 }
 
 .mdate{
-  font-weight: bold;
-  font-size: 25px;
- 
+font-weight: bold;
+font-size: 25px;
+
 
 
 }
-  
-  
-  .contentt {
-    text-align: justify; /* 양쪽 맞춤 */
-  }
-  
-  
-  
-  .mbutton {
-    cursor: pointer;
 
-    position: absolute;
-    top: 35px;
-    right: 20px;
-    display: flex;
-    align-items: center;
-    height:auto;
-    width:15px;
-  }
 
-  
-  .tmodal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* 모달 배경 반투명 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999; /* 다른 요소들보다 위에 표시되도록 설정 */
-  }
-  
-  .tmodalcon {
-    background-color: white;
-    padding: 20px;
-    border-radius: 15px;
-    width: 350px; /* 가로 고정 */
-    height:100px;
-    white-space: normal;
-    text-align: center;
-   position: relative;
-   font-family: 'Pretendard-Regular';
+.contentt {
+  text-align: justify; /* 양쪽 맞춤 */
+}
+
+
+
+.mbutton {
+  cursor: pointer;
+
+  position: absolute;
+  top: 35px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  height:auto;
+  width:15px;
+}
+
+
+.tmodal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 모달 배경 반투명 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* 다른 요소들보다 위에 표시되도록 설정 */
+}
+
+.tmodalcon {
+  background-color: white;
+  padding: 20px;
+  border-radius: 15px;
+  width: 350px; /* 가로 고정 */
+  height:100px;
+  white-space: normal;
+  text-align: center;
+ position: relative;
+ font-family: 'Pretendard-Regular';
 
 }
 
 .ttext{
-  position: absolute;
-  top: 40px;
-  left:100px;
-  right:100px;
-  font-family: 'Pretendard-Regular';
-  font-weight: bold;
-  font-size:18px;
+position: absolute;
+top: 40px;
+left:100px;
+right:100px;
+font-family: 'Pretendard-Regular';
+font-weight: bold;
+font-size:18px;
 }
 
 
 
 .x{
-  width: 100px;
-  height: auto;
-  cursor: pointer;
-  padding-top: 60px;
+width: 100px;
+height: auto;
+cursor: pointer;
+padding-top: 60px;
 }
 .yes{
-  width: auto;
-  height:30px;
-  cursor: pointer;
-  padding-top: 60px;
+width: auto;
+height:30px;
+cursor: pointer;
+padding-top: 60px;
 }
 
 
 
 .x:hover{
-  content: url("../img/xh.png");
+content: url("../img/xh.png");
 }
-  
+
 .yes:hover{
-  content: url("../img/yesh.png");
+content: url("../img/yesh.png");
 }
-  
+
 .nocontent br {
-  margin-bottom: 100px; /* 줄바꿈 후 아래에 간격 추가 */
+margin-bottom: 100px; /* 줄바꿈 후 아래에 간격 추가 */
 }
-  
+
