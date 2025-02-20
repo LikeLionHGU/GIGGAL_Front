@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef} from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import "../styles/Timer.css";
 import HomeHeader from "../components/header/HomeHeader2.js";
 import Footer from "../components/footer/Footer.js";
@@ -12,6 +12,8 @@ import sulsul from'../img2/sulsul.png';
 import rhks from'../img2/관련지식.png';
 import dlfr from'../img2/읽을만.png';
 import axios from "axios"; 
+import recordHoverIcon from "../img2/recordhover.png";
+import recordPressIcon from "../img2/recordpress.png";
 
 function Timer() {
   const [time, setTime] = useState(3000);
@@ -27,6 +29,7 @@ function Timer() {
   const API_BASE_URL = "https://janghong.asia"; 
  
 
+  const [recordSrc,setRecordSrc] = useState(recordIcon);
 
   const [bookmarks, setBookmarks] = useState([]);
   const [selectedBook, setSelectedBook] = useState("");
@@ -42,6 +45,8 @@ function Timer() {
   const [startSrc, setStartSrc] = useState(startIcon);
   const [stopSrc, setStopSrc] = useState(stopIcon);
   const [totalReadingTime, setTotalReadingTime] = useState(3000); // 선택한 총 시간 저장
+  const [saveTime, setSaveTime] = useState(0);
+
 
   const [isRecordSaved, setIsRecordSaved] = useState(false); // 기록 저장 여부 상태 추가
   const [showWarningModal, setShowWarningModal] = useState(false); 
@@ -54,6 +59,11 @@ const startTimeRef = useRef(null); // 시작 시간 저장용
 
 const [selectedDifficulty, setSelectedDifficulty] = useState("");
 const [isSubmitting, setIsSubmitting] = useState(false); 
+
+const location = useLocation();
+const params = new URLSearchParams(location.search); // ✅ URL 파라미터 파싱
+const initialBookTitle = params.get("bookTitle") || "";
+
 
 const handleDifficultySelect = (difficulty) => {
   if (!selectedBook || isSubmitting) return; // 중복 요청 방지
@@ -153,35 +163,27 @@ const submitDifficultyAndExit = async () => {
   
   
 
-  const userEmail = (localStorage.getItem("userEmail") || "").trim();// 로컬스토리지에서 유저 이메일 가져오기
+  // const userEmail = (localStorage.getItem("userEmail") || "").trim();// 로컬스토리지에서 유저 이메일 가져오기
 
-// 📌 북마크 리스트 가져올 때 Google Book ID와 백엔드 Book ID를 함께 저장
-useEffect(() => {
-  const fetchBookmarks = async () => {
-    if (!userEmail) {
-      console.error("유저 이메일이 없습니다. 북마크 목록을 불러올 수 없습니다.");
-      return;
-    }
+  useEffect(() => {
+    const fetchBookmarks = async () => {
+      try {
+        const userEmail = localStorage.getItem("userEmail");
+        const response = await axios.get(`https://janghong.asia/book/list/now/reading?userEmail=${encodeURIComponent(userEmail)}`);
+        setBookmarks(response.data);
+        
+        // URL에서 받은 bookTitle과 일치하는 책을 찾아 자동 선택
+        const matchedBook = response.data.find(book => book.title === initialBookTitle);
+        if (matchedBook) {
+          setSelectedBook(matchedBook.googleBookId);
+        }
+      } catch (error) {
+        console.error("북마크 가져오기 실패:", error);
+      }
+    };
 
-    try {
-      const response = await axios.get(
-        `${API_BASE_URL}/book/list/now/reading?userEmail=${encodeURIComponent(userEmail)}`
-      );
-
-      console.log("📌 백엔드에서 가져온 북마크 리스트:", response.data);
-      // 📌 Google Book ID와 백엔드 Book ID를 매핑하여 저장
-      setBookmarks(response.data.map(book => ({
-        googleBookId: book.googleBookId,
-        bookId: book.bookId, // 백엔드 ID 추가
-        title: book.title
-      })));
-    } catch (error) {
-      console.error("❌ 북마크 리스트 가져오기 실패:", error.response ? error.response.data : error);
-    }
-  };
-
-  fetchBookmarks();
-}, [userEmail]);
+    fetchBookmarks();
+  }, [initialBookTitle]);
 
 useEffect(() => {
   const fetchUserCount = async () => {
@@ -191,21 +193,21 @@ useEffect(() => {
     }
 
     try {
-      // 📌 명세서에 맞춘 엔드포인트로 변경
+      //  명세서에 맞춘 엔드포인트로 변경
       const response = await axios.get(`${API_BASE_URL}/book/bookmarkNumber/difficulty/${selectedBook}`);
 
-      console.log("📌 API 응답 데이터:", response.data);
+      console.log(" API 응답 데이터:", response.data);
 
-      // 📌 응답 데이터에서 `bookmarkCount` 값을 가져와서 설정
+      //  응답 데이터에서 `bookmarkCount` 값을 가져와서 설정
       setUserCount(response.data.bookmarkCount || 0); 
     } catch (error) {
-      console.error("❌ 북마크 수 가져오기 실패:", error.response ? error.response.data : error);
+      console.error(" 북마크 수 가져오기 실패:", error.response ? error.response.data : error);
       setUserCount(0);
     }
   };
 
   fetchUserCount();
-}, [selectedBook]); // ✅ 선택된 책이 변경될 때 실행
+}, [selectedBook]); //  선택된 책이 변경될 때 실행
 
 
 
@@ -241,16 +243,16 @@ useEffect(() => {
   
     const userEmail = localStorage.getItem("userEmail");
     if (!userEmail) {
-      console.error("📌 유저 이메일이 없습니다.");
+      console.error(" 유저 이메일이 없습니다.");
       return;
     }
   
-    // 📌 선택한 Google Book ID를 백엔드 Book ID로 변환
+    //  선택한 Google Book ID를 백엔드 Book ID로 변환
     const bookData = bookmarks.find((book) => book.googleBookId === googleBookId);
     const bookId = bookData?.bookId; // 백엔드에서 사용하는 bookId 가져오기
   
     if (!bookId) {
-      console.error("📌 해당 Google Book ID에 대한 백엔드 Book ID를 찾을 수 없습니다.");
+      console.error(" 해당 Google Book ID에 대한 백엔드 Book ID를 찾을 수 없습니다.");
       return;
     }
   
@@ -259,36 +261,40 @@ useEffect(() => {
         `${API_BASE_URL}/book/reading/time/${bookId}`,
         {
           userEmail: userEmail,
-          time: addedTimeInMinutes, // ✅ 분 단위 변환 후 저장
+          time: addedTimeInMinutes, // 분 단위 변환 후 저장
         },
         {
           headers: { "Content-Type": "application/json" },
         }
       );
   
-      console.log(`📌 ${bookId}의 ${addedTimeInMinutes}분 저장 완료:`, response.data);
+      console.log(` ${bookId}의 ${addedTimeInMinutes}분 저장 완료:`, response.data);
     } catch (error) {
-      console.error("📌 읽은 시간 저장 실패:", error.response ? error.response.data : error);
+      console.error(" 읽은 시간 저장 실패:", error.response ? error.response.data : error);
     }
   };
 
   const saveRecordAndComplete = async (isCompletion = false) => {
     if (!selectedBook) return;
-  
+
     if (isCompletion && record.trim() && !isRecordSaved) {
-      setShowWarningModal(true);
-      return;
+        setShowWarningModal(true);
+        return;
     }
-    
-    if(!isPaused){
-      await saveReadingTime(selectedBook, elapsedTime); // 흐른 시간 (분) 저장
+
+    let latestSaveTime = saveTime; // 기본적으로 기존 값 사용
+
+    if (!isPaused) {
+        latestSaveTime = await stopTimer(); // 최신 saveTime 값을 기다린 후 저장
     }
-    
+
+    await saveReadingTime(selectedBook, latestSaveTime); // 최신 값 저장
+
     setRecord("");
     setIsRecordSaved(false);
-  
+
     if (isCompletion) {
-      setShowModal(true);
+        setShowModal(true);
     }
   };
   
@@ -335,13 +341,6 @@ useEffect(() => {
       }
     }
   };
-
-  
-  
-  
-  
-  
-  
   
 
   const startTimer = () => {
@@ -356,20 +355,25 @@ useEffect(() => {
   };
   
   const stopTimer = () => {
-    if (!startTimeRef.current) return; // 타이머가 시작되지 않았으면 무시
-    
-    const endTime = Date.now(); // ✅ 현재 시간 저장
-    const elapsedSeconds = Math.floor((endTime - startTimeRef.current) / 1000); // ✅ 흐른 시간 (초 단위)
-    const elapsedMinutes = Math.floor(elapsedSeconds / 60); // ✅ 초 → 분 변환
-  
-    setElapsedTime(elapsedMinutes); // ✅ 상태에 저장
-    setIsPaused(true);
-  
-    console.log(`📌 흐른 시간: ${elapsedMinutes}분`);
-  
-    if (elapsedMinutes > 0) {
-      saveReadingTime(selectedBook, elapsedMinutes);
-    }
+    return new Promise((resolve) => {
+        if (!startTimeRef.current) return resolve(); // 타이머가 시작되지 않았으면 무시
+
+        const endTime = Date.now();
+        const elapsedSeconds = Math.floor((endTime - startTimeRef.current) / 1000);
+        const elapsedMinutes = Math.floor(elapsedSeconds / 60) + ((elapsedSeconds%60)/60);
+
+        console.log(` 흐른 시간: ${elapsedMinutes}분`);
+        console.log(elapsedTime);
+
+        setElapsedTime((prevElapsedTime) => {
+            const newElapsedTime = prevElapsedTime + elapsedMinutes;
+            setSaveTime(newElapsedTime); // 최신 값 반영
+            resolve(newElapsedTime); //  완료 후 resolve
+            return newElapsedTime;
+        });
+
+        setIsPaused(true);
+    });
   };
 
   useEffect(() => {
@@ -469,13 +473,15 @@ useEffect(() => {
   <img 
   src={resetIcon} 
   alt="Reset" 
-  width="50"  // ✅ 가로 크기 (픽셀 단위)
-  height="50" // ✅ 세로 크기 (픽셀 단위)
+  width="50"  
+  height="50"  
+  className="reset-icon" // CSS 스타일 적용
   onClick={() => {
     setTime(3000);
     setSelectedTime("50분 / 15분"); 
-  }} 
+  }}
 />
+
 
     <img
         className="icon start"
@@ -513,15 +519,19 @@ useEffect(() => {
         placeholder="책을 읽으면서 든 생각들을 기록으로 남겨 보세요!"
       />
    <img 
-  src={recordIcon} 
+  src={recordSrc} 
   alt="Save" 
   className="record-icon" 
-  onClick={handleRecordSave} 
+  onClick={handleRecordSave}
+  onMouseEnter={() => setRecordSrc(recordHoverIcon)}  // Hover 시 변경
+  onMouseLeave={() => setRecordSrc(recordIcon)}  // 기본 이미지로 복귀
+  onMouseDown={() => setRecordSrc(recordPressIcon)}  // Press(클릭) 시 변경
+  onMouseUp={() => setRecordSrc(recordIcon)}  // 마우스 떼면 기본 이미지 유지
 />
 
 
     </div>
-    <button className="complete-reading-btn" onClick={() => {saveRecordAndComplete(true); stopTimer();}}>  
+    <button className="complete-reading-btn" onClick={() => saveRecordAndComplete(true)}>  
   <div className="resultbtn">  
     독서 완료하기  
   </div>  
@@ -583,7 +593,7 @@ useEffect(() => {
   <div className="modal-alert-overlay" onClick={() => setShowWarningModal(false)}>
     <div className="modal-alert-content" onClick={(event) => event.stopPropagation()}>
       <h2>작성하신 메모를 저장해주세요!</h2>
-      <button className="modal-alert-button" onClick={() => setShowWarningModal(false)}>확인</button>
+      <button className="modal-alert-button-exit" onClick={() => setShowWarningModal(false)}>확인</button>
     </div>
   </div>
 )}
@@ -592,10 +602,10 @@ useEffect(() => {
   <div className="modal-alert-overlay">
     <div className="modal-alert-content">
       <h2>독서 완료하기를 누르지 않으면 <br/>기록이 저장되지 않습니다.</h2>
-      <p>그래도 페이지를 나가시겠습니까?</p>
+      <h2>그래도 페이지를 나가시겠습니까?</h2><br/>
       
       <button className="modal-alert-button" onClick={handleExitConfirm}>나가기</button>
-      <button className="modal-alert-button exit" onClick={handleExitCancel}>계속 독서하기</button>
+      <button className="modal-alert-button-exit" onClick={handleExitCancel}>계속 독서하기</button>
     </div>
   </div>
 )}

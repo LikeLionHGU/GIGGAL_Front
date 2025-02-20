@@ -97,7 +97,7 @@ body {
   width: fit-content;
   margin-bottom: 20px;
   position:absolute;
-  top:370px;
+  top:440px;
   left:660px;
 
 }
@@ -142,8 +142,8 @@ body {
 }
 .commu{
   position:absolute;
-  top:505px;
-  left:770px;
+  top:457px;
+  left:950px;
   width:30px;
 }
 /* 탭 스타일 */
@@ -244,4 +244,11 @@ body {
   width:600px;
   height: auto;
 
+}
+
+.bookTitle2{
+  position:absolute;
+  margin-left:660px;
+  margin-top:-230px;
+  color:gray;
 }
