@@ -45,6 +45,8 @@ function Timer() {
   const [startSrc, setStartSrc] = useState(startIcon);
   const [stopSrc, setStopSrc] = useState(stopIcon);
   const [totalReadingTime, setTotalReadingTime] = useState(3000); // 선택한 총 시간 저장
+  const [saveTime, setSaveTime] = useState(0);
+
 
   const [isRecordSaved, setIsRecordSaved] = useState(false); // 기록 저장 여부 상태 추가
   const [showWarningModal, setShowWarningModal] = useState(false); 
@@ -277,21 +279,25 @@ useEffect(() => {
 
   const saveRecordAndComplete = async (isCompletion = false) => {
     if (!selectedBook) return;
-  
+
     if (isCompletion && record.trim() && !isRecordSaved) {
-      setShowWarningModal(true);
-      return;
+        setShowWarningModal(true);
+        return;
     }
-    
-    if(!isPaused){
-      await saveReadingTime(selectedBook, elapsedTime); // 흐른 시간 (분) 저장
+
+    let latestSaveTime = saveTime; // 기본적으로 기존 값 사용
+
+    if (!isPaused) {
+        latestSaveTime = await stopTimer(); // ✅ 최신 saveTime 값을 기다린 후 저장
     }
-    
+
+    await saveReadingTime(selectedBook, latestSaveTime); // ✅ 최신 값 저장
+
     setRecord("");
     setIsRecordSaved(false);
-  
+
     if (isCompletion) {
-      setShowModal(true);
+        setShowModal(true);
     }
   };
   
@@ -338,13 +344,6 @@ useEffect(() => {
       }
     }
   };
-
-  
-  
-  
-  
-  
-  
   
 
   const startTimer = () => {
@@ -359,20 +358,25 @@ useEffect(() => {
   };
   
   const stopTimer = () => {
-    if (!startTimeRef.current) return; // 타이머가 시작되지 않았으면 무시
-    
-    const endTime = Date.now(); // ✅ 현재 시간 저장
-    const elapsedSeconds = Math.floor((endTime - startTimeRef.current) / 1000); // ✅ 흐른 시간 (초 단위)
-    const elapsedMinutes = Math.floor(elapsedSeconds / 60); // ✅ 초 → 분 변환
-  
-    setElapsedTime(elapsedMinutes); // ✅ 상태에 저장
-    setIsPaused(true);
-  
-    console.log(`📌 흐른 시간: ${elapsedMinutes}분`);
-  
-    if (elapsedMinutes > 0) {
-      saveReadingTime(selectedBook, elapsedMinutes);
-    }
+    return new Promise((resolve) => {
+        if (!startTimeRef.current) return resolve(); // 타이머가 시작되지 않았으면 무시
+
+        const endTime = Date.now();
+        const elapsedSeconds = Math.floor((endTime - startTimeRef.current) / 1000);
+        const elapsedMinutes = Math.floor(elapsedSeconds / 60) + ((elapsedSeconds%60)/60);
+
+        console.log(`📌 흐른 시간: ${elapsedMinutes}분`);
+        console.log(elapsedTime);
+
+        setElapsedTime((prevElapsedTime) => {
+            const newElapsedTime = prevElapsedTime + elapsedMinutes;
+            setSaveTime(newElapsedTime); // ✅ 최신 값 반영
+            resolve(newElapsedTime); // ✅ 완료 후 resolve
+            return newElapsedTime;
+        });
+
+        setIsPaused(true);
+    });
   };
 
   useEffect(() => {
@@ -530,7 +534,7 @@ useEffect(() => {
 
 
     </div>
-    <button className="complete-reading-btn" onClick={() => {saveRecordAndComplete(true); stopTimer();}}>  
+    <button className="complete-reading-btn" onClick={() => saveRecordAndComplete(true)}>  
   <div className="resultbtn">  
     독서 완료하기  
   </div>  
