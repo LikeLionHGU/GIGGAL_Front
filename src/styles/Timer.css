@@ -568,10 +568,7 @@ p{
   transform: scale(0.95); /* 클릭 시 약간 축소 */
 }
 
-.footer {
-  margin-top: -30px; /* 🔹 기존 -10px → -30px로 줄이기 */
-  padding-bottom: 30px; /* 🔹 불필요한 아래 패딩 제거 */
-}
+
 
 
 /* ✅ 헤더 밑줄 두께 조정 */

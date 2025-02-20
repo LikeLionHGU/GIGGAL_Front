@@ -3,8 +3,6 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import axios from "axios";
 import styles from "../styles/searchdetail.module.css";
 import SearchHeader from "../components/header/Headers.js";
-import nonbookmark from "../img/nonbookmark.png";
-import bookmark from "../img/bookmark.png";
 import communityexample from "../img2/communityexample.png";
 import back from "../img/back.png";
 import hr from "../img/hr.png";
@@ -12,9 +10,7 @@ import box1 from "../img/box1.png";
 import path from "../img2/path.png";
 import "../styles/BookDetail.css";
 import Footer from "../components/footer/Footer.js";
-import readingbtn from '../img/readingbtn.png';  // '../img/'로 경로를 수정
 import commu from '../img/commu.png';  // '../img/'로 경로를 수정
-import Modal from "../Pages/Modal"; 
 
 const API_BASE_URL = "https://janghong.asia/book";
 const GOOGLE_BOOKS_API_KEY = "AIzaSyCOhxzEmFNG0E9GCrAAYeSQ8Q2NYrjC-b0";
@@ -24,20 +20,15 @@ const SearchDetail = () => {
   const navigate = useNavigate();
   const [book, setBook] = useState(null);
   const [bookmarkData, setBookmarkData] = useState(null);
-  const [bookRead, setBookRead] = useState({});
   const [activeTab, setActiveTab] = useState("bookInfo");
   const [errorMessage, setErrorMessage] = useState("");
   const lastApiCallTime = useRef(0);
   
-  const [showModal, setShowModal] = useState(false); 
-  const handleReadingClick1 = () => {
-    if (!bookRead[googleBookId]) {
-      setShowModal(true); // 북마크 안 되어 있으면 모달 띄우기
-    } else {
-      navigate(`/timer?bookId=${book.id}`);
-    }
-  };
 
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
+console.log(isBookmarked);
+  
   console.log(" googleBookId 값 확인:", googleBookId);
 
   const fetchBookmarkData = useCallback(async () => {
@@ -58,6 +49,15 @@ const SearchDetail = () => {
   
   
 
+  useEffect(() => {
+    fetchBookmarkData(); // ✅ 백엔드에서 현재 책의 북마크 상태 가져오기
+  
+    // ✅ 로컬스토리지에서 북마크 여부 확인
+    const storedBookmarks = JSON.parse(localStorage.getItem("bookmarkedBooks")) || [];
+    setIsBookmarked(storedBookmarks.includes(googleBookId));
+  }, [googleBookId, fetchBookmarkData]);
+
+  
   // 책 정보 가져오는 함수
   const fetchBookDetails = useCallback(async (retryCount = 3) => {
     console.log(" Google Book ID 확인:", googleBookId);
@@ -107,51 +107,54 @@ const SearchDetail = () => {
     navigate(-1);
   };
 
-  const toggleBookmark = async () => {
-    if (!book) return;
+  // const toggleBookmark = async () => {
+  //   if (!book) return;
   
-    const userEmail = localStorage.getItem("userEmail") || ""; //  사용자 이메일 가져오기
+  //   const userEmail = localStorage.getItem("userEmail") || "";
+  //   if (!userEmail) {
+  //     console.error("❌ 북마크 추가 실패: 유저 이메일이 없습니다.");
+  //     return;
+  //   }
   
-    if (!userEmail) {
-      console.error("사용자 이메일이 없습니다. 로그인 여부를 확인하세요.");
-      return;
-    }
+  //   const requestData = {
+  //     userEmail,
+  //     title: book.volumeInfo?.title || "제목 없음",
+  //     author: book.volumeInfo?.authors?.join(", ") || "저자 정보 없음",
+  //     pageCount: book.volumeInfo?.pageCount || 0,
+  //     publisher: book.volumeInfo?.publisher || "출판사 정보 없음",
+  //     thumbnail: book.volumeInfo?.imageLinks?.thumbnail || "",
+  //     googleBookId,
+  //     bookDetail: book.volumeInfo?.description
+  //       ? book.volumeInfo.description.slice(0, 500) + "..." // 🔥 500자로 제한
+  //       : "정보 없음",
+  //   };
+    
   
-    try {
-      console.log("북마크 추가 요청...");
-      
-      // 북마크 추가 (POST)
-      const response = await axios.post(`${API_BASE_URL}/bookmark`, {
-        userEmail: userEmail, // 필수: userEmail 추가
-        title: book.volumeInfo?.title || "제목 없음",
-        author: book.volumeInfo?.authors?.join(", ") || "저자 정보 없음",
-        pageCount: book.volumeInfo?.pageCount || 0,
-        publisher: book.volumeInfo?.publisher || "출판사 정보 없음",
-        thumbnail: book.volumeInfo?.imageLinks?.thumbnail || "",
-        googleBookId: googleBookId, //  백엔드에서 요구하는 googleBookId 추가,
-         bookDetail: book.volumeInfo.description || "정보 없음"
-      });
+  //   console.log("📌 백엔드로 보낼 데이터:", requestData); // 🔍 요청 데이터 확인
   
-      console.log(" 북마크 추가 성공:", response.data);
+  //   try {
+  //     console.log("📌 북마크 추가 요청...");
   
-      //  북마크 상태 업데이트 (UI 반영)
-      setBookRead((prev) => ({
-        ...prev,
-        [googleBookId]: true, // googleBookId 기반으로 상태 변경
-      }));
+  //     // ✅ 북마크 추가 (백엔드 POST 요청)
+  //     const response = await axios.post(`${API_BASE_URL}/bookmark`, requestData);
   
-      //  최신 북마크 개수를 즉시 반영
-      setBookmarkData((prev) => ({
-        ...prev,
-        countOfBookMark: (prev?.countOfBookMark || 0) + 1, // 기존 개수 +1
-      }));
+  //     console.log("✅ 북마크 추가 성공", response.data);
   
-      //  백엔드에서 다시 북마크 개수 조회
-      fetchBookmarkData();
-    } catch (error) {
-      console.error(" 북마크 추가 실패:", error.response?.data || error);
-    }
-  };
+  //     // ✅ UI 업데이트 (즉시 북마크 색 변경)
+  //     setIsBookmarked(true);
+  
+  //     // ✅ 로컬스토리지 업데이트
+  //     let updatedBookmarks = JSON.parse(localStorage.getItem("bookmarkedBooks")) || [];
+  //     updatedBookmarks.push(googleBookId);
+  //     localStorage.setItem("bookmarkedBooks", JSON.stringify(updatedBookmarks));
+  
+  //   } catch (error) {
+  //     console.error("❌ 북마크 추가 실패:", error.response?.data || error);
+  //   }
+  // };
+  
+  
+  
   
 
 
@@ -174,32 +177,30 @@ const SearchDetail = () => {
                 ) : (
                   <p>책 표지를 불러올 수 없습니다.</p>
                 )}
-              <img 
-                src={bookRead[book?.id] ? bookmark : nonbookmark} 
-                alt="북마크" 
-                className={styles.bookmarkIcon1} 
-                onClick={toggleBookmark} 
-              />
+              
+
 
            
            
-                <h1 className={styles.bookTitle1}>{book?.volumeInfo?.title || "제목 없음"}</h1>
+                <h1 className={styles.bookTitle1}>{book?.volumeInfo?.title || "제목 없음"}
+                </h1>
                 
           
-          {/* <span>{bookmarkData?.bookmarkCount || 0}</span> */}
-        
+           <span className={styles.bookTitle2}>{book.volumeInfo.authors?.join(", ") || "정보 없음"}{" |  "}
+              {book.volumeInfo.pageCount || "정보 없음"}{"p |  "}
+              {book.volumeInfo.publishedDate || "정보 없음"}</span> 
+          
         <div className={styles.bookmarkContainer}>
+                
                 <p className={styles.shortDescription}>
                   북마크 수: {bookmarkData?.bookmarkCount || 0} | 난이도 평가: {bookmarkData?.difficultyState || "없음"}
                 </p>
                 </div>
                 <div className={styles.text1}>
-              {book.volumeInfo.authors?.join(", ") || "정보 없음"}{" |  "}
-              {book.volumeInfo.pageCount || "정보 없음"}{"p |  "}
-              {book.volumeInfo.publishedDate || "정보 없음"}
+              
             </div>
-            <img src={hr} alt="line" className={styles.hr1}></img>
-            <img className={styles.rbtn1} src={readingbtn} alt="readingbtn" onClick={handleReadingClick1} />
+           
+            
             <img src={commu} alt="line" className={styles.commu}></img>
             </div>
           ) : (
@@ -237,11 +238,7 @@ const SearchDetail = () => {
     )}
   </div>
 </div> {/* <div> 태그 닫기 추가 */}
-{showModal && (
-  <Modal onClose={() => setShowModal(false)}>
-    <p>📌 책을 읽기 전에 먼저 북마크를 추가해주세요!</p>
-  </Modal>
-)}
+
 
 <Footer /> {/* Footer는 div 바깥에 배치할 수도 있음 */}
 
