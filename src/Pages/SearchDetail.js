@@ -144,10 +144,10 @@ const SearchDetail = () => {
   };
   
 
-  //  책 설명 (30자 이하로 제한)
-  const shortDescription = book?.volumeInfo?.subtitle?.slice(0, 30) + "..." ||
-    book?.searchInfo?.textSnippet?.slice(0, 30) + "..." ||
-    book?.volumeInfo?.subtitle || book?.searchInfo?.textSnippet || "설명 없음";
+  // //  책 설명 (30자 이하로 제한)
+  // const shortDescription = book?.volumeInfo?.subtitle?.slice(0, 30) + "..." ||
+  //   book?.searchInfo?.textSnippet?.slice(0, 30) + "..." ||
+  //   book?.volumeInfo?.subtitle || book?.searchInfo?.textSnippet || "설명 없음";
 
   return (
     <div>
