@@ -504,7 +504,7 @@ useEffect(() => {
   </div>
 
   <div className="record-section">
-    <div className="recording"><img src={recordingIcon} alt="Recording"  className="recording-text"></img></div>
+    <div className="recording"><img src={recordingIcon} alt="Recording" className="recording-text" style={{width:"125px",height:"auto",marginLeft:"60px"}}></img></div>
     <div className="record-container">
       <textarea
         className="record-input"
@@ -542,7 +542,7 @@ useEffect(() => {
         onClick={() => handleDifficultySelect("easy")}
         disabled={isSubmitting}
       >
-        <img src={sulsul} alt="술술" style={{width:"100px", height:"auto"}}/>
+        <img src={sulsul} alt="술술" style={{width:"95px", height:"auto"}}/>
       </button>
       <button 
         className={selectedDifficulty === "normal" ? "selected" : ""} 
