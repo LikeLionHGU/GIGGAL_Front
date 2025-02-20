@@ -1,9 +1,8 @@
 .back-container {
   display: flex;
   justify-content: flex-start; /* 왼쪽 정렬 */
-  padding: 2rem;
+  padding:2rem;
 }
-
 .backbtn {
   height: 1rem;
   cursor: pointer;
@@ -38,6 +37,7 @@ padding-top: 3rem;
   padding-left: 5.3rem;
   padding-bottom: 1rem;
   cursor: pointer;
+
 }
 
 

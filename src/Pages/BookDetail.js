@@ -57,7 +57,7 @@ const confirmDelete = async () => {
   useEffect(() => {
     // 구글 북스 API 호출
     const fetchBookDetails = async () => {
-      const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=intitle:${bookTitle}+inpublisher:${bookPublisher}&key=AIzaSyCOhxzEmFNG0E9GCrAAYeSQ8Q2NYrjC-b0`);
+      const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=intitle:${bookTitle}+inpublisher:${bookPublisher}&key=AIzaSyDbhYlTc9kttrKt2pppPys0QjgJG9r6bi0`);
       const data = await response.json();
       const bookData = data.items?.[0]; // 첫 번째 결과 가져오기
       if (bookData) {

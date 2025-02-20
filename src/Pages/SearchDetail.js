@@ -13,7 +13,9 @@ import Footer from "../components/footer/Footer.js";
 import commu from '../img/commu.png';  // '../img/'로 경로를 수정
 
 const API_BASE_URL = "https://janghong.asia/book";
-const GOOGLE_BOOKS_API_KEY = "AIzaSyCOhxzEmFNG0E9GCrAAYeSQ8Q2NYrjC-b0";
+const GOOGLE_BOOKS_API_KEY = "AIzaSyDbhYlTc9kttrKt2pppPys0QjgJG9r6bi0";
+
+
 
 const SearchDetail = () => {
   const { googleBookId, bookId } = useParams();
@@ -189,7 +191,7 @@ console.log(isBookmarked);
 
 
            
-           
+           <div className={styles.bigbox}>
                 <h1 className={styles.bookTitle1}>{book?.volumeInfo?.title || "제목 없음"}
                 </h1>
                 
@@ -202,14 +204,16 @@ console.log(isBookmarked);
                 
                 <p className={styles.shortDescription}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
+
   <img src={booksu} alt="line" className={styles.booksu} />
   <span className="bmc">
   <span style={{ marginLeft: '10px'}}/>
     {bookmarkData?.bookmarkCount || 0}
   </span>
   <span style={{ marginLeft: '50px'}}>
-    {bookmarkData?.difficultyState || ""}
+  <span className={styles.highlight1}>" </span>{bookmarkData?.difficultyState || ""}
   </span>
+
 </div>
 
                 </p>
@@ -220,6 +224,7 @@ console.log(isBookmarked);
            
             
             <img src={commu} alt="line" className={styles.commu}></img>
+            </div>
             </div>
           ) : (
             <p className={styles.loading}>📚 책 정보를 불러오는 중...</p>
