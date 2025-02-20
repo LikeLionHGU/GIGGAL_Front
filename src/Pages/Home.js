@@ -101,13 +101,34 @@ const Home = () => {
     setSelectedBook(null);
   };
 
-  const handleRetryReading = () => {
+  const handleRetryReading = async () => {
     if (selectedBook) {
-      navigate(`/timer?bookId=${selectedBook.bookId}&bookTitle=${encodeURIComponent(selectedBook.title)}`);
-      closeAlert();
+      try {
+        // 🔹 "읽는 중"으로 변경하는 API 호출
+        await axios.put(
+          `${API_BASE_URL}/reading/${selectedBook.bookId}?userEmail=${encodeURIComponent(userEmail)}`,
+          {},
+          { headers: { "Content-Type": "application/json" } }
+        );
+  
+        // 🔹 UI 업데이트: "완독"에서 "읽는 중"으로 변경
+        setCompletedBooks((prev) => {
+          const updatedBooks = { ...prev };
+          delete updatedBooks[selectedBook.bookId]; // ✅ 완독 목록에서 제거
+          return updatedBooks;
+        });
+  
+        // 🔹 타이머 페이지로 이동
+        navigate(`/timer?bookId=${encodeURIComponent(selectedBook.bookId)}&bookTitle=${encodeURIComponent(selectedBook.title)}`);
+  
+        // 🔹 모달 닫기
+        closeAlert();
+      } catch (error) {
+        console.error("📌 다시 읽기 실패:", error.response ? error.response.data : error);
+      }
     }
   };
-
+  
   const goToSearch = () => {
     navigate("/Search");
   };
