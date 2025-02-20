@@ -141,16 +141,20 @@ const fetchBooksByBookmark = async () => {
 
   
   const handleBookClick = (book) => {
-    if (!book || !book.id) {
-      console.error("책 ID가 존재하지 않습니다.");
+    if (!book) {
+      console.error("책이 존재하지 않습니다.");
       return;
     }
   
-    const googleBookId = book.id;
-    const bookId = book.volumeInfo?.industryIdentifiers?.[0]?.identifier || "unknown";
+    let googleBookId = book.id || book.googleBookId || "unknown"; 
+    let bookId = book.volumeInfo?.industryIdentifiers?.[0]?.identifier || book.bookId || "unknown";
+  
+    console.log("📖 클릭된 책 ID:", googleBookId, bookId);
   
     navigate(`/searchdetail/${googleBookId}/${bookId}`);
   };
+  
+
   
   
   const fetchBooksByDifficulty = async () => {
