@@ -51,10 +51,10 @@
   cursor: pointer;
 }
 .login-button2:hover {
-  content: url('../img/Loginh.png'); /* 호버 시 이미지 변경 */
+  content: url('../img/lh.png'); /* 호버 시 이미지 변경 */
 }
 .login-button2:active {
-  content: url('../img/Loginp.png'); /* 호버 시 이미지 변경 */
+  content: url('../img/lp.png'); /* 호버 시 이미지 변경 */
 }
 
 

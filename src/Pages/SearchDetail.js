@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate} from "react-router-dom";
 import { useState, useEffect, useRef, useCallback } from "react";
 import axios from "axios";
 import styles from "../styles/searchdetail.module.css";
@@ -28,7 +28,8 @@ const SearchDetail = () => {
   const [activeTab, setActiveTab] = useState("bookInfo");
   const [errorMessage, setErrorMessage] = useState("");
   const lastApiCallTime = useRef(0);
-  
+
+
   const [showModal, setShowModal] = useState(false); 
   const handleReadingClick1 = () => {
     if (!bookRead[googleBookId]) {
