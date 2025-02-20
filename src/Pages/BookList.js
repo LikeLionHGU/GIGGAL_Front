@@ -9,7 +9,6 @@ import nonbookmark from "../img/nonbookmark.png";
 import nobookmarklist from "../img/nobookmarklist.png";
 import nolevellist from "../img/nolevellist.png";
 import bookmark from "../img/bookmark.png";
-import levelline from "../img/levelline.png";
 
 
 //  Axios 인스턴스 생성 (기본 URL 설정)
@@ -17,7 +16,6 @@ const apiClient = axios.create({
   baseURL: "https://janghong.asia/book",
   timeout: 5000,
 });
-
 
 const BookList = () => {
   const navigate = useNavigate();
@@ -27,31 +25,7 @@ const BookList = () => {
   const [bookmarkedBooks, setBookmarkedBooks] = useState({});
   const [userEmail, setUserEmail] = useState(""); 
   const [sortType, setSortType] = useState("전체보기"); // 🔹 정렬 타입 추가
-
-useEffect(() => {
-  if (searchResults.length > 0) {
-    sessionStorage.setItem("lastSearchResults", JSON.stringify(searchResults));
-    sessionStorage.setItem("lastSearchTerm", searchTerm);
-  }
-}, [searchResults, searchTerm]);
-
-useEffect(() => {
-  const storedResults = sessionStorage.getItem("lastSearchResults");
-  const storedSearchTerm = sessionStorage.getItem("lastSearchTerm");
-
-  if (storedResults && storedSearchTerm) {
-    setSearchResults(JSON.parse(storedResults));
-    setSearchTerm(storedSearchTerm);
-  }
-}, []);
-
-
   
-  useEffect(() => {
-    if (!searchResults.length && searchTerm) {
-      fetchBooks(searchTerm);  // 검색 결과가 없으면 다시 검색 실행함.
-    }
-  }, [searchTerm, searchResults]); 
 
   //  로컬스토리지에서 유저 이메일 가져오기
   useEffect(() => {
@@ -75,32 +49,24 @@ useEffect(() => {
     }
   };
 
-  // 북마크순 API 요청 함수 수정
-const fetchBooksByBookmark = async () => {
-  if (!searchTerm || searchTerm.trim() === "") {
-    console.error(" 검색어가 비어있습니다. 북마크순 정렬을 할 수 없습니다.");
-    return;
-  }
-
-  try {
-    const encodedSearchTerm = encodeURIComponent(searchTerm.trim());
-    console.log("📌 API 요청에 사용된 검색어:", encodedSearchTerm);
-    const response = await axios.get(`https://janghong.asia/book/ranking/bookmark?keyword=${encodedSearchTerm}`);
-
-    console.log("📌 전체 응답 객체:", response);  // 전체 응답 객체 확인
-    console.log("📌 백엔드 응답 데이터:", response.data); // 백엔드에서 받은 데이터 확인
-
-    if (!response.data || response.data.length === 0) {
-      console.warn("🚨 백엔드에서 북마크순 데이터가 비어 있습니다!");
-    } else {
-      console.log("✅ 북마크순 정렬된 데이터:", response.data);
+  const fetchBooksByBookmark = async () => {
+    if (!searchTerm || searchTerm.trim() === "") {
+      console.error(" 검색어가 비어있습니다. 북마크순 정렬을 할 수 없습니다.");
+      return;
     }
-
-    setSearchResults(response.data || []);
-  } catch (err) {
-    console.error(" 북마크순 가져오기 실패", err);
-  }
-};
+  
+    setSearchResults([]); // ❌ 기존 데이터 삭제 → "아무 정보가 없습니다" 표시됨
+  
+    try {
+      const encodedSearchTerm = encodeURIComponent(searchTerm.trim());
+      const response = await axios.get(`https://janghong.asia/book/ranking/bookmark?keyword=${encodedSearchTerm}`);
+  
+      setSearchResults(response.data || []);
+    } catch (err) {
+      console.error(" 북마크순 가져오기 실패", err);
+    }
+  };
+  
 
 
 
@@ -167,25 +133,21 @@ const fetchBooksByBookmark = async () => {
 
   
   const handleBookClick = (book) => {
-    if (!book) {
-      console.error("책이 존재하지 않습니다.");
+    if (!book || !book.id) {
+      console.error("책 ID가 존재하지 않습니다.");
       return;
     }
   
-    let googleBookId = book.id || book.googleBookId || "unknown"; 
-    let bookId = book.volumeInfo?.industryIdentifiers?.[0]?.identifier || book.bookId || "unknown";
-  
-    console.log("📖 클릭된 책 ID:", googleBookId, bookId);
+    const googleBookId = book.id;
+    const bookId = book.volumeInfo?.industryIdentifiers?.[0]?.identifier || "unknown";
   
     navigate(`/searchdetail/${googleBookId}/${bookId}`);
   };
   
-
-  
   
   const fetchBooksByDifficulty = async () => {
     if (!searchTerm || searchTerm.trim() === "") {
-      console.error("검색어가 비어있습니다. 난이도순 정렬을 할 수 없습니다.");
+      console.error(" 검색어가 비어있습니다. 난이도순 정렬을 할 수 없습니다.");
       return;
     }
   
@@ -193,24 +155,14 @@ const fetchBooksByBookmark = async () => {
       const encodedSearchTerm = encodeURIComponent(searchTerm.trim());
       const response = await axios.get(`https://janghong.asia/book/ranking/difficulty?keyword=${encodedSearchTerm}`);
   
-      console.log(" 백엔드 응답 데이터:", response.data); // 🔹 응답 확인
-  
-      // 🔹 `difficultyScore`를 float 형식으로 변환 후 정렬
-      const sortedBooks = [...response.data]
-        .map(book => ({
-          ...book,
-          difficultyScore: typeof book.difficultyScore === "number" 
-            ? book.difficultyScore // 이미 숫자라면 그대로 사용
-            : parseFloat(book.difficultyScore) || 0 // 혹시 문자열이면 float 변환
-        }))
-        .sort((a, b) => b.difficultyScore - a.difficultyScore); // 🔹 높은 점수가 먼저 나오도록 정렬
-  
-      console.log(" 정렬된 책 목록:", sortedBooks); // 🔹 정렬된 데이터 확인
-      setSearchResults(sortedBooks || []);
+      if (response.data && response.data.length > 0) {
+        setSearchResults(response.data); // ✅ 데이터가 있을 때만 업데이트
+      }
     } catch (err) {
-      console.error("난이도순 가져오기 실패:", err);
+      console.error(" 난이도순 가져오기 실패", err);
     }
   };
+  
 
   // 정렬된 책 목록이 없을 경우 메시지를 보여주는 부분
 const renderNoResultsMessage = () => {
@@ -236,27 +188,24 @@ const renderNoResultsMessage = () => {
   return (
     <div>
       <HomeHeader />
-
       <div className={styles.b}>
         <form onSubmit={handleSearch}>
           <div className={styles.con}>
-            <div className={styles.bars}>
+            <div className={styles.bar}>
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search"
-                className={styles.baris}
+                className={styles.bari}
               />
-              <button type="submit" className={styles.sbtns}>
+              <button type="submit" className={styles.sbtn}>
                 <img src={searchbtn} alt="검색" className={styles.buttonsearch} />
               </button>
             </div>
           </div>
         </form>
       </div>
-
-
       <div className={styles.filterButtons}>
   <label className={styles.filterLabel}>
     <input
@@ -264,7 +213,6 @@ const renderNoResultsMessage = () => {
       className={sortType === "전체보기" ? styles.active : styles.inactive}
       onClick={() => handleSortChange("전체보기")}
       name="sort"
-
     />
     전체 보기
   </label>
@@ -274,7 +222,6 @@ const renderNoResultsMessage = () => {
       className={sortType === "난이도순" ? styles.active : styles.inactive}
       onClick={() => handleSortChange("난이도순")}
       name="sort"
-
     />
     난이도순
   </label>
@@ -284,12 +231,10 @@ const renderNoResultsMessage = () => {
       className={sortType === "북마크순" ? styles.active : styles.inactive}
       onClick={() => handleSortChange("북마크순")}
       name="sort"
-   
     />
     북마크순
   </label>
 </div>
-
 
 
 
@@ -310,34 +255,13 @@ const renderNoResultsMessage = () => {
                   <div className={styles.placeholder}>No Image</div>
                 )}
 
-<h1 className={styles.noPadding}>
-  {(book.title || book.volumeInfo?.title)?.length > 20
-    ? (book.title || book.volumeInfo?.title).slice(0, 20) + "..."
-    : book.title || book.volumeInfo?.title}
-</h1>
-
-
-                <h2 className={styles.noMargin}>
+                <h1>{book.title || book.volumeInfo?.title}</h1>
+                <h2>
                   <span className={styles.lowlight}>저자 (글) </span>
                   {book.author || book.volumeInfo?.authors?.join(", ")}
                 </h2>
-                {book.countOfBookMark && <span className={styles}>북마크 {book.countOfBookMark}개</span>}
-                
-               
-                
-                {book.difficultyState && (
-  <div className={styles.levelContainer}>
-    <div className={styles.levelWrapper}>
-      
-      <span className={styles.difficultyText}>
-        <span className={styles.highlight1}>" </span>
-        {book.difficultyState}
-      </span>
-      <img src={levelline} alt="ll" className={styles.levelline} />
-    </div>
-  </div>
-)}
-
+                {book.countOfBookMark && <p>북마크 {book.countOfBookMark}개</p>}
+                {book.difficultyState && <p>난이도: {book.difficultyState}</p>}
               </div>
             </div>
 
