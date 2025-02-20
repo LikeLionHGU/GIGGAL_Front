@@ -489,6 +489,7 @@ useEffect(() => {
         alt="Start"
         width="40"  
         height="40" 
+        
         onClick={startTimer}
         onMouseEnter={() => setStartSrc(startHover)} // Hover 시 변경
         onMouseLeave={() => setStartSrc(startIcon)} // 원래 이미지로 복귀
@@ -499,7 +500,7 @@ useEffect(() => {
         className="icon stop"
         src={stopSrc}
         alt="Stop"
-        width="40"  
+        width="30"  
         height="40" 
         onClick={stopTimer}
         onMouseEnter={() => setStopSrc(stopHover)}
