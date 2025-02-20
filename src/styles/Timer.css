@@ -582,7 +582,7 @@ p{
 /* ✅ hr(구분선) 태그 스타일 조정 */
 .hr {
   width: 90%;
-  height: 2px; /* 🔹 기존보다 두껍게 (1px → 3px) */
+  height: 1.3px; /* 🔹 기존보다 두껍게 (1px → 3px) */
   background-color: #4D4D4D; /* 🔹 색상을 헤더 색상과 맞춤 */
   border: none; /* 🔹 기본 테두리 제거 */
 }
