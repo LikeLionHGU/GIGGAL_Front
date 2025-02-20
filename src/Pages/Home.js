@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import styles from "../styles/Home.module.css";
 import HomeHeader from "../components/header/HomeHeader.js";
 import Footer from "../components/footer/Footer.js";
