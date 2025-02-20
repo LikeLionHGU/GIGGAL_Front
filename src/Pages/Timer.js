@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef} from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import "../styles/Timer.css";
 import HomeHeader from "../components/header/HomeHeader2.js";
 import Footer from "../components/footer/Footer.js";
@@ -59,6 +59,11 @@ const startTimeRef = useRef(null); // 시작 시간 저장용
 
 const [selectedDifficulty, setSelectedDifficulty] = useState("");
 const [isSubmitting, setIsSubmitting] = useState(false); 
+
+const location = useLocation();
+const params = new URLSearchParams(location.search); // ✅ URL 파라미터 파싱
+const initialBookTitle = params.get("bookTitle") || "";
+
 
 const handleDifficultySelect = (difficulty) => {
   if (!selectedBook || isSubmitting) return; // 중복 요청 방지
@@ -158,35 +163,27 @@ const submitDifficultyAndExit = async () => {
   
   
 
-  const userEmail = (localStorage.getItem("userEmail") || "").trim();// 로컬스토리지에서 유저 이메일 가져오기
+  // const userEmail = (localStorage.getItem("userEmail") || "").trim();// 로컬스토리지에서 유저 이메일 가져오기
 
-// 📌 북마크 리스트 가져올 때 Google Book ID와 백엔드 Book ID를 함께 저장
-useEffect(() => {
-  const fetchBookmarks = async () => {
-    if (!userEmail) {
-      console.error("유저 이메일이 없습니다. 북마크 목록을 불러올 수 없습니다.");
-      return;
-    }
+  useEffect(() => {
+    const fetchBookmarks = async () => {
+      try {
+        const userEmail = localStorage.getItem("userEmail");
+        const response = await axios.get(`https://janghong.asia/book/list/now/reading?userEmail=${encodeURIComponent(userEmail)}`);
+        setBookmarks(response.data);
+        
+        // URL에서 받은 bookTitle과 일치하는 책을 찾아 자동 선택
+        const matchedBook = response.data.find(book => book.title === initialBookTitle);
+        if (matchedBook) {
+          setSelectedBook(matchedBook.googleBookId);
+        }
+      } catch (error) {
+        console.error("북마크 가져오기 실패:", error);
+      }
+    };
 
-    try {
-      const response = await axios.get(
-        `${API_BASE_URL}/book/list/now/reading?userEmail=${encodeURIComponent(userEmail)}`
-      );
-
-      console.log("📌 백엔드에서 가져온 북마크 리스트:", response.data);
-      // 📌 Google Book ID와 백엔드 Book ID를 매핑하여 저장
-      setBookmarks(response.data.map(book => ({
-        googleBookId: book.googleBookId,
-        bookId: book.bookId, // 백엔드 ID 추가
-        title: book.title
-      })));
-    } catch (error) {
-      console.error("❌ 북마크 리스트 가져오기 실패:", error.response ? error.response.data : error);
-    }
-  };
-
-  fetchBookmarks();
-}, [userEmail]);
+    fetchBookmarks();
+  }, [initialBookTitle]);
 
 useEffect(() => {
   const fetchUserCount = async () => {
@@ -196,21 +193,21 @@ useEffect(() => {
     }
 
     try {
-      // 📌 명세서에 맞춘 엔드포인트로 변경
+      //  명세서에 맞춘 엔드포인트로 변경
       const response = await axios.get(`${API_BASE_URL}/book/bookmarkNumber/difficulty/${selectedBook}`);
 
-      console.log("📌 API 응답 데이터:", response.data);
+      console.log(" API 응답 데이터:", response.data);
 
-      // 📌 응답 데이터에서 `bookmarkCount` 값을 가져와서 설정
+      //  응답 데이터에서 `bookmarkCount` 값을 가져와서 설정
       setUserCount(response.data.bookmarkCount || 0); 
     } catch (error) {
-      console.error("❌ 북마크 수 가져오기 실패:", error.response ? error.response.data : error);
+      console.error(" 북마크 수 가져오기 실패:", error.response ? error.response.data : error);
       setUserCount(0);
     }
   };
 
   fetchUserCount();
-}, [selectedBook]); // ✅ 선택된 책이 변경될 때 실행
+}, [selectedBook]); //  선택된 책이 변경될 때 실행
 
 
 
@@ -246,16 +243,16 @@ useEffect(() => {
   
     const userEmail = localStorage.getItem("userEmail");
     if (!userEmail) {
-      console.error("📌 유저 이메일이 없습니다.");
+      console.error(" 유저 이메일이 없습니다.");
       return;
     }
   
-    // 📌 선택한 Google Book ID를 백엔드 Book ID로 변환
+    //  선택한 Google Book ID를 백엔드 Book ID로 변환
     const bookData = bookmarks.find((book) => book.googleBookId === googleBookId);
     const bookId = bookData?.bookId; // 백엔드에서 사용하는 bookId 가져오기
   
     if (!bookId) {
-      console.error("📌 해당 Google Book ID에 대한 백엔드 Book ID를 찾을 수 없습니다.");
+      console.error(" 해당 Google Book ID에 대한 백엔드 Book ID를 찾을 수 없습니다.");
       return;
     }
   
@@ -264,16 +261,16 @@ useEffect(() => {
         `${API_BASE_URL}/book/reading/time/${bookId}`,
         {
           userEmail: userEmail,
-          time: addedTimeInMinutes, // ✅ 분 단위 변환 후 저장
+          time: addedTimeInMinutes, // 분 단위 변환 후 저장
         },
         {
           headers: { "Content-Type": "application/json" },
         }
       );
   
-      console.log(`📌 ${bookId}의 ${addedTimeInMinutes}분 저장 완료:`, response.data);
+      console.log(` ${bookId}의 ${addedTimeInMinutes}분 저장 완료:`, response.data);
     } catch (error) {
-      console.error("📌 읽은 시간 저장 실패:", error.response ? error.response.data : error);
+      console.error(" 읽은 시간 저장 실패:", error.response ? error.response.data : error);
     }
   };
 
@@ -288,10 +285,10 @@ useEffect(() => {
     let latestSaveTime = saveTime; // 기본적으로 기존 값 사용
 
     if (!isPaused) {
-        latestSaveTime = await stopTimer(); // ✅ 최신 saveTime 값을 기다린 후 저장
+        latestSaveTime = await stopTimer(); // 최신 saveTime 값을 기다린 후 저장
     }
 
-    await saveReadingTime(selectedBook, latestSaveTime); // ✅ 최신 값 저장
+    await saveReadingTime(selectedBook, latestSaveTime); // 최신 값 저장
 
     setRecord("");
     setIsRecordSaved(false);
@@ -365,13 +362,13 @@ useEffect(() => {
         const elapsedSeconds = Math.floor((endTime - startTimeRef.current) / 1000);
         const elapsedMinutes = Math.floor(elapsedSeconds / 60) + ((elapsedSeconds%60)/60);
 
-        console.log(`📌 흐른 시간: ${elapsedMinutes}분`);
+        console.log(` 흐른 시간: ${elapsedMinutes}분`);
         console.log(elapsedTime);
 
         setElapsedTime((prevElapsedTime) => {
             const newElapsedTime = prevElapsedTime + elapsedMinutes;
-            setSaveTime(newElapsedTime); // ✅ 최신 값 반영
-            resolve(newElapsedTime); // ✅ 완료 후 resolve
+            setSaveTime(newElapsedTime); // 최신 값 반영
+            resolve(newElapsedTime); //  완료 후 resolve
             return newElapsedTime;
         });
 
@@ -478,7 +475,7 @@ useEffect(() => {
   alt="Reset" 
   width="50"  
   height="50"  
-  className="reset-icon" // ✅ CSS 스타일 적용
+  className="reset-icon" // CSS 스타일 적용
   onClick={() => {
     setTime(3000);
     setSelectedTime("50분 / 15분"); 
