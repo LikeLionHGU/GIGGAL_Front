@@ -156,7 +156,10 @@ useEffect(() => {
       <div className="back-container">
         <img className="backbtn" src={back} alt="back" onClick={goToHome} />
       </div>
-      <img className="goto" src={goto} alt="dash" onClick={goToHome} />
+      <div className="bb">
+         <img className="goto" src={goto} alt="dash" onClick={goToHome} />
+      </div>
+     
 
       <div className="dash-container">
         <img className="dash" src={dash} alt="dash" />
