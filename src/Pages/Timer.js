@@ -544,8 +544,8 @@ useEffect(() => {
 {showModal && (
   <div className="modal-overlay" onClick={() => setShowModal(false)}>
     <div className="modal-content" onClick={(event) => event.stopPropagation()}>
-      <p>독서를 완료하셨습니다!</p>
-      <p>방금 읽은 책에 대해서 어떻게 생각하시나요?</p>
+      <p>독서를 완료하셨습니다! <br/><br/>
+      방금 읽은 책에 대해서 어떻게 생각하시나요?</p>
 
       {/* 난이도 선택 버튼 */}
       <button 
@@ -553,21 +553,21 @@ useEffect(() => {
         onClick={() => handleDifficultySelect("easy")}
         disabled={isSubmitting}
       >
-        <img src={sulsul} alt="술술" style={{width:"95px", height:"auto"}}/>
+        <img src={sulsul} alt="술술" style={{width:"85px", height:"34px"}}/>
       </button>
       <button 
         className={selectedDifficulty === "normal" ? "selected" : ""} 
         onClick={() => handleDifficultySelect("normal")}
         disabled={isSubmitting}
       >
-       <img src={dlfr} alt="읽을만" style={{width:"110px", height:"auto"}}/>
+       <img src={dlfr} alt="읽을만" style={{width:"auto", height:"30px"}}/>
       </button>
       <button 
         className={selectedDifficulty === "hard" ? "selected" : ""} 
         onClick={() => handleDifficultySelect("hard")}
         disabled={isSubmitting}
       >
-        <img src={rhks} alt="관련지식" style={{width:"150px", height:"auto"}}/>
+        <img src={rhks} alt="관련지식" style={{width:"140px", height:"30px"}}/>
       </button>
 
       {/* "보내기" 버튼을 추가하여 선택 후 Home으로 이동 */}
