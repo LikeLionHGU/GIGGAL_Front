@@ -12,6 +12,8 @@ import sulsul from'../img2/sulsul.png';
 import rhks from'../img2/관련지식.png';
 import dlfr from'../img2/읽을만.png';
 import axios from "axios"; 
+import recordHoverIcon from "../img2/recordhover.png";
+import recordPressIcon from "../img2/recordpress.png";
 
 function Timer() {
   const [time, setTime] = useState(3000);
@@ -27,6 +29,7 @@ function Timer() {
   const API_BASE_URL = "https://janghong.asia"; 
  
 
+  const [recordSrc,setRecordSrc] = useState(recordIcon);
 
   const [bookmarks, setBookmarks] = useState([]);
   const [selectedBook, setSelectedBook] = useState("");
@@ -42,6 +45,8 @@ function Timer() {
   const [startSrc, setStartSrc] = useState(startIcon);
   const [stopSrc, setStopSrc] = useState(stopIcon);
   const [totalReadingTime, setTotalReadingTime] = useState(3000); // 선택한 총 시간 저장
+  const [saveTime, setSaveTime] = useState(0);
+
 
   const [isRecordSaved, setIsRecordSaved] = useState(false); // 기록 저장 여부 상태 추가
   const [showWarningModal, setShowWarningModal] = useState(false); 
@@ -274,21 +279,25 @@ useEffect(() => {
 
   const saveRecordAndComplete = async (isCompletion = false) => {
     if (!selectedBook) return;
-  
+
     if (isCompletion && record.trim() && !isRecordSaved) {
-      setShowWarningModal(true);
-      return;
+        setShowWarningModal(true);
+        return;
     }
-    
-    if(!isPaused){
-      await saveReadingTime(selectedBook, elapsedTime); // 흐른 시간 (분) 저장
+
+    let latestSaveTime = saveTime; // 기본적으로 기존 값 사용
+
+    if (!isPaused) {
+        latestSaveTime = await stopTimer(); // ✅ 최신 saveTime 값을 기다린 후 저장
     }
-    
+
+    await saveReadingTime(selectedBook, latestSaveTime); // ✅ 최신 값 저장
+
     setRecord("");
     setIsRecordSaved(false);
-  
+
     if (isCompletion) {
-      setShowModal(true);
+        setShowModal(true);
     }
   };
   
@@ -335,13 +344,6 @@ useEffect(() => {
       }
     }
   };
-
-  
-  
-  
-  
-  
-  
   
 
   const startTimer = () => {
@@ -356,20 +358,25 @@ useEffect(() => {
   };
   
   const stopTimer = () => {
-    if (!startTimeRef.current) return; // 타이머가 시작되지 않았으면 무시
-    
-    const endTime = Date.now(); // ✅ 현재 시간 저장
-    const elapsedSeconds = Math.floor((endTime - startTimeRef.current) / 1000); // ✅ 흐른 시간 (초 단위)
-    const elapsedMinutes = Math.floor(elapsedSeconds / 60); // ✅ 초 → 분 변환
-  
-    setElapsedTime(elapsedMinutes); // ✅ 상태에 저장
-    setIsPaused(true);
-  
-    console.log(`📌 흐른 시간: ${elapsedMinutes}분`);
-  
-    if (elapsedMinutes > 0) {
-      saveReadingTime(selectedBook, elapsedMinutes);
-    }
+    return new Promise((resolve) => {
+        if (!startTimeRef.current) return resolve(); // 타이머가 시작되지 않았으면 무시
+
+        const endTime = Date.now();
+        const elapsedSeconds = Math.floor((endTime - startTimeRef.current) / 1000);
+        const elapsedMinutes = Math.floor(elapsedSeconds / 60) + ((elapsedSeconds%60)/60);
+
+        console.log(`📌 흐른 시간: ${elapsedMinutes}분`);
+        console.log(elapsedTime);
+
+        setElapsedTime((prevElapsedTime) => {
+            const newElapsedTime = prevElapsedTime + elapsedMinutes;
+            setSaveTime(newElapsedTime); // ✅ 최신 값 반영
+            resolve(newElapsedTime); // ✅ 완료 후 resolve
+            return newElapsedTime;
+        });
+
+        setIsPaused(true);
+    });
   };
 
   useEffect(() => {
@@ -469,13 +476,15 @@ useEffect(() => {
   <img 
   src={resetIcon} 
   alt="Reset" 
-  width="50"  // ✅ 가로 크기 (픽셀 단위)
-  height="50" // ✅ 세로 크기 (픽셀 단위)
+  width="50"  
+  height="50"  
+  className="reset-icon" // ✅ CSS 스타일 적용
   onClick={() => {
     setTime(3000);
     setSelectedTime("50분 / 15분"); 
-  }} 
+  }}
 />
+
 
     <img
         className="icon start"
@@ -513,15 +522,19 @@ useEffect(() => {
         placeholder="책을 읽으면서 든 생각들을 기록으로 남겨 보세요!"
       />
    <img 
-  src={recordIcon} 
+  src={recordSrc} 
   alt="Save" 
   className="record-icon" 
-  onClick={handleRecordSave} 
+  onClick={handleRecordSave}
+  onMouseEnter={() => setRecordSrc(recordHoverIcon)}  // Hover 시 변경
+  onMouseLeave={() => setRecordSrc(recordIcon)}  // 기본 이미지로 복귀
+  onMouseDown={() => setRecordSrc(recordPressIcon)}  // Press(클릭) 시 변경
+  onMouseUp={() => setRecordSrc(recordIcon)}  // 마우스 떼면 기본 이미지 유지
 />
 
 
     </div>
-    <button className="complete-reading-btn" onClick={() => {saveRecordAndComplete(true); stopTimer();}}>  
+    <button className="complete-reading-btn" onClick={() => saveRecordAndComplete(true)}>  
   <div className="resultbtn">  
     독서 완료하기  
   </div>  
@@ -583,7 +596,7 @@ useEffect(() => {
   <div className="modal-alert-overlay" onClick={() => setShowWarningModal(false)}>
     <div className="modal-alert-content" onClick={(event) => event.stopPropagation()}>
       <h2>작성하신 메모를 저장해주세요!</h2>
-      <button className="modal-alert-button" onClick={() => setShowWarningModal(false)}>확인</button>
+      <button className="modal-alert-button-exit" onClick={() => setShowWarningModal(false)}>확인</button>
     </div>
   </div>
 )}
@@ -592,10 +605,10 @@ useEffect(() => {
   <div className="modal-alert-overlay">
     <div className="modal-alert-content">
       <h2>독서 완료하기를 누르지 않으면 <br/>기록이 저장되지 않습니다.</h2>
-      <p>그래도 페이지를 나가시겠습니까?</p>
+      <h2>그래도 페이지를 나가시겠습니까?</h2><br/>
       
       <button className="modal-alert-button" onClick={handleExitConfirm}>나가기</button>
-      <button className="modal-alert-button exit" onClick={handleExitCancel}>계속 독서하기</button>
+      <button className="modal-alert-button-exit" onClick={handleExitCancel}>계속 독서하기</button>
     </div>
   </div>
 )}

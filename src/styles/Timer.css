@@ -135,6 +135,11 @@ p{
   background: #8a9f6b;
 }
 
+.time-selection-buttons button:active {
+  background: #3C4A37; /* ✅ 확실히 더 어두운 녹색으로 변경 */
+  transform: scale(0.96); /* 클릭 시 약간 축소 */
+}
+
 /* 책 선택 드롭다운 */
 .book-selection {
   display: flex;
@@ -165,6 +170,7 @@ p{
   height:500px;
   margin-left:150px;
   margin-top:-120px;
+  margin-bottom:-200px;
   font-family: 'Pretendard-Regular', sans-serif; 
 }
 
@@ -183,9 +189,10 @@ p{
   position: relative;
   font-family: 'Pretendard-Regular', sans-serif; 
   width: 480px;
-  height:1800px;
+  height:1700px;
   top:-50px;
   left:85px;
+  padding-bottom:50px;
 }
 
 /* 기록하기 입력창 및 버튼을 오른쪽으로 이동 */
@@ -240,6 +247,11 @@ p{
   opacity: 1;
 }
 
+/* Press(클릭) 상태 */
+.record-icon:active {
+  transform: scale(0.96); /* 클릭 시 약간 축소 */
+}
+
 /* 독서 완료 버튼 (작게 & 오른쪽 정렬) */
 .complete-reading-btn {
   background-color: #789043;
@@ -267,12 +279,12 @@ p{
 
 
 .complete-reading-btn:hover {
-  background-color: #8a9f6b;
+  background-color: #5E7332;
 }
 
 
 .complete-reading-btn:hover {
-  background-color: #8a9f6b;
+  background-color: #455622;
 }
 
 .timer-buttons-container {
@@ -426,11 +438,11 @@ p{
 
 
 .modal-alert-button {
-  background-color: #789043;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
+  background-color: white;
+  color: rgb(26, 100, 26);
+
+  padding: 8px 35px;
+  border-radius: 24px;
   font-size: 14px;
   font-weight: bold;
   cursor: pointer;
@@ -439,11 +451,27 @@ p{
   white-space: nowrap;
   gap: 25px;
   margin-left:10px;
+  border: 2px solid #1A641A;
+  border-color:rgb(13, 60, 13);
 }
 
-.modal-alert-button:hover {
-  background-color: #8A9F6B;
+.modal-alert-button-exit{
+  background-color: #789043;
+  color: white;
+  padding: 8px 35px;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  width: auto;
+  white-space: nowrap;
+  gap: 25px;
+  margin-left:10px;
+  border:none !important;
+  
 }
+
 
 .hr {
   width: 84rem;
@@ -492,4 +520,69 @@ p{
   justify-content: center; /* 중앙 정렬 */
   gap: 15px; /* 버튼 간격 */
   margin-top: 15px;
+}
+
+
+
+/* 기본 상태 (연한 색 적용) */
+.reset-icon {
+  opacity: 0.6; /* 기본 상태를 연하게 */
+  filter: brightness(0.9) sepia(0.2) hue-rotate(-2deg); /* 살짝 연한 녹색 */
+  transition: filter 0.2s, transform 0.1s, opacity 0.2s;
+}
+
+/* Hover 시 색상 변경 (조금 더 진한 녹색) */
+.reset-icon:hover {
+  opacity: 1; /* 원래 불투명도 */
+  filter: brightness(1.2) sepia(0.5) hue-rotate(-20deg);
+}
+
+/* Press(클릭) 시 색상 변경 (더 어두운 녹색) */
+.reset-icon:active {
+  filter: brightness(0.8) sepia(0.8) hue-rotate(-30deg);
+  transform: scale(0.95); /* 클릭 시 약간 축소 */
+}
+
+.book-dropdwon:hover{
+  border:2px solid black;
+}
+
+.book-dropdown:focus {
+  border: 2px solid black;
+  outline: none; /* 기본 포커스 효과 제거 */
+}
+
+/* Reset 버튼 기본 스타일 */
+.reset-icon {
+  transition: filter 0.2s, transform 0.1s;
+}
+
+/* Hover 시 색상 변경 (연한 녹색) */
+.reset-icon:hover {
+  filter: brightness(1.2) sepia(0.5) hue-rotate(-20deg);
+}
+
+/* Press(클릭) 시 색상 변경 (어두운 녹색) */
+.reset-icon:active {
+  filter: brightness(0.8) sepia(0.8) hue-rotate(-30deg);
+  transform: scale(0.95); /* 클릭 시 약간 축소 */
+}
+
+.footer {
+  margin-top: -30px; /* 🔹 기존 -10px → -30px로 줄이기 */
+  padding-bottom: 30px; /* 🔹 불필요한 아래 패딩 제거 */
+}
+
+
+/* ✅ 헤더 밑줄 두께 조정 */
+.header {
+  border-bottom: 4px solid #4D4D4D; /* 🔹 기존보다 두껍게 (2px → 4px) */
+}
+
+/* ✅ hr(구분선) 태그 스타일 조정 */
+.hr {
+  width: 90%;
+  height: 1.3px; /* 🔹 기존보다 두껍게 (1px → 3px) */
+  background-color: #4D4D4D; /* 🔹 색상을 헤더 색상과 맞춤 */
+  border: none; /* 🔹 기본 테두리 제거 */
 }
