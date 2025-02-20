@@ -85,6 +85,11 @@ body {
   top:300px;
   left:660px;
 }
+.bmc{
+  position:absolute;
+  top:1px;
+  left:100px;
+}
 
 /* 북마크 컨테이너 */
 .bookmarkContainer {
@@ -94,12 +99,18 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  width: fit-content;
+  width: 220px; /* 고정 너비 */
+  height: 30px; /* 고정 높이 */
   margin-bottom: 20px;
-  position:absolute;
-  top:440px;
-  left:660px;
-
+  position: absolute;
+  top: 440px;
+  left: 660px;
+  font-family: 'Pretendard-Regular', sans-serif;
+  color: #474957;
+  font-weight: bold;
+  justify-content: center; /* 내부 요소 중앙 정렬 */
+  overflow: hidden; /* 넘치는 내용 숨김 */
+  white-space: nowrap; /* 텍스트 줄바꿈 방지 */
 }
 
 
@@ -127,13 +138,22 @@ body {
   top:460px;
   left:660px;
 }
-.hr1{
-  position:absolute;
-  top:460px;
-  left:660px;
-  width:500px;
-
+.booksu{
+  width:15px;
+  height: auto;
 }
+
+/* Vector 32 */
+.yl{
+position: absolute;
+width: 1720px;
+height: 0px;
+left: 100px;
+top: 199px;
+
+border: 2px solid #C7C7C7;
+}
+
 .rbtn1{
   position:absolute;
   top:505px;
@@ -161,16 +181,16 @@ body {
   font-weight: bold;
   font-size: 14px;
   cursor: pointer;
-  background-color: #7E9D7E;
+  background-color: #ECF0EC;
   border-radius: 8px 8px 0 0;
   transition: background 0.3s ease-in-out;
   border-bottom: 2px solid transparent;
-  color:white;
+  color:#9E9E9E;
 }
 
 .tab.active {
-  background-color:  rgba(126, 157, 126, 0.15);
-  color: #9E9E9E;
+  background-color:  #7E9D7E;
+  color: #ECF0EC;
  
 }
 
@@ -189,6 +209,7 @@ body {
   padding-top: 70px;
   background: rgba(126, 157, 126, 0.15);
   border-radius: 0 0 10px 10px;
+
 }
 
 
@@ -198,6 +219,8 @@ body {
   color: #444;
   text-align: center;
   padding: 15px 20px;
+  max-width: 800px; /* 원하는 최대 폭 설정 */
+  margin: 0 auto; /* 가운데 정렬 */
 }
 
 .bookmarkIcon1 {

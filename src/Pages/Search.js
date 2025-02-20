@@ -18,6 +18,7 @@ const [books, setBooks] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");  
   const [recommendBooks, setRecommendBooks] = useState([]); // 추천 책 리스트
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false); // 🔹 모달 상태 추가
 
     
 
@@ -42,7 +43,10 @@ const [books, setBooks] = useState([]);
 
   // 🔹 검색 버튼 클릭 시 실행
   const handleBtnClick = () => {
-    if (!searchTerm.trim()) return;
+    if (!searchTerm.trim()) {
+      setIsModalOpen(true); // 🔹 검색어 없을 때 모달 표시
+      return;
+    }
     navigate(`/BookList`, { state: { books, searchTerm } });
   };
 
@@ -63,21 +67,28 @@ const [books, setBooks] = useState([]);
 
         {/* 🔹 검색 폼 */}
         <form onSubmit={(e) => e.preventDefault()}>
-          <div className={styles.con}>
-            <div className={styles.bar}>
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={handleSearchChange} 
-                placeholder="Search"
-                className={styles.bari}
-              />
-              <button type="button" className={styles.sbtn} onClick={handleBtnClick}>
-                <img src={searchbtn} alt="검색" className={styles.searchbtn} />
-              </button>
-            </div>
-          </div>
-        </form>
+  <div className={styles.con}>
+    <div className={styles.bar}>
+      <input
+        type="text"
+        value={searchTerm}
+        onChange={handleSearchChange}
+        placeholder="Search"
+        className={styles.bari}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            handleBtnClick();
+          }
+        }}
+      />
+      <button type="button" className={styles.sbtn} onClick={handleBtnClick}>
+        <img src={searchbtn} alt="검색" className={styles.searchbtn} />
+      </button>
+    </div>
+  </div>
+</form>
+
 
         <img src={text} alt="text" className={styles.text} />  
 
@@ -101,7 +112,16 @@ const [books, setBooks] = useState([]);
           </div>
         </div>
       </div>
-
+      
+      {/* 🔹 모달 추가 */}
+      {isModalOpen && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <p>검색어를 입력해주세요!</p>
+            <button onClick={() => setIsModalOpen(false)}>닫기</button>
+          </div>
+        </div>
+      )}
       <Footer />  
     </div>
   );

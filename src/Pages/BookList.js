@@ -9,6 +9,7 @@ import nonbookmark from "../img/nonbookmark.png";
 import nobookmarklist from "../img/nobookmarklist.png";
 import nolevellist from "../img/nolevellist.png";
 import bookmark from "../img/bookmark.png";
+import levelline from "../img/levelline.png";
 
 
 //  Axios 인스턴스 생성 (기본 URL 설정)
@@ -27,8 +28,6 @@ const BookList = () => {
   const [userEmail, setUserEmail] = useState(""); 
   const [sortType, setSortType] = useState("전체보기"); // 🔹 정렬 타입 추가
 
-
-
 useEffect(() => {
   if (searchResults.length > 0) {
     sessionStorage.setItem("lastSearchResults", JSON.stringify(searchResults));
@@ -46,7 +45,13 @@ useEffect(() => {
   }
 }, []);
 
+
   
+  useEffect(() => {
+    if (!searchResults.length && searchTerm) {
+      fetchBooks(searchTerm);  // 검색 결과가 없으면 다시 검색 실행함.
+    }
+  }, [searchTerm, searchResults]); 
 
   //  로컬스토리지에서 유저 이메일 가져오기
   useEffect(() => {
@@ -231,24 +236,27 @@ const renderNoResultsMessage = () => {
   return (
     <div>
       <HomeHeader />
+
       <div className={styles.b}>
         <form onSubmit={handleSearch}>
           <div className={styles.con}>
-            <div className={styles.bar}>
+            <div className={styles.bars}>
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search"
-                className={styles.bari}
+                className={styles.baris}
               />
-              <button type="submit" className={styles.sbtn}>
+              <button type="submit" className={styles.sbtns}>
                 <img src={searchbtn} alt="검색" className={styles.buttonsearch} />
               </button>
             </div>
           </div>
         </form>
       </div>
+
+
       <div className={styles.filterButtons}>
   <label className={styles.filterLabel}>
     <input
@@ -256,6 +264,7 @@ const renderNoResultsMessage = () => {
       className={sortType === "전체보기" ? styles.active : styles.inactive}
       onClick={() => handleSortChange("전체보기")}
       name="sort"
+
     />
     전체 보기
   </label>
@@ -265,6 +274,7 @@ const renderNoResultsMessage = () => {
       className={sortType === "난이도순" ? styles.active : styles.inactive}
       onClick={() => handleSortChange("난이도순")}
       name="sort"
+
     />
     난이도순
   </label>
@@ -274,10 +284,12 @@ const renderNoResultsMessage = () => {
       className={sortType === "북마크순" ? styles.active : styles.inactive}
       onClick={() => handleSortChange("북마크순")}
       name="sort"
+   
     />
     북마크순
   </label>
 </div>
+
 
 
 
@@ -298,13 +310,34 @@ const renderNoResultsMessage = () => {
                   <div className={styles.placeholder}>No Image</div>
                 )}
 
-                <h1>{book.title || book.volumeInfo?.title}</h1>
-                <h2>
+<h1 className={styles.noPadding}>
+  {(book.title || book.volumeInfo?.title)?.length > 20
+    ? (book.title || book.volumeInfo?.title).slice(0, 20) + "..."
+    : book.title || book.volumeInfo?.title}
+</h1>
+
+
+                <h2 className={styles.noMargin}>
                   <span className={styles.lowlight}>저자 (글) </span>
                   {book.author || book.volumeInfo?.authors?.join(", ")}
                 </h2>
-                {book.countOfBookMark && <p>북마크 {book.countOfBookMark}개</p>}
-                {book.difficultyState && <p>난이도: {book.difficultyState}</p>}
+                {book.countOfBookMark && <span className={styles}>북마크 {book.countOfBookMark}개</span>}
+                
+               
+                
+                {book.difficultyState && (
+  <div className={styles.levelContainer}>
+    <div className={styles.levelWrapper}>
+      
+      <span className={styles.difficultyText}>
+        <span className={styles.highlight1}>" </span>
+        {book.difficultyState}
+      </span>
+      <img src={levelline} alt="ll" className={styles.levelline} />
+    </div>
+  </div>
+)}
+
               </div>
             </div>
 
