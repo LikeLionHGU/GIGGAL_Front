@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, useLocation,useNavigate } from 'react-router-dom';
-import './HomeHeader.css';
+import './BookListHeader.css';
 import Bookgie from "../../img/Bookgie.png";
 import Logout from "../../img/Logout.png";
 import mypage from "../../img/mypage.png";
@@ -34,7 +34,7 @@ const BookListHeader = () => {
 
   return (
     <div>
-      <header className="Homeheader">
+      <header className="Homeheader1">
         <h1 className="Home-header-title">
           <NavLink to="/search">
             <img src={Bookgie} alt="부기 로고" style={{ cursor: "pointer", height: "50px" }} />
