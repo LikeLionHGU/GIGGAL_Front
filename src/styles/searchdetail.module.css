@@ -55,7 +55,7 @@ body {
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
   position: absolute;
   top: 300px;
-  left:400px;
+  left:430px;
 }
 
 /* 책 정보 컨테이너 */
@@ -83,8 +83,9 @@ body {
   font-family: 'Pretendard-Regular', sans-serif;
   position:absolute;
   top:300px;
-  left:660px;
+  left:640px;
 }
+
 .bmc{
   position:absolute;
   top:1px;
@@ -104,7 +105,7 @@ body {
   margin-bottom: 20px;
   position: absolute;
   top: 440px;
-  left: 660px;
+  left: 640px;
   font-family: 'Pretendard-Regular', sans-serif;
   color: #474957;
   font-weight: bold;
@@ -162,8 +163,8 @@ border: 2px solid #C7C7C7;
 }
 .commu{
   position:absolute;
-  top:457px;
-  left:950px;
+  top:455px;
+  left:940px;
   width:30px;
 }
 /* 탭 스타일 */
@@ -171,8 +172,16 @@ border: 2px solid #C7C7C7;
   display: flex;
   justify-content: flex-start;
   margin-top: 20px;
-  gap: 5px;
+
 }
+.highlight1 {
+
+  font-weight: bold;
+  font-size: 16px;
+  color: #789043;
+  font-family: 'EF_jejudoldam';
+}
+
 
 .tab {
   width: 120px;
@@ -271,7 +280,7 @@ border: 2px solid #C7C7C7;
 
 .bookTitle2{
   position:absolute;
-  margin-left:660px;
+  margin-left:640px;
   margin-top:-230px;
   color:gray;
 }

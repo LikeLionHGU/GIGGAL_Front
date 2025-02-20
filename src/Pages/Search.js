@@ -2,7 +2,7 @@ import React, { useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "../styles/search.module.css";
-import HomeHeader from '../components/header/HomeHeader.js';
+import HomeHeader from '../components/header/finalsheader.js';
 import hr from '../img/line.png';  
 import boogies from '../img/boogies.png';  
 import searchbtn from '../img/searchbtn.png';  
@@ -14,13 +14,13 @@ const API_BASE_URL = "https://janghong.asia/book"; // 백엔드 API URL
 const Search = () => {
   // eslint-disable-next-line no-unused-vars
 const [books, setBooks] = useState([]);
- 
+
   const [searchTerm, setSearchTerm] = useState("");  
   const [recommendBooks, setRecommendBooks] = useState([]); // 추천 책 리스트
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false); // 🔹 모달 상태 추가
 
-    
+
 
   // 🔹 백엔드 API에서 추천 책 데이터 가져오기
   useEffect(() => {
@@ -67,7 +67,7 @@ const [books, setBooks] = useState([]);
 
         {/* 🔹 검색 폼 */}
         <form onSubmit={(e) => e.preventDefault()}>
-  <div className={styles.con}>
+        <div className={styles.con}>
     <div className={styles.bar}>
       <input
         type="text"
@@ -112,9 +112,8 @@ const [books, setBooks] = useState([]);
           </div>
         </div>
       </div>
-      
-      {/* 🔹 모달 추가 */}
-      {isModalOpen && (
+        {/* 🔹 모달 추가 */}
+        {isModalOpen && (
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>
             <p>검색어를 입력해주세요!</p>
@@ -126,5 +125,4 @@ const [books, setBooks] = useState([]);
     </div>
   );
 };
-
 export default Search;

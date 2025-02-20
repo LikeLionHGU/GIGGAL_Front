@@ -152,7 +152,7 @@ p{
   width: 530px;
   padding: 10px;
   border-radius: 8px;
-  border: 1px solid #455622;
+  border: 0.1px solid #455622;
   background-color: #F8FFEA;
   font-weight:bold;
   font-size: 14px;
@@ -213,8 +213,8 @@ p{
   position: absolute;
   bottom: 50px; /* 🔹 기존 190px → 20px (위로 올리기) */
   right: -30px; /* 🔹 입력창 오른쪽 정렬 */
-  width: 30px; /* 크기 조정 */
-  height: 40px;
+  width: 20px; /* 크기 조정 */
+  height: auto;
   cursor: pointer;
   opacity: 0.8;
   transition: opacity 0.2s;
@@ -568,23 +568,35 @@ p{
 }
 
 .book-dropdown {
-  width: 545px; /* 기존 530px에서 600px로 확대 */
-  padding: 14px; /* 패딩 증가 */
-  font-size: 16px; /* 글씨 크기 증가 */
-  border-radius: 10px; /* 둥근 모서리 */
-  border: 2px solid #455622; /* 테두리 두께 증가 */
+  width: 545px;
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #455622;
   background-color: #F8FFEA;
-  font-weight: bold;
-  margin-left: 150px; /* 왼쪽으로 더 이동 (기존 200px → 150px) */
+  font-weight: normal;
+  margin-left: 150px;
   margin-top: -100px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  
+  padding-right: 40px;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23455622' stroke='%23455622' stroke-width='0.1'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'/%3E%3C/svg%3E"); 
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 25px; /* 크기는 그대로 유지 */
 }
 
-.book-dropdwon:hover{
-  border:2px solid black;
+
+/* 🔹 호버(마우스 오버) 시 스타일 변경 */
+.book-dropdown:hover {
+  border: 1px solid black;
 }
+
 
 .book-dropdown:focus {
-  border: 2px solid black;
+  border: 1px solid black;
   outline: none; /* 기본 포커스 효과 제거 */
 }
 
