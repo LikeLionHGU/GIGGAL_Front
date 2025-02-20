@@ -217,24 +217,7 @@ const BookList = () => {
     };
     
   
-    // 정렬된 책 목록이 없을 경우 메시지를 보여주는 부분
-  const renderNoResultsMessage = () => {
-    if (sortType === "북마크순") {
-      return <img
-      src={nobookmarklist}
-      alt="nbl"
-      className={styles.nobookmarklist}
-    />
-    }
-    if (sortType === "난이도순") {
-      return <img
-      src={nolevellist}
-      alt="nbl"
-      className={styles.nolevellist}
-    />;
-  }
-  return null;
-};
+
 
 
 
