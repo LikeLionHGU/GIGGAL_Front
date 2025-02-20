@@ -17,6 +17,7 @@ const apiClient = axios.create({
   timeout: 5000,
 });
 
+
 const BookList = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -25,6 +26,26 @@ const BookList = () => {
   const [bookmarkedBooks, setBookmarkedBooks] = useState({});
   const [userEmail, setUserEmail] = useState(""); 
   const [sortType, setSortType] = useState("전체보기"); // 🔹 정렬 타입 추가
+
+
+
+useEffect(() => {
+  if (searchResults.length > 0) {
+    sessionStorage.setItem("lastSearchResults", JSON.stringify(searchResults));
+    sessionStorage.setItem("lastSearchTerm", searchTerm);
+  }
+}, [searchResults, searchTerm]);
+
+useEffect(() => {
+  const storedResults = sessionStorage.getItem("lastSearchResults");
+  const storedSearchTerm = sessionStorage.getItem("lastSearchTerm");
+
+  if (storedResults && storedSearchTerm) {
+    setSearchResults(JSON.parse(storedResults));
+    setSearchTerm(storedSearchTerm);
+  }
+}, []);
+
   
 
   //  로컬스토리지에서 유저 이메일 가져오기
