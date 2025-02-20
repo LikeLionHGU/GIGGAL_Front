@@ -202,44 +202,54 @@ p{
   align-items: flex-end; /* 오른쪽 정렬 */
   width: 80%; /* 전체 너비를 줄여서 오른쪽 정렬 효과 */
   max-width: 350px; /* 크기 줄이기 */
-  margin-left: 580px; /* 오른쪽으로 이동 */
+  margin-left: 510px; /* 오른쪽으로 이동 */
   margin-right: 20px; /* 오른쪽 여백 추가 */
   font-family: 'Pretendard-Regular', sans-serif; 
 }
 
 /* 기록하기 입력창 */
-.record-input {
-  width: 100%;
-  height: 210px; /* 높이 줄이기 */
-  padding: 10px;
-  border: 1px solid #6b8e23;
-  border-radius: 8px;
-  resize: none;
-  background-color: #F8FFEA;
-  font-size: 12px; /* 폰트 크기 조정 */
-  padding-right: 35px; /* 버튼과 간격 확보 */
-  font-family: 'Pretendard-Regular', sans-serif; 
-}
-
 /* 기록 버튼 아이콘 (더 작게 & 오른쪽 정렬) */
 .record-icon {
   position: absolute;
-  bottom: 190px;
-  right: -15px;
-  width:35px; /* 크기 축소 */
-  height: auto;
+  bottom: 50px; /* 🔹 기존 190px → 20px (위로 올리기) */
+  right: -30px; /* 🔹 입력창 오른쪽 정렬 */
+  width: 30px; /* 크기 조정 */
+  height: 40px;
   cursor: pointer;
   opacity: 0.8;
   transition: opacity 0.2s;
 }
 
+/* 기록하기 입력창 */
+.record-input {
+  width: 100%;
+  height: 230px; /* 🔹 기존 210px → 150px (입력창 높이 조정) */
+  padding: 10px;
+  border: 1px solid #6b8e23;
+  border-radius: 8px;
+  resize: none;
+  background-color: #F8FFEA;
+  font-size: 14px; /* 폰트 크기 증가 */
+  font-family: 'Pretendard-Regular', sans-serif; 
+  padding-right: 50px; /* 🔹 버튼과 간격 확보 */
+}
+
+/* 기록 입력창 컨테이너 */
+.record-container {
+  position: relative;
+  width: 480px;
+  height: auto; /* 🔹 높이를 auto로 변경 */
+  padding-bottom: 20px; /* 🔹 여백 조정 */
+}
+
+
 .recording-text{
   width: 80px; /* 크기 축소 */
   height: auto;
   right:530px;
-  bottom:220px;
-  margin-top:-30px;
-  margin-right:270px;
+  bottom:230px;
+  margin-top:-0px;
+  margin-right:260px;
   transform: translateY(-310px);
 }
 
@@ -257,24 +267,34 @@ p{
   background-color: #789043;
   color: white;
   border: none;
-  padding: 12px 18px;
-  border-radius: 30px;
-  font-size: 14px; /* 글씨 크기 줄이기 */
+  padding: 18px 40px; /* 🔹 버튼 크기 키움 */
+  border-radius: 25px;
+  font-size: 18px; /* 🔹 글씨 크기 키움 */
   cursor: pointer;
   font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 15px;
-  margin-bottom:270px;
-  width: 90%; /* 크기 조정 */
-  max-width: 120px;
-  font-family: 'Pretendard-Regular', sans-serif; 
-  margin-left:500px;
-  position: relative;
-  top: -220px;
-  left:130px;
+  width: 230px; /* 🔹 버튼 너비 늘림 */
+  max-width: none; /* 최대 크기 제한 해제 */
+  font-family: 'Pretendard-Regular', sans-serif;
+  position: absolute; /* 🔹 기록 버튼과 겹치지 않도록 위치 조정 */
+  bottom: -210px; /* 🔹 아래쪽으로 이동 */
+  left: 79.9%; /* 🔹 중앙 정렬 */
+  transform: translateX(-50%); /* 🔹 정확한 중앙 정렬 */
 }
+
+/* 버튼 hover(마우스 올렸을 때) */
+.complete-reading-btn:hover {
+  background-color: #5E7332;
+}
+
+/* 버튼 클릭했을 때 */
+.complete-reading-btn:active {
+  background-color: #455622;
+  transform: translateX(-50%) scale(0.98); /* 🔹 클릭 시 약간 축소 */
+}
+
 
 
 
@@ -293,7 +313,7 @@ p{
   align-items: center;
   gap: 30px; /* 버튼 간격 */
   margin-top: 210px;
-  margin-left: -680px; /* 🔹 왼쪽으로 이동 */
+  margin-left: -650px; /* 🔹 왼쪽으로 이동 */
   color:black;
 }
 
@@ -390,6 +410,10 @@ p{
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2); /* Press 시 그림자 줄이기 */
 }
 
+.modal-content button.selected{
+  background: #BDBDBD !important;
+  color: white !important;
+}
 
 .modal-close-btn {
   background: #4CAF50;
@@ -543,6 +567,18 @@ p{
   transform: scale(0.95); /* 클릭 시 약간 축소 */
 }
 
+.book-dropdown {
+  width: 545px; /* 기존 530px에서 600px로 확대 */
+  padding: 14px; /* 패딩 증가 */
+  font-size: 16px; /* 글씨 크기 증가 */
+  border-radius: 10px; /* 둥근 모서리 */
+  border: 2px solid #455622; /* 테두리 두께 증가 */
+  background-color: #F8FFEA;
+  font-weight: bold;
+  margin-left: 150px; /* 왼쪽으로 더 이동 (기존 200px → 150px) */
+  margin-top: -100px;
+}
+
 .book-dropdwon:hover{
   border:2px solid black;
 }
@@ -582,4 +618,38 @@ p{
   height: 1.3px; /* 🔹 기존보다 두껍게 (1px → 3px) */
   background-color: #4D4D4D; /* 🔹 색상을 헤더 색상과 맞춤 */
   border: none; /* 🔹 기본 테두리 제거 */
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.modal-alert-button-exit {
+  background-color: #789043;
+  color: white;
+  padding: 10px 30px;
+  border-radius: 24px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+}
+
+.modal-alert-button {
+  background-color: white;
+  color: #789043;
+  padding: 10px 30px;
+  border-radius: 24px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  border: 2px solid #789043;
+}
+
+.modal-alert-button:hover,
+.modal-alert-button-exit:hover {
+  opacity: 0.8;
 }
