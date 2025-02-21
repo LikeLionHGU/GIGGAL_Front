@@ -35,7 +35,7 @@ padding-top: 3rem;
   height: 1.3rem;
   padding-top: 1.7rem;
   padding-left: 5.3rem;
-  padding-bottom: 1rem;
+  padding-bottom: rem;
   cursor: pointer;
 
 }
@@ -45,7 +45,7 @@ padding-top: 3rem;
 
 .bookthumbnail{
   position: absolute; /* `dash` 위에 배치 */
-  top:43%;
+  top:37%;
   height: 19rem;
   border-radius: 10%;
   left:12%;
@@ -63,7 +63,7 @@ line-height: 1.5;  /* 줄 간격 */
 }
 .book-title{
   position: absolute; /* `dash` 위에 배치 */
-  top:35%;
+  top:32%;
   left:29%;
   height: 18rem;
   font-family: 'Pretendard-Regular';
@@ -72,7 +72,7 @@ line-height: 1.5;  /* 줄 간격 */
 .text{
   position: absolute; /* `dash` 위에 배치 */
   color:#9092A3;
-  top:40%;
+  top:35%;
   left:29%;
   height: 18rem;
   font-family: 'Pretendard-Regular';
@@ -80,7 +80,7 @@ line-height: 1.5;  /* 줄 간격 */
 }
 .description {
   position: absolute;
-  top: 48%;
+  top: 43%;
   left: 29%;
   height: 18rem;
   font-family: 'Pretendard-Regular';
@@ -91,7 +91,7 @@ line-height: 1.5;  /* 줄 간격 */
 
 .rbtn {
   position: absolute;
-  top: 69.5%;
+  top: 62%;
   left: 28.5%;
   height: 2.5rem;
   font-family: 'Pretendard-Regular';
@@ -106,7 +106,7 @@ line-height: 1.5;  /* 줄 간격 */
   color:#455622;
   font-weight: bold;
   padding-top:3rem;
-  top: 53%;
+  top: 48%;
   left: 69.6%;
 }
 
@@ -153,7 +153,7 @@ padding-top: 3rem;
 
 .memo-container {
   position: absolute; /* mylist 위에 배치 */
-  top: 104%; /* mylist 위로 이동 (조절 가능) */
+  top: 95%; /* mylist 위로 이동 (조절 가능) */
   left: 7%;
   display: flex;
   overflow-x: auto; /* 가로 스크롤 */
